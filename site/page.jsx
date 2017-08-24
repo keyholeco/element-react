@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { i18n } from '../src';
 
 import en from '../src/locale/lang/en';
-import zh from '../src/locale/lang/zh-CN';
+// import zh from '../src/locale/lang/zh-CN';
 
 import locales from './locales';
 import pages from './pages';
@@ -28,7 +28,7 @@ export default class App extends React.Component {
   componentDidMount() {
     this.setPage(() => {
       if (!this.state.locale) {
-        this.setLocale(localStorage.getItem('ELEMENT_LANGUAGE') || 'zh-CN');
+        this.setLocale(localStorage.getItem('ELEMENT_LANGUAGE') || 'en');
       }
     });
   }
@@ -39,7 +39,7 @@ export default class App extends React.Component {
         case 'en-US':
           i18n.use(en); break;
         default:
-          i18n.use(zh); break;
+          i18n.use(en); break;
       }
     }
   }
