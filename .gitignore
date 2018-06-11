@@ -5,8 +5,8 @@ Thumbs.db
 npm-debug.log
 node_modules
 
-/dist
-/next.js
+#/dist
+#/next.js
 
 .vscode
 Makefile
