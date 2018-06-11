@@ -1,104 +1,104 @@
 export default {
   el: {
     colorpicker: {
-      confirm: '确定',
-      clear: '清空'
+      confirm: 'OK',
+      clear: 'Clear'
     },
     datepicker: {
-      now: '此刻',
-      today: '今天',
-      cancel: '取消',
-      clear: '清空',
-      confirm: '确定',
-      selectDate: '选择日期',
-      selectTime: '选择时间',
-      startDate: '开始日期',
-      startTime: '开始时间',
-      endDate: '结束日期',
-      endTime: '结束时间',
-      year: '年',
-      month1: '1 月',
-      month2: '2 月',
-      month3: '3 月',
-      month4: '4 月',
-      month5: '5 月',
-      month6: '6 月',
-      month7: '7 月',
-      month8: '8 月',
-      month9: '9 月',
-      month10: '10 月',
-      month11: '11 月',
-      month12: '12 月',
-      // week: '周次',
+      now: 'Now',
+      today: 'Today',
+      cancel: 'Cancel',
+      clear: 'Clear',
+      confirm: 'OK',
+      selectDate: 'Select date',
+      selectTime: 'Select time',
+      startDate: 'Start Date',
+      startTime: 'Start Time',
+      endDate: 'End Date',
+      endTime: 'End Time',
+      year: '',
+      month1: 'Jan',
+      month2: 'Feb',
+      month3: 'Mar',
+      month4: 'Apr',
+      month5: 'May',
+      month6: 'Jun',
+      month7: 'Jul',
+      month8: 'Aug',
+      month9: 'Sep',
+      month10: 'Oct',
+      month11: 'Nov',
+      month12: 'Dec',
+      // week: 'week',
       weeks: {
-        sun: '日',
-        mon: '一',
-        tue: '二',
-        wed: '三',
-        thu: '四',
-        fri: '五',
-        sat: '六'
+        sun: 'Sun',
+        mon: 'Mon',
+        tue: 'Tue',
+        wed: 'Wed',
+        thu: 'Thu',
+        fri: 'Fri',
+        sat: 'Sat'
       },
       months: {
-        jan: '一月',
-        feb: '二月',
-        mar: '三月',
-        apr: '四月',
-        may: '五月',
-        jun: '六月',
-        jul: '七月',
-        aug: '八月',
-        sep: '九月',
-        oct: '十月',
-        nov: '十一月',
-        dec: '十二月'
+        jan: 'Jan',
+        feb: 'Feb',
+        mar: 'Mar',
+        apr: 'Apr',
+        may: 'May',
+        jun: 'Jun',
+        jul: 'Jul',
+        aug: 'Aug',
+        sep: 'Sep',
+        oct: 'Oct',
+        nov: 'Nov',
+        dec: 'Dec'
       }
     },
     select: {
-      loading: '加载中',
-      noMatch: '无匹配数据',
-      noData: '无数据',
-      placeholder: '请选择'
+      loading: 'Loading',
+      noMatch: 'No matching data',
+      noData: 'No data',
+      placeholder: 'Select'
     },
     cascader: {
-      noMatch: '无匹配数据',
-      loading: '加载中',
-      placeholder: '请选择'
+      noMatch: 'No matching data',
+      loading: 'Loading',
+      placeholder: 'Select'
     },
     pagination: {
-      goto: '前往',
-      pagesize: '条/页',
-      total: '共 {total} 条',
-      pageClassifier: '页'
+      goto: 'Go to',
+      pagesize: '/page',
+      total: 'Total {total}',
+      pageClassifier: ''
     },
     messagebox: {
-      title: '提示',
-      confirm: '确定',
-      cancel: '取消',
-      error: '输入的数据不合法!'
+      title: 'Message',
+      confirm: 'OK',
+      cancel: 'Cancel',
+      error: 'Illegal input'
     },
     upload: {
-      delete: '删除',
-      preview: '查看图片',
-      continue: '继续上传'
+      delete: 'Delete',
+      preview: 'Preview',
+      continue: 'Continue'
     },
     table: {
-      emptyText: '暂无数据',
-      confirmFilter: '筛选',
-      resetFilter: '重置',
-      clearFilter: '全部',
-      sumText: '合计'
+      emptyText: 'No Data',
+      confirmFilter: 'Confirm',
+      resetFilter: 'Reset',
+      clearFilter: 'All',
+      sumText: 'Sum'
     },
     tree: {
-      emptyText: '暂无数据'
+      emptyText: 'No Data'
     },
     transfer: {
-      noMatch: '无匹配数据',
-      noData: '无数据',
-      titles: ['列表 1', '列表 2'],
-      filterPlaceholder: '请输入搜索内容',
-      noCheckedFormat: '共 {total} 项',
-      hasCheckedFormat: '已选 {checked}/{total} 项'
+      noMatch: 'No matching data',
+      noData: 'No data',
+      titles: ['List 1', 'List 2'], // to be translated
+      filterPlaceholder: 'Enter keyword', // to be translated
+      noCheckedFormat: '{total} items', // to be translated
+      hasCheckedFormat: '{checked}/{total} checked' // to be translated
     }
   }
 };
