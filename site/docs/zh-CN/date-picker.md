@@ -6,7 +6,7 @@
 
 以「日」为基本单位，基础的日期选择控件
 
-:::demo 基本单位由`type`属性指定。快捷选项需配置`picker-options`对象中的`shortcuts`，禁用日期通过 `disabledDate` 设置，传入函数
+:::demo 基本单位由`type`属性指定。快捷选项需配置`shortcuts`，禁用日期通过 `disabledDate` 设置，传入函数
 
 ```js
 
@@ -227,6 +227,7 @@ render() {
 | isShowTrigger | 是否显示图标 | boolean | - | true |
 | isReadOnly | 是否是只读 | boolean | - | false |
 | isDisabled | 是否是禁用 | boolean | - | false |
+| isShowTime | 是否显示时间 | boolean | - | false |
 | firstDayOfWeek | 周起始日 | Number | 0 到 6 | 0 |
 | onFocus | focus 事件触发 | (SyntheticEvent)=>() | - | - |
 | onBlur | blur 事件触发 | (SyntheticEvent)=>() | - | - |

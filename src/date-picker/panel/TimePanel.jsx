@@ -1,23 +1,23 @@
 //@flow
 import React from 'react';
 
-import { PropTypes, Component } from '../../../libs';
+import { PropTypes } from '../../../libs';
 import { limitRange } from '../utils'
 import TimeSpinner from '../basic/TimeSpinner'
-import { PopperReactMixin } from '../../../libs/utils'
 import Locale from '../../locale'
 import type {TimePanelProps} from '../Types';
+import { PopperBase } from './PopperBase'
 
 const mapPropsToState = (props) => {
   const state: any = {
     format: props.format || 'HH:mm:ss',
-    currentDate: props.currentDate || Date()
+    currentDate: props.currentDate || new Date()
   };
   state.isShowSeconds = (state.format || '').indexOf('ss') !== -1
   return state
 }
 
-export default class TimePanel extends Component {
+export default class TimePanel extends PopperBase {
 
   static get propTypes() {
     return Object.assign({},
@@ -37,10 +37,7 @@ export default class TimePanel extends Component {
         // cancel btn is clicked
         //()=>()
         onCancel: PropTypes.func.isRequired,
-        //()=>HtmlElement
-        getPopperRefElement: PropTypes.func,//todo: make this dry
-        popperMixinOption: PropTypes.object
-      })
+      }, PopperBase.propTypes)
   }
 
   static get defaultProps() {
@@ -51,14 +48,7 @@ export default class TimePanel extends Component {
 
   constructor(props: TimePanelProps) {
     super(props)
-
     this.state = mapPropsToState(props)
-    //todo: make this dry
-    PopperReactMixin.call(this, () => this.refs.root, props.getPopperRefElement, Object.assign({
-      boundariesPadding: 0,
-      gpuAcceleration: false
-    }, props.popperMixinOption));
-
   }
 
   componentWillReceiveProps(nextProps: any) {

@@ -125,7 +125,7 @@ The corresponding methods are: `MessageBox`, `MessageBox.alert`, `MessageBox.con
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | title | title of the MessageBox | string | — | — |
-| message | content of the MessageBox | string | — | — |
+| message | content of the MessageBox | string/ReactElement | — | — |
 | type | message type, used for icon display | string | success/info/warning/error | — |
 | customClass | custom class name for MessageBox | string | — | — |
 | callback | MessageBox closing callback if you don't prefer Promise | function(action), where action can be 'confirm' or 'cancel', and `instance` is the MessageBox instance. You can access to that instance's attributes and methods | — | — |
@@ -141,6 +141,7 @@ The corresponding methods are: `MessageBox`, `MessageBox.alert`, `MessageBox.con
 | closeOnPressEscape | whether MessageBox can be closed by pressing the ESC | boolean | — | true (false when called with alert) |
 | showInput | whether to show an input | boolean | — | false (true when called with prompt) |
 | inputPlaceholder | placeholder of input | string | — | — |
+| inputType | type of input | string | — | text |
 | inputValue | initial value of input | string | — | — |
 | inputPattern | regexp for the input | regexp | — | — |
 | inputValidator | validation function for the input. Should returns a boolean or string. If a string is returned, it will be assigned to inputErrorMessage | function | — | — |

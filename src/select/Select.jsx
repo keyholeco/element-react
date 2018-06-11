@@ -91,6 +91,8 @@ class Select extends Component {
     this.debouncedOnInputChange = debounce(this.debounce(), () => {
       this.onInputChange();
     });
+
+    this.resetInputWidth = this._resetInputWidth.bind(this) 
   }
 
   getChildContext(): Object {
@@ -100,8 +102,6 @@ class Select extends Component {
   }
 
   componentDidMount() {
-    addResizeListener(this.refs.root, this.resetInputWidth.bind(this));
-
     this.reference = ReactDOM.findDOMNode(this.refs.reference);
     this.popper = ReactDOM.findDOMNode(this.refs.popper);
 
@@ -149,33 +149,12 @@ class Select extends Component {
   }
 
   componentDidUpdate() {
-    const { visible } = this.state;
-
-    if (visible) {
-      if (this.popperJS) {
-        this.popperJS.update();
-      } else {
-        this.popperJS = new Popper(this.reference, this.popper, {
-          gpuAcceleration: false
-        });
-      }
-    } else {
-      if (this.popperJS) {
-        this.popperJS.destroy();
-      }
-
-      delete this.popperJS;
-    }
-
     this.state.inputWidth = this.reference.getBoundingClientRect().width;
+    addResizeListener(this.refs.root, this.resetInputWidth);
   }
 
   componentWillUnmount() {
-    removeResizeListener(this.refs.root, this.resetInputWidth.bind(this));
-
-    if (this.popperJS) {
-      this.popperJS.destroy();
-    }
+    removeResizeListener(this.refs.root, this.resetInputWidth);
   }
 
   debounce(): number {
@@ -324,6 +303,8 @@ class Select extends Component {
           this.addOptionToValue(option);
         }
       });
+
+      this.forceUpdate();
     }
 
     if (!multiple) {
@@ -331,15 +312,15 @@ class Select extends Component {
 
       if (option) {
         this.addOptionToValue(option);
+        this.setState({ selectedInit, currentPlaceholder });
       } else {
         selected = {};
         selectedLabel = '';
+        this.setState({ selectedInit, selected, currentPlaceholder, selectedLabel }, () => {
+          this.resetHoverIndex();
+        });
       }
     }
-
-    this.setState({ selectedInit, selected, currentPlaceholder, selectedLabel }, () => {
-      this.resetHoverIndex();
-    });
   }
 
   onSelectedChange(val: any, bubble: boolean = true) {
@@ -428,6 +409,16 @@ class Select extends Component {
     }
 
     this.setState({ hoverIndex, voidRemoteQuery });
+  }
+
+  onEnter(): void {
+    this.popperJS = new Popper(this.reference, this.popper, {
+      gpuAcceleration: false
+    });
+  }
+
+  onAfterLeave(): void {
+    this.popperJS.destroy();
   }
 
   optionsAllDisabled(options: []): boolean {
@@ -537,9 +528,9 @@ class Select extends Component {
       selected = option;
       selectedLabel = option.currentLabel();
       hoverIndex = option.index;
-    }
 
-    this.setState({ selected, selectedLabel, hoverIndex });
+      this.setState({ selected, selectedLabel, hoverIndex });
+    }
   }
 
   managePlaceholder() {
@@ -562,7 +553,7 @@ class Select extends Component {
     });
   }
 
-  resetInputWidth() {
+  _resetInputWidth() {
     this.setState({
       inputWidth: this.reference.getBoundingClientRect().width
     })
@@ -783,7 +774,7 @@ class Select extends Component {
       selected = selected.slice(0);
 
       selected.forEach((item, index) => {
-        if (item === option || item.currentLabel() === option.currentLabel()) {
+        if (item === option || item.props.value === option.props.value) {
           optionIndex = index;
         }
       });
@@ -939,7 +930,7 @@ class Select extends Component {
             }
           }}
         />
-        <Transition name="md-fade-bottom" duration="200">
+        <Transition name="el-zoom-in-top" onEnter={this.onEnter.bind(this)} onAfterLeave={this.onAfterLeave.bind(this)}>
           <View show={visible && this.emptyText() !== false}>
             <div ref="popper" className={this.classNames('el-select-dropdown', {
                 'is-multiple': multiple

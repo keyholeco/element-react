@@ -6,7 +6,7 @@ Use Date Picker for date input.
 
 Basic date picker measured by 'day'.
 
-:::demo The measurement is determined by the `type` attribute. You can enable quick options by creating a `picker-options` object with `shortcuts` property. The disabled date is set by `disabledDate`, which is a function.
+:::demo The measurement is determined by the `type` attribute. You can enable quick options by creating object with `shortcuts` property. The disabled date is set by `disabledDate`, which is a function.
 
 ```js
 
@@ -227,7 +227,7 @@ render() {
 | isShowTrigger | whether to show trigger icon | boolean | - | true |
 | isReadOnly | - | boolean | - | false |
 | isDisabled | - | boolean | - | false |
-| isDisabled | - | boolean | - | false |
+| isShowTime | show time or not | boolean | - | false |
 | firstDayOfWeek | first day of week | Number | 0 to 6 | 0 |
 | onFocus | - | (SyntheticEvent)=>() | - | - |
 | onBlur | - | (SyntheticEvent)=>() | - | - |

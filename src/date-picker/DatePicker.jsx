@@ -10,13 +10,12 @@ import type { DatePickerProps } from './Types';
 
 
 export default class DatePicker extends BasePicker {
-  // why this is used, goto: http://exploringjs.com/es6/ch_classes.html
   static get propTypes() {
     return Object.assign(
       {},
       BasePicker.propTypes,
       pick(DatePanel.propTypes,
-        ['value', 'showTime', 'shortcuts', 'selectionMode', 'disabledDate', 'showWeekNumber', 'firstDayOfWeek']))
+        ['value', 'shortcuts', 'selectionMode', 'disabledDate', 'showWeekNumber', 'firstDayOfWeek', 'isShowTime']))
   }
 
   static get defaultProps() {
@@ -43,7 +42,7 @@ export default class DatePicker extends BasePicker {
         {...props}
         value={state.value}
         onPick={this.onPicked.bind(this)}
-        />
+      />
     )
   }
 }

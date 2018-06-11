@@ -40,6 +40,8 @@ export default class Carousel extends Component {
     this.throttledIndicatorHover = throttle(300, index => {
       this.handleIndicatorHover(index);
     });
+
+    this.resetItemPosition = this._resetItemPosition.bind(this)
   }
 
   getChildContext(): Context {
@@ -49,7 +51,7 @@ export default class Carousel extends Component {
   }
 
   componentDidMount() {
-    addResizeListener(this.refs.root, this.resetItemPosition.bind(this));
+    
 
     if (this.props.initialIndex < this.state.items.length && this.props.initialIndex >= 0) {
       this.setState({
@@ -61,8 +63,10 @@ export default class Carousel extends Component {
   }
 
   componentDidUpdate(props: Object, state: State): void {
+    addResizeListener(this.refs.root, this.resetItemPosition);
+    
     if (state.activeIndex != this.state.activeIndex) {
-      this.resetItemPosition();
+      this.resetItemPosition(state.activeIndex);
 
       if (this.props.onChange) {
         this.props.onChange(this.state.activeIndex, state.activeIndex);
@@ -71,7 +75,7 @@ export default class Carousel extends Component {
   }
 
   componentWillUnmount(): void {
-    removeResizeListener(this.refs.root, this.resetItemPosition.bind(this));
+    removeResizeListener(this.refs.root, this.resetItemPosition);
   }
 
   handleMouseEnter(): void {
@@ -112,9 +116,9 @@ export default class Carousel extends Component {
     });
   }
 
-  resetItemPosition(): void {
+  _resetItemPosition(oldIndex: number): void {
     this.state.items.forEach((item, index) => {
-      item.translateItem(index, this.state.activeIndex);
+      item.translateItem(index, this.state.activeIndex, oldIndex);
     });
   }
 
@@ -224,10 +228,10 @@ export default class Carousel extends Component {
         <div
           className="el-carousel__container"
           style={{height: height}}>
-          <Transition name="carousel-arrow-left" duration="300">
+          <Transition name="carousel-arrow-left">
             {
               arrow !== 'never' && (
-                <View key={arrow === 'always' || hover} show={arrow === 'always' || hover}>
+                <View show={arrow === 'always' || hover}>
                   <button
                     className="el-carousel__arrow el-carousel__arrow--left"
                     onMouseEnter={this.handleButtonEnter.bind(this, 'left')}
@@ -243,7 +247,7 @@ export default class Carousel extends Component {
           <Transition name="carousel-arrow-right">
             {
               arrow !== 'never' && (
-                <View key={arrow === 'always' || hover} show={arrow === 'always' || hover}>
+                <View show={arrow === 'always' || hover}>
                   <button
                     className="el-carousel__arrow el-carousel__arrow--right"
                     onMouseEnter={this.handleButtonEnter.bind(this, 'right')}
