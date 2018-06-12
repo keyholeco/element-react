@@ -1,3 +1,5 @@
+import _extends from 'babel-runtime/helpers/extends';
+import _objectWithoutProperties from 'babel-runtime/helpers/objectWithoutProperties';
 import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _createClass from 'babel-runtime/helpers/createClass';
@@ -11,6 +13,7 @@ import { EventRegister } from '../../libs/internal';
 import Input from '../input';
 import { PLACEMENT_MAP, HAVE_TRIGGER_TYPES, TYPE_VALUE_RESOLVER_MAP, DEFAULT_FORMATS } from './constants';
 import { Errors, require_condition, IDGenerator } from '../../libs/utils';
+import { MountBody } from './MountBody';
 
 
 var idGen = new IDGenerator();
@@ -26,13 +29,21 @@ var isValidValue = function isValidValue(value) {
 
 // only considers date-picker's value: Date or [Date, Date]
 var valueEquals = function valueEquals(a, b) {
-  var aIsArray = a instanceof Array;
-  var bIsArray = b instanceof Array;
+  var aIsArray = Array.isArray(a);
+  var bIsArray = Array.isArray(b);
+
+  var isEqual = function isEqual(a, b) {
+    // equal if a, b date is equal or both is null or undefined
+    var equal = false;
+    if (a && b) equal = a.getTime() === b.getTime();else equal = a === b && a == null;
+    return equal;
+  };
+
   if (aIsArray && bIsArray) {
-    return new Date(a[0]).getTime() === new Date(b[0]).getTime() && new Date(a[1]).getTime() === new Date(b[1]).getTime();
+    return isEqual(a[0], b[0]) && isEqual(a[1], b[1]);
   }
   if (!aIsArray && !bIsArray) {
-    return new Date(a).getTime() === new Date(b).getTime();
+    return isEqual(a, b);
   }
   return false;
 };
@@ -117,8 +128,6 @@ var BasePicker = function (_Component) {
   BasePicker.prototype.onPicked = function onPicked(value) {
     var isKeepPannel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     //only change input value on picked triggered
-    require_condition(isValidValue(value));
-
     var hasChanged = !valueEquals(this.state.value, value);
     this.setState({
       pickerVisible: isKeepPannel,
@@ -133,8 +142,7 @@ var BasePicker = function (_Component) {
   };
 
   BasePicker.prototype.dateToStr = function dateToStr(date) {
-    if (!date) return '';
-    require_condition(isValidValue(date));
+    if (!isValidValue(date)) return '';
 
     var tdate = date;
     var formatter = (TYPE_VALUE_RESOLVER_MAP[this.type] || TYPE_VALUE_RESOLVER_MAP['default']).formatter;
@@ -167,9 +175,9 @@ var BasePicker = function (_Component) {
       state.value = null;
     }
 
-    if (state.value == null) {
-      state.value = new Date();
-    }
+    // if (state.value == null) {
+    //   state.value = new Date()
+    // }
 
     return state;
   };
@@ -248,6 +256,7 @@ var BasePicker = function (_Component) {
       return;
     }
     if (this.domRoot.contains(evt.target)) return;
+    if (this.pickerProxy && this.pickerProxy.contains(evt)) return;
     if (this.isDateValid(value)) {
       this.setState({ pickerVisible: false });
       this.props.onChange(value);
@@ -311,14 +320,30 @@ var BasePicker = function (_Component) {
 
     var createPickerPanel = function createPickerPanel() {
       if (pickerVisible) {
-        return _this3.pickerPanel(_this3.state, Object.assign({}, _this3.props, {
-          getPopperRefElement: function getPopperRefElement() {
-            return ReactDOM.findDOMNode(_this3.refs.inputRoot);
-          },
-          popperMixinOption: {
-            placement: PLACEMENT_MAP[_this3.props.align] || PLACEMENT_MAP.left
-          }
-        }));
+        /* eslint-disable */
+        var _props3 = _this3.props,
+            _placeholder = _props3.placeholder,
+            onFocus = _props3.onFocus,
+            onBlur = _props3.onBlur,
+            onChange = _props3.onChange,
+            others = _objectWithoutProperties(_props3, ['placeholder', 'onFocus', 'onBlur', 'onChange']);
+        /* eslint-enable */
+
+
+        return React.createElement(
+          MountBody,
+          { ref: function ref(e) {
+              return _this3.pickerProxy = e;
+            } },
+          _this3.pickerPanel(_this3.state, _extends({}, others, {
+            getPopperRefElement: function getPopperRefElement() {
+              return ReactDOM.findDOMNode(_this3.refs.inputRoot);
+            },
+            popperMixinOption: {
+              placement: PLACEMENT_MAP[_this3.props.align] || PLACEMENT_MAP.left
+            }
+          }))
+        );
       } else {
         return null;
       }

@@ -1,11 +1,17 @@
 #!/bin/bash
 
 # testing before publish
-npm run lint && npm run build && npm run test && npm run typescript-test
+# npm run lint && npm run build && npm run test && npm run typescript-test
+
+# purge dist
+rm -fr dist
+
+# build site
+npm run build
 
 if [ $? = 0 ]; then
   # purge dist
-  rm -fr dist
+  # rm -fr dist
 
   # babel transform es6 into es5
   babel src --out-dir dist/npm/es5/src --copy-files

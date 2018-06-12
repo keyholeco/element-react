@@ -41,17 +41,20 @@ var Tag = function (_Component) {
 
     return React.createElement(
       Transition,
-      { name: closeTransition ? '' : 'el-zoom-in-center', duration: '200' },
+      { name: closeTransition ? '' : 'el-zoom-in-center' },
       React.createElement(
         View,
         { key: this.state.visible, show: this.state.visible },
         React.createElement(
           'span',
-          { style: this.style({
+          {
+            style: this.style({
               backgroundColor: color
-            }), className: this.className('el-tag', type && 'el-tag--' + type, {
+            }),
+            className: this.className('el-tag', type && 'el-tag--' + type, {
               'is-hit': hit
-            }) },
+            })
+          },
           this.props.children,
           closable && React.createElement('i', { className: 'el-tag__close el-icon-close', onClick: this.handleClose.bind(this) })
         )

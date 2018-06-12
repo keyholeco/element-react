@@ -34,10 +34,6 @@ var _locale2 = _interopRequireDefault(_locale);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
-  todo:
-    clear ?
-*/
 function isFunction(func) {
   return typeof func === 'function';
 }
@@ -101,7 +97,6 @@ var DateTable = function (_Component) {
       var dateCountOfMonth = (0, _utils.getDayCountOfMonth)(ndate.getFullYear(), ndate.getMonth());
       // dates count in december is always 31, so offset year is not neccessary
       var dateCountOfLastMonth = (0, _utils.getDayCountOfMonth)(ndate.getFullYear(), ndate.getMonth() === 0 ? 11 : ndate.getMonth() - 1);
-
       var offsetDaysToWeekOrigin = (0, _utils.getOffsetToWeekOrigin)(day, firstDayOfWeek);
 
       //tableRows: [ [], [], [], [], [], [] ]
@@ -113,6 +108,7 @@ var DateTable = function (_Component) {
       var now = clearHours(new Date());
 
       for (var i = 0; i < 6; i++) {
+        // rows
         var row = rows[i];
         /*
         cell: {
@@ -134,6 +130,7 @@ var DateTable = function (_Component) {
         }
 
         for (var j = 0; j < 7; j++) {
+          // columns
           var cell = row[showWeekNumber ? j + 1 : j];
           if (!cell) {
             row[showWeekNumber ? j + 1 : j] = { row: i, column: j, type: 'normal', inRange: false, start: false, end: false };
@@ -155,7 +152,7 @@ var DateTable = function (_Component) {
 
           if (i === 0) {
             //handle first row of date, this row only contains all or some pre-month dates
-            if (j >= (offsetDaysToWeekOrigin === 0 ? 7 : offsetDaysToWeekOrigin)) {
+            if (j >= offsetDaysToWeekOrigin) {
               cell.text = count++;
               if (count === 2) {
                 firstDayPosition = i * 7 + j;
@@ -206,7 +203,6 @@ var DateTable = function (_Component) {
     value: function getCellClasses(cell) {
       var _props2 = this.props,
           selectionMode = _props2.selectionMode,
-          value = _props2.value,
           date = _props2.date;
 
 
@@ -220,7 +216,14 @@ var DateTable = function (_Component) {
         classes.push(cell.type);
       }
 
-      if (selectionMode === 'day' && (cell.type === 'normal' || cell.type === 'today') && value && value.getFullYear() === date.getFullYear() && value.getMonth() === date.getMonth() && value.getDate() === Number(cell.text)) {
+      if (selectionMode === 'day' && (cell.type === 'normal' || cell.type === 'today')
+      // following code only highlight date that is the actuall value of the datepicker, but actually it should
+      // be the temp that value use selected
+      && date.getDate() === +cell.text) {
+        // && value
+        // && value.getFullYear() === date.getFullYear()
+        // && value.getMonth() === date.getMonth()
+        // && value.getDate() === Number(cell.text)) {
         classes.push('current');
       }
 

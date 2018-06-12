@@ -68,57 +68,61 @@ var PickerDropdown = function (_Component) {
       return _react2.default.createElement(
         _libs.Transition,
         { name: 'el-zoom-in-top' },
-        showPicker && _react2.default.createElement(
-          'div',
-          { className: 'el-color-dropdown el-color-picker__panel' },
+        _react2.default.createElement(
+          _libs.View,
+          { show: showPicker },
           _react2.default.createElement(
             'div',
-            { className: 'el-color-dropdown__main-wrapper' },
-            _react2.default.createElement(_HueSlider2.default, {
-              ref: 'hue',
-              color: color,
-              vertical: true,
-              onChange: function onChange(color) {
-                return _this2.props.onChange(color);
-              }
-            }),
-            _react2.default.createElement(_SvPanel2.default, {
-              ref: 'sl',
-              color: color,
-              onChange: function onChange(color) {
-                return _this2.props.onChange(color);
-              }
-            })
-          ),
-          showAlpha && _react2.default.createElement(_AlphaSlider2.default, { ref: 'alpha', color: color }),
-          _react2.default.createElement(
-            'div',
-            { className: 'el-color-dropdown__btns' },
+            { className: 'el-color-dropdown el-color-picker__panel' },
             _react2.default.createElement(
-              'span',
-              { className: 'el-color-dropdown__value' },
-              currentColor
-            ),
-            _react2.default.createElement(
-              'a',
-              {
-                href: 'JavaScript:',
-                className: 'el-color-dropdown__link-btn',
-                onClick: function onClick() {
-                  return onClear();
+              'div',
+              { className: 'el-color-dropdown__main-wrapper' },
+              _react2.default.createElement(_HueSlider2.default, {
+                ref: 'hue',
+                color: color,
+                vertical: true,
+                onChange: function onChange(color) {
+                  return _this2.props.onChange(color);
                 }
-              },
-              _locale2.default.t('el.colorpicker.clear')
-            ),
-            _react2.default.createElement(
-              'button',
-              {
-                className: 'el-color-dropdown__btn',
-                onClick: function onClick() {
-                  return onPick();
+              }),
+              _react2.default.createElement(_SvPanel2.default, {
+                ref: 'sl',
+                color: color,
+                onChange: function onChange(color) {
+                  return _this2.props.onChange(color);
                 }
-              },
-              _locale2.default.t('el.colorpicker.confirm')
+              })
+            ),
+            showAlpha && _react2.default.createElement(_AlphaSlider2.default, { ref: 'alpha', color: color }),
+            _react2.default.createElement(
+              'div',
+              { className: 'el-color-dropdown__btns' },
+              _react2.default.createElement(
+                'span',
+                { className: 'el-color-dropdown__value' },
+                currentColor
+              ),
+              _react2.default.createElement(
+                'a',
+                {
+                  href: 'JavaScript:',
+                  className: 'el-color-dropdown__link-btn',
+                  onClick: function onClick() {
+                    return onClear();
+                  }
+                },
+                _locale2.default.t('el.colorpicker.clear')
+              ),
+              _react2.default.createElement(
+                'button',
+                {
+                  className: 'el-color-dropdown__btn',
+                  onClick: function onClick() {
+                    return onPick();
+                  }
+                },
+                _locale2.default.t('el.colorpicker.confirm')
+              )
             )
           )
         )

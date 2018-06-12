@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Scrollbar = undefined;
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -33,6 +37,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _libs = require('../../libs');
 
 var _resizeEvent = require('../../libs/utils/resize-event');
@@ -57,24 +65,30 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
       moveX: 0,
       moveY: 0
     };
+
+    _this.update = _this._update.bind(_this);
     return _this;
   }
 
   (0, _createClass3.default)(Scrollbar, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this2 = this;
-
       if (this.native) return;
-      var handler = this.update.bind(this);
-      var rafId = requestAnimationFrame(handler);
+      var rafId = requestAnimationFrame(this.update);
       this.cleanRAF = function () {
         cancelAnimationFrame(rafId);
       };
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var _this2 = this;
+
+      this.resizeDom = _reactDom2.default.findDOMNode(this.refs.resize);
       if (!this.props.noresize) {
-        (0, _resizeEvent.addResizeListener)(this.refs.resize, handler);
+        (0, _resizeEvent.addResizeListener)(this.resizeDom, this.update);
         this.cleanResize = function () {
-          (0, _resizeEvent.removeResizeListener)(_this2.refs.resize, handler);
+          (0, _resizeEvent.removeResizeListener)(_this2.resizeDom, _this2.update);
         };
       }
     }
@@ -94,8 +108,8 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
       });
     }
   }, {
-    key: 'update',
-    value: function update() {
+    key: '_update',
+    value: function _update() {
       var heightPercentage = void 0,
           widthPercentage = void 0;
       var wrap = this.wrap;
@@ -154,12 +168,13 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
       if (!native) {
         var wrap = _react2.default.createElement(
           'div',
-          { ref: 'wrap',
+          (0, _extends3.default)({}, others, {
+            ref: 'wrap',
             key: 0,
             style: style,
             onScroll: this.handleScroll.bind(this),
             className: this.classNames(wrapClass, 'el-scrollbar__wrap', gutter ? '' : 'el-scrollbar__wrap--hidden-default')
-          },
+          }),
           view
         );
         nodes = [wrap, _react2.default.createElement(_Bar.Bar, { key: 1, move: moveX, size: sizeWidth, getParentWrap: function getParentWrap() {
@@ -170,7 +185,11 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
       } else {
         nodes = [_react2.default.createElement(
           'div',
-          { key: 0, ref: 'wrap', className: this.classNames(wrapClass, 'el-scrollbar__wrap'), style: style },
+          (0, _extends3.default)({}, others, {
+            key: 0,
+            ref: 'wrap',
+            className: this.classNames(wrapClass, 'el-scrollbar__wrap'),
+            style: style }),
           view
         )];
       }

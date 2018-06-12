@@ -72,7 +72,7 @@ var InputNumber = function (_Component) {
 
       _this2.timeout = setTimeout(function () {
         _this2.onBlur();
-      }, 300);
+      }, 750);
     });
   };
 

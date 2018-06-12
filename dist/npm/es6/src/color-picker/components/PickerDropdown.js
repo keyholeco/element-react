@@ -5,7 +5,7 @@ import React from 'react';
 import SvPanel from './SvPanel';
 import HueSlider from './HueSlider';
 import AlphaSlider from './AlphaSlider';
-import { Component, PropTypes, Transition } from '../../../libs';
+import { Component, PropTypes, Transition, View } from '../../../libs';
 import Locale from '../../locale';
 
 var PickerDropdown = function (_Component) {
@@ -31,57 +31,61 @@ var PickerDropdown = function (_Component) {
     return React.createElement(
       Transition,
       { name: 'el-zoom-in-top' },
-      showPicker && React.createElement(
-        'div',
-        { className: 'el-color-dropdown el-color-picker__panel' },
+      React.createElement(
+        View,
+        { show: showPicker },
         React.createElement(
           'div',
-          { className: 'el-color-dropdown__main-wrapper' },
-          React.createElement(HueSlider, {
-            ref: 'hue',
-            color: color,
-            vertical: true,
-            onChange: function onChange(color) {
-              return _this2.props.onChange(color);
-            }
-          }),
-          React.createElement(SvPanel, {
-            ref: 'sl',
-            color: color,
-            onChange: function onChange(color) {
-              return _this2.props.onChange(color);
-            }
-          })
-        ),
-        showAlpha && React.createElement(AlphaSlider, { ref: 'alpha', color: color }),
-        React.createElement(
-          'div',
-          { className: 'el-color-dropdown__btns' },
+          { className: 'el-color-dropdown el-color-picker__panel' },
           React.createElement(
-            'span',
-            { className: 'el-color-dropdown__value' },
-            currentColor
-          ),
-          React.createElement(
-            'a',
-            {
-              href: 'JavaScript:',
-              className: 'el-color-dropdown__link-btn',
-              onClick: function onClick() {
-                return onClear();
+            'div',
+            { className: 'el-color-dropdown__main-wrapper' },
+            React.createElement(HueSlider, {
+              ref: 'hue',
+              color: color,
+              vertical: true,
+              onChange: function onChange(color) {
+                return _this2.props.onChange(color);
               }
-            },
-            Locale.t('el.colorpicker.clear')
-          ),
-          React.createElement(
-            'button',
-            {
-              className: 'el-color-dropdown__btn',
-              onClick: function onClick() {
-                return onPick();
+            }),
+            React.createElement(SvPanel, {
+              ref: 'sl',
+              color: color,
+              onChange: function onChange(color) {
+                return _this2.props.onChange(color);
               }
-            },
-            Locale.t('el.colorpicker.confirm')
+            })
+          ),
+          showAlpha && React.createElement(AlphaSlider, { ref: 'alpha', color: color }),
+          React.createElement(
+            'div',
+            { className: 'el-color-dropdown__btns' },
+            React.createElement(
+              'span',
+              { className: 'el-color-dropdown__value' },
+              currentColor
+            ),
+            React.createElement(
+              'a',
+              {
+                href: 'JavaScript:',
+                className: 'el-color-dropdown__link-btn',
+                onClick: function onClick() {
+                  return onClear();
+                }
+              },
+              Locale.t('el.colorpicker.clear')
+            ),
+            React.createElement(
+              'button',
+              {
+                className: 'el-color-dropdown__btn',
+                onClick: function onClick() {
+                  return onPick();
+                }
+              },
+              Locale.t('el.colorpicker.confirm')
+            )
           )
         )
       )

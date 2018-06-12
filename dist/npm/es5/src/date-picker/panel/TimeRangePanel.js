@@ -36,11 +36,11 @@ var _TimeSpinner = require('../basic/TimeSpinner');
 
 var _TimeSpinner2 = _interopRequireDefault(_TimeSpinner);
 
-var _utils2 = require('../../../libs/utils');
-
 var _locale = require('../../locale');
 
 var _locale2 = _interopRequireDefault(_locale);
+
+var _PopperBase2 = require('./PopperBase');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -86,12 +86,12 @@ var mapPropsToState = function mapPropsToState(props) {
   return state;
 };
 
-var TimeRangePanel = function (_Component) {
-  (0, _inherits3.default)(TimeRangePanel, _Component);
+var TimeRangePanel = function (_PopperBase) {
+  (0, _inherits3.default)(TimeRangePanel, _PopperBase);
   (0, _createClass3.default)(TimeRangePanel, null, [{
     key: 'propTypes',
     get: function get() {
-      return Object.assign({}, {
+      return Object.assign({
         pickerWidth: _libs.PropTypes.number,
         currentDates: _libs.PropTypes.arrayOf(_libs.PropTypes.instanceOf(Date)),
         /*
@@ -104,11 +104,8 @@ var TimeRangePanel = function (_Component) {
         //()=>()
         onCancel: _libs.PropTypes.func.isRequired,
         // (start, end)=>(), index range indicate which field [hours, minutes, seconds] changes
-        onSelectRangeChange: _TimeSpinner2.default.propTypes.onSelectRangeChange,
-        //()=>HtmlElement
-        getPopperRefElement: _libs.PropTypes.func,
-        popperMixinOption: _libs.PropTypes.object
-      });
+        onSelectRangeChange: _TimeSpinner2.default.propTypes.onSelectRangeChange
+      }, _PopperBase2.PopperBase.propTypes);
     }
   }, {
     key: 'defaultProps',
@@ -128,13 +125,6 @@ var TimeRangePanel = function (_Component) {
       visible: false,
       width: 0
     }, mapPropsToState(props));
-
-    _utils2.PopperReactMixin.call(_this, function () {
-      return _this.refs.root;
-    }, props.getPopperRefElement, Object.assign({
-      boundariesPadding: 0,
-      gpuAcceleration: false
-    }, props.popperMixinOption));
     return _this;
   }
 
@@ -311,7 +301,7 @@ var TimeRangePanel = function (_Component) {
     }
   }]);
   return TimeRangePanel;
-}(_libs.Component);
+}(_PopperBase2.PopperBase);
 
 var _default = TimeRangePanel;
 exports.default = _default;

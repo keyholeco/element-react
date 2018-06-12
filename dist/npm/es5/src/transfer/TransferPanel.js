@@ -80,6 +80,36 @@ var TransferPanel = function (_Component) {
   }
 
   (0, _createClass3.default)(TransferPanel, [{
+    key: '__handleInputChange__REACT_HOT_LOADER__',
+    value: function __handleInputChange__REACT_HOT_LOADER__() {
+      return this.__handleInputChange__REACT_HOT_LOADER__.apply(this, arguments);
+    }
+  }, {
+    key: '__handleCheckedChange__REACT_HOT_LOADER__',
+    value: function __handleCheckedChange__REACT_HOT_LOADER__() {
+      return this.__handleCheckedChange__REACT_HOT_LOADER__.apply(this, arguments);
+    }
+  }, {
+    key: '__handleAllCheckedChange__REACT_HOT_LOADER__',
+    value: function __handleAllCheckedChange__REACT_HOT_LOADER__() {
+      return this.__handleAllCheckedChange__REACT_HOT_LOADER__.apply(this, arguments);
+    }
+  }, {
+    key: '__clearQuery__REACT_HOT_LOADER__',
+    value: function __clearQuery__REACT_HOT_LOADER__() {
+      return this.__clearQuery__REACT_HOT_LOADER__.apply(this, arguments);
+    }
+  }, {
+    key: '__handleMouseLeave__REACT_HOT_LOADER__',
+    value: function __handleMouseLeave__REACT_HOT_LOADER__() {
+      return this.__handleMouseLeave__REACT_HOT_LOADER__.apply(this, arguments);
+    }
+  }, {
+    key: '__handleMouseEnter__REACT_HOT_LOADER__',
+    value: function __handleMouseEnter__REACT_HOT_LOADER__() {
+      return this.__handleMouseEnter__REACT_HOT_LOADER__.apply(this, arguments);
+    }
+  }, {
     key: '__handleMouseEnter__REACT_HOT_LOADER__',
     value: function __handleMouseEnter__REACT_HOT_LOADER__() {
       return this.setState({ inputHover: true });

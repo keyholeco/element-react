@@ -215,7 +215,7 @@ var FormItem = function (_Component) {
       var labelWidth = this.props.labelWidth || this.parent().props.labelWidth;
 
       if (labelWidth) {
-        ret.width = Number(labelWidth);
+        ret.width = parseInt(labelWidth);
       }
 
       return ret;
@@ -230,7 +230,7 @@ var FormItem = function (_Component) {
       var labelWidth = this.props.labelWidth || this.parent().props.labelWidth;
 
       if (labelWidth) {
-        ret.marginLeft = Number(labelWidth);
+        ret.marginLeft = parseInt(labelWidth);
       }
 
       return ret;
@@ -274,7 +274,7 @@ var FormItem = function (_Component) {
           this.props.children,
           _react2.default.createElement(
             _libs.Transition,
-            { name: 'md-fade-bottom' },
+            { name: 'el-zoom-in-top' },
             error && _react2.default.createElement(
               'div',
               { className: 'el-form-item__error' },

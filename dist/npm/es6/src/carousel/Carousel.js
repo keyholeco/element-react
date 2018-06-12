@@ -30,6 +30,8 @@ var Carousel = function (_Component) {
     _this.throttledIndicatorHover = throttle(300, function (index) {
       _this.handleIndicatorHover(index);
     });
+
+    _this.resetItemPosition = _this._resetItemPosition.bind(_this);
     return _this;
   }
 
@@ -40,7 +42,6 @@ var Carousel = function (_Component) {
   };
 
   Carousel.prototype.componentDidMount = function componentDidMount() {
-    addResizeListener(this.refs.root, this.resetItemPosition.bind(this));
 
     if (this.props.initialIndex < this.state.items.length && this.props.initialIndex >= 0) {
       this.setState({
@@ -52,8 +53,10 @@ var Carousel = function (_Component) {
   };
 
   Carousel.prototype.componentDidUpdate = function componentDidUpdate(props, state) {
+    addResizeListener(this.refs.root, this.resetItemPosition);
+
     if (state.activeIndex != this.state.activeIndex) {
-      this.resetItemPosition();
+      this.resetItemPosition(state.activeIndex);
 
       if (this.props.onChange) {
         this.props.onChange(this.state.activeIndex, state.activeIndex);
@@ -62,7 +65,7 @@ var Carousel = function (_Component) {
   };
 
   Carousel.prototype.componentWillUnmount = function componentWillUnmount() {
-    removeResizeListener(this.refs.root, this.resetItemPosition.bind(this));
+    removeResizeListener(this.refs.root, this.resetItemPosition);
   };
 
   Carousel.prototype.handleMouseEnter = function handleMouseEnter() {
@@ -103,11 +106,11 @@ var Carousel = function (_Component) {
     });
   };
 
-  Carousel.prototype.resetItemPosition = function resetItemPosition() {
+  Carousel.prototype._resetItemPosition = function _resetItemPosition(oldIndex) {
     var _this3 = this;
 
     this.state.items.forEach(function (item, index) {
-      item.translateItem(index, _this3.state.activeIndex);
+      item.translateItem(index, _this3.state.activeIndex, oldIndex);
     });
   };
 
@@ -226,10 +229,10 @@ var Carousel = function (_Component) {
           style: { height: height } },
         React.createElement(
           Transition,
-          { name: 'carousel-arrow-left', duration: '300' },
+          { name: 'carousel-arrow-left' },
           arrow !== 'never' && React.createElement(
             View,
-            { key: arrow === 'always' || hover, show: arrow === 'always' || hover },
+            { show: arrow === 'always' || hover },
             React.createElement(
               'button',
               {
@@ -247,7 +250,7 @@ var Carousel = function (_Component) {
           { name: 'carousel-arrow-right' },
           arrow !== 'never' && React.createElement(
             View,
-            { key: arrow === 'always' || hover, show: arrow === 'always' || hover },
+            { show: arrow === 'always' || hover },
             React.createElement(
               'button',
               {

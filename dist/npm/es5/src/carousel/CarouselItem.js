@@ -46,7 +46,8 @@ var CarouselItem = function (_Component) {
       scale: 1,
       active: false,
       ready: false,
-      inStage: false
+      inStage: false,
+      animating: false
     };
     return _this;
   }
@@ -90,10 +91,14 @@ var CarouselItem = function (_Component) {
     }
   }, {
     key: 'translateItem',
-    value: function translateItem(index, activeIndex) {
+    value: function translateItem(index, activeIndex, oldIndex) {
       var parent = _reactDom2.default.findDOMNode(this.parent());
       var parentWidth = parent.offsetWidth;
       var length = this.parent().state.items.length;
+
+      if (!this.parent().iscard && oldIndex !== undefined) {
+        this.state.animating = index === activeIndex || index === oldIndex;
+      }
 
       if (index !== activeIndex && length > 2) {
         index = this.processIndex(index, activeIndex, length);
@@ -135,7 +140,8 @@ var CarouselItem = function (_Component) {
           scale = _state.scale,
           active = _state.active,
           ready = _state.ready,
-          inStage = _state.inStage;
+          inStage = _state.inStage,
+          animating = _state.animating;
 
 
       return _react2.default.createElement(
@@ -148,14 +154,14 @@ var CarouselItem = function (_Component) {
               'is-active': active,
               'el-carousel__item--card': this.parent().iscard,
               'is-in-stage': inStage,
-              'is-hover': hover
+              'is-hover': hover,
+              'is-animating': animating
             }),
             onClick: this.handleItemClick.bind(this),
             style: {
               msTransform: 'translateX(' + translate + 'px) scale(' + scale + ')',
               WebkitTransform: 'translateX(' + translate + 'px) scale(' + scale + ')',
-              transform: 'translateX(' + translate + 'px) scale(' + scale + ')',
-              width: this.calculateWidth
+              transform: 'translateX(' + translate + 'px) scale(' + scale + ')'
             } },
           this.parent().iscard && _react2.default.createElement(
             _libs.View,

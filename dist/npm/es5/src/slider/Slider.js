@@ -124,6 +124,10 @@ var Slider = function (_Component) {
           return item === _oldValue[index];
         })) {
           return;
+        } else if (!this.props.range && typeof props.value === 'number' && !isNaN(props.value)) {
+          this.setState({
+            firstValue: props.value
+          });
         }
 
         this.setValues();

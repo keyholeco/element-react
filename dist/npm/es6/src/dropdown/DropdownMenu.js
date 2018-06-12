@@ -20,39 +20,23 @@ var DropdownMenu = function (_Component) {
     return _this;
   }
 
-  DropdownMenu.prototype.componentDidUpdate = function componentDidUpdate() {
-    var showPopper = this.state.showPopper;
-
-
-    if (showPopper) {
-      if (this.popperJS) {
-        this.popperJS.update();
-      } else {
-        var parent = ReactDOM.findDOMNode(this.parent());
-
-        this.popperJS = new Popper(parent, this.refs.popper, {
-          placement: this.placement()
-        });
-      }
-    } else {
-      if (this.popperJS) {
-        this.popperJS.destroy();
-      }
-
-      delete this.popperJS;
-    }
-  };
-
-  DropdownMenu.prototype.componentWillUnmount = function componentWillUnmount() {
-    if (this.popperJS) {
-      this.popperJS.destroy();
-    }
-  };
-
   DropdownMenu.prototype.onVisibleChange = function onVisibleChange(visible) {
     this.setState({
       showPopper: visible
     });
+  };
+
+  DropdownMenu.prototype.onEnter = function onEnter() {
+    var parent = ReactDOM.findDOMNode(this.parent());
+
+    this.popperJS = new Popper(parent, this.refs.popper, {
+      placement: this.placement(),
+      gpuAcceleration: false
+    });
+  };
+
+  DropdownMenu.prototype.onAfterLeave = function onAfterLeave() {
+    this.popperJS.destroy();
   };
 
   DropdownMenu.prototype.parent = function parent() {
@@ -66,7 +50,7 @@ var DropdownMenu = function (_Component) {
   DropdownMenu.prototype.render = function render() {
     return React.createElement(
       Transition,
-      { name: 'md-fade-bottom' },
+      { name: 'el-zoom-in-top', onEnter: this.onEnter.bind(this), onAfterLeave: this.onAfterLeave.bind(this) },
       React.createElement(
         View,
         { show: this.state.showPopper },

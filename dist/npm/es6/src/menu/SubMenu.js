@@ -3,7 +3,7 @@ import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructo
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { PropTypes, View } from '../../libs';
+import { PropTypes, View, Transition, CollapseTransition } from '../../libs';
 
 import MixinComponent from './MixinComponent';
 
@@ -97,9 +97,21 @@ var SubMenu = function (_MixinComponent) {
             'el-icon-caret-bottom': this.rootMenu().props.mode === 'horizontal'
           }) })
       ),
-      React.createElement(
-        View,
-        { show: this.opened() },
+      this.rootMenu().props.mode === 'horizontal' ? React.createElement(
+        Transition,
+        { name: 'el-zoom-in-top' },
+        React.createElement(
+          View,
+          { show: this.opened() },
+          React.createElement(
+            'ul',
+            { className: 'el-menu' },
+            this.props.children
+          )
+        )
+      ) : React.createElement(
+        CollapseTransition,
+        { isShow: this.opened() },
         React.createElement(
           'ul',
           { className: 'el-menu' },

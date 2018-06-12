@@ -127,7 +127,8 @@ var CollapseTransition = function (_Component) {
     return React.createElement(
       'div',
       {
-        className: 'el-tree-node__children collapse-transition',
+        className: 'collapse-transition',
+        style: { overflow: 'hidden' },
         ref: function ref(e) {
           return _this4.selfRef = e;
         }

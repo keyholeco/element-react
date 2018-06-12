@@ -25,24 +25,24 @@ var Alert = function (_Component) {
   }
 
   Alert.prototype.close = function close() {
-    var _this2 = this;
-
     this.setState({
       visible: false
-    }, function () {
-      if (_this2.props.onClose) {
-        _this2.props.onClose();
-      }
     });
+  };
+
+  Alert.prototype.onAfterLeave = function onAfterLeave() {
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
   };
 
   Alert.prototype.render = function render() {
     return React.createElement(
       Transition,
-      { name: 'el-alert-fade', duration: '200' },
+      { name: 'el-alert-fade', onAfterLeave: this.onAfterLeave.bind(this) },
       React.createElement(
         View,
-        { key: this.state.visible, show: this.state.visible },
+        { show: this.state.visible },
         React.createElement(
           'div',
           { style: this.style(), className: this.className('el-alert', 'el-alert--' + this.props.type) },

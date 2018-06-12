@@ -68,17 +68,20 @@ var Tag = function (_Component) {
 
       return _react2.default.createElement(
         _libs.Transition,
-        { name: closeTransition ? '' : 'el-zoom-in-center', duration: '200' },
+        { name: closeTransition ? '' : 'el-zoom-in-center' },
         _react2.default.createElement(
           _libs.View,
           { key: this.state.visible, show: this.state.visible },
           _react2.default.createElement(
             'span',
-            { style: this.style({
+            {
+              style: this.style({
                 backgroundColor: color
-              }), className: this.className('el-tag', type && 'el-tag--' + type, {
+              }),
+              className: this.className('el-tag', type && 'el-tag--' + type, {
                 'is-hit': hit
-              }) },
+              })
+            },
             this.props.children,
             closable && _react2.default.createElement('i', { className: 'el-tag__close el-icon-close', onClick: this.handleClose.bind(this) })
           )

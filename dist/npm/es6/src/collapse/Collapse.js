@@ -18,6 +18,10 @@ var Collapse = function (_Component) {
     return _this;
   }
 
+  Collapse.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    this.setActiveNames(nextProps.value);
+  };
+
   Collapse.prototype.setActiveNames = function setActiveNames(activeNames) {
     var _this2 = this;
 

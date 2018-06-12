@@ -27,11 +27,13 @@ test('Turning an unchecked item to checked', function () {
     null,
     '\u5907\u9009\u9879'
   ));
-  var input = wrapper.find('input[type="checkbox"]');
-  //simulate.change模拟事件实际上并不会改变checked的状态,需手动去更改node属性值 https://github.com/facebook/react/issues/4950
-  input.node.checked = !input.node.checked;
-  input.simulate('change');
-  expect(input.props().checked).toBe(true);
+
+  // 模拟change事件
+  var Input = document.createElement('input');
+  Input.checked = true;
+  wrapper.find('input[type="checkbox"]').simulate('change', { target: Input });
+
+  expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(true);
 });
 
 test('isDisabled should work', function () {
@@ -85,20 +87,22 @@ test('should limited to max and min value', function () {
   //test checked length
   expect(wrapper.find('.el-checkbox__input .is-checked').length).toBe(2);
 
+  var Input = document.createElement('input');
+
   //test max
+  Input.checked = true;
   wrapper.find('input[type="checkbox"]').forEach(function (e) {
-    if (!e.node.checked) {
-      e.node.checked = !e.node.checked;
-      e.simulate('change');
+    if (!e.prop('checked')) {
+      e.simulate('change', { target: Input });
       expect(wrapper.find('.el-checkbox__input .is-checked').length).toBe(2);
     }
   });
 
   //test min
+  Input.checked = false;
   wrapper.find('input[type="checkbox"]').forEach(function (e) {
-    if (e.node.checked) {
-      e.node.checked = !e.node.checked;
-      e.simulate('change');
+    if (e.prop('checked')) {
+      e.simulate('change', { target: Input });
       expect(wrapper.find('.el-checkbox__input .is-checked').length).toBe(1);
     }
   });

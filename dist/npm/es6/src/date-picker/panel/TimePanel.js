@@ -4,24 +4,24 @@ import _createClass from 'babel-runtime/helpers/createClass';
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
 
-import { PropTypes, Component } from '../../../libs';
+import { PropTypes } from '../../../libs';
 import { limitRange } from '../utils';
 import TimeSpinner from '../basic/TimeSpinner';
-import { PopperReactMixin } from '../../../libs/utils';
 import Locale from '../../locale';
 
+import { PopperBase } from './PopperBase';
 
 var mapPropsToState = function mapPropsToState(props) {
   var state = {
     format: props.format || 'HH:mm:ss',
-    currentDate: props.currentDate || Date()
+    currentDate: props.currentDate || new Date()
   };
   state.isShowSeconds = (state.format || '').indexOf('ss') !== -1;
   return state;
 };
 
-var TimePanel = function (_Component) {
-  _inherits(TimePanel, _Component);
+var TimePanel = function (_PopperBase) {
+  _inherits(TimePanel, _PopperBase);
 
   _createClass(TimePanel, null, [{
     key: 'propTypes',
@@ -40,11 +40,8 @@ var TimePanel = function (_Component) {
         onPicked: PropTypes.func.isRequired,
         // cancel btn is clicked
         //()=>()
-        onCancel: PropTypes.func.isRequired,
-        //()=>HtmlElement
-        getPopperRefElement: PropTypes.func, //todo: make this dry
-        popperMixinOption: PropTypes.object
-      });
+        onCancel: PropTypes.func.isRequired
+      }, PopperBase.propTypes);
     }
   }, {
     key: 'defaultProps',
@@ -58,17 +55,9 @@ var TimePanel = function (_Component) {
   function TimePanel(props) {
     _classCallCheck(this, TimePanel);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+    var _this = _possibleConstructorReturn(this, _PopperBase.call(this, props));
 
     _this.state = mapPropsToState(props);
-    //todo: make this dry
-    PopperReactMixin.call(_this, function () {
-      return _this.refs.root;
-    }, props.getPopperRefElement, Object.assign({
-      boundariesPadding: 0,
-      gpuAcceleration: false
-    }, props.popperMixinOption));
-
     return _this;
   }
 
@@ -175,6 +164,6 @@ var TimePanel = function (_Component) {
   };
 
   return TimePanel;
-}(Component);
+}(PopperBase);
 
 export default TimePanel;

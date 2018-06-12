@@ -22,54 +22,49 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _react = require('react');
 
-var _react2 = _interopRequireDefault(_react);
+var React = _interopRequireWildcard(_react);
 
 var _libs = require('../../libs');
 
+var _utils = require('./utils');
+
+var _checkbox = require('../checkbox');
+
+var _checkbox2 = _interopRequireDefault(_checkbox);
+
+var _tag = require('../tag');
+
+var _tag2 = _interopRequireDefault(_tag);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import {toDate} from "../date-picker/utils/index";
 
 var TableFooter = function (_Component) {
   (0, _inherits3.default)(TableFooter, _Component);
 
-  function TableFooter(props, context) {
+  function TableFooter() {
     (0, _classCallCheck3.default)(this, TableFooter);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (TableFooter.__proto__ || Object.getPrototypeOf(TableFooter)).call(this, props, context));
-
-    _this.state = {
-      dataList: []
-    };
-    return _this;
+    return (0, _possibleConstructorReturn3.default)(this, (TableFooter.__proto__ || Object.getPrototypeOf(TableFooter)).apply(this, arguments));
   }
 
   (0, _createClass3.default)(TableFooter, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _props = this.props,
-          _props$data = _props.data,
-          data = _props$data === undefined ? [] : _props$data,
-          leafColumns = _props.leafColumns;
+    key: 'isCellHidden',
+    value: function isCellHidden(index, columns) {
+      var fixed = this.props.fixed;
 
-      if (this.props.getSummaries) {
-        var tableRow = this.props.getSummaries(leafColumns, data);
-        this.setState({
-          dataList: tableRow instanceof Array ? tableRow : []
-        });
-      } else {
-        for (var i = 0; i < leafColumns.length; i++) {
-          var total = 0;
-          for (var j = 0; j < data.length; j++) {
-            var value = data[j][leafColumns[i]['property']];
-
-            if (isNaN(value)) {
-              total = 'N/A';
-              break;
-            } else {
-              total += parseFloat(value);
-            }
-          }
-          this.state.dataList[i] = total;
+      if (fixed === true || fixed === 'left') {
+        return index >= this.leftFixedCount;
+      } else if (fixed === 'right') {
+        var before = 0;
+        for (var i = 0; i < index; i++) {
+          before += columns[i].colSpan;
         }
+        return before < this.columnsCount - this.rightFixedCount;
+      } else {
+        return index < this.leftFixedCount || index >= this.columnsCount - this.rightFixedCount;
       }
     }
   }, {
@@ -77,57 +72,89 @@ var TableFooter = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _props2 = this.props,
-          leafColumns = _props2.leafColumns,
-          sumText = _props2.sumText;
+      var _props = this.props,
+          store = _props.store,
+          layout = _props.layout,
+          fixed = _props.fixed,
+          summaryMethod = _props.summaryMethod,
+          sumText = _props.sumText;
 
+      var sums = summaryMethod ? summaryMethod(store.columns, store.data) : store.columns.map(function (column, index) {
+        if (index === 0) {
+          return sumText;
+        }
+        var result = store.data.reduce(function (pre, data) {
+          return pre + parseFloat((0, _utils.getValueByPath)(data, column.property));
+        }, 0);
+        return isNaN(result) ? '' : result;
+      });
 
-      return _react2.default.createElement(
-        'div',
-        { className: 'el-table__footer-wrapper' },
-        _react2.default.createElement(
-          'table',
-          { cellPadding: 0, cellSpacing: 0 },
-          _react2.default.createElement(
-            'colgroup',
+      return React.createElement(
+        'table',
+        {
+          className: 'el-table__footer',
+          cellSpacing: '0',
+          cellPadding: '0',
+          style: this.style({
+            borderSpacing: 0,
+            border: 0
+          })
+        },
+        React.createElement(
+          'colgroup',
+          null,
+          store.columns.map(function (column, index) {
+            return React.createElement('col', { width: column.realWidth, style: { width: column.realWidth }, key: index });
+          }),
+          !fixed && React.createElement('col', { width: layout.scrollY ? layout.gutterWidth : 0, style: { width: layout.scrollY ? layout.gutterWidth : 0 } })
+        ),
+        React.createElement(
+          'tbody',
+          null,
+          React.createElement(
+            'tr',
             null,
-            leafColumns.map(function (item, idx) {
-              return _react2.default.createElement('col', { key: idx, style: { width: item.width } });
+            store.columns.map(function (column, index) {
+              return React.createElement(
+                'td',
+                {
+                  key: index,
+                  colSpan: column.colSpan,
+                  rowSpan: column.rowSpan,
+                  className: _this2.className(column.headerAlign, column.className, column.labelClassName, column.columnKey, {
+                    'is-hidden': _this2.isCellHidden(index, store.columns),
+                    'is-leaf': !column.subColumns
+                  })
+                },
+                React.createElement(
+                  'div',
+                  { className: 'cell' },
+                  sums[index]
+                )
+              );
+            }),
+            !fixed && React.createElement('td', {
+              className: 'gutter',
+              style: { width: layout.scrollY ? layout.gutterWidth : 0 }
             })
-          ),
-          _react2.default.createElement(
-            'tbody',
-            null,
-            _react2.default.createElement(
-              'tr',
-              null,
-              leafColumns.map(function (column, idx) {
-                if (idx == 0) {
-                  return _react2.default.createElement(
-                    'td',
-                    { key: idx, style: { width: column.realWidth } },
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'cell' },
-                      sumText || "合计"
-                    )
-                  );
-                }
-
-                return _react2.default.createElement(
-                  'td',
-                  { key: idx, style: { width: column.realWidth } },
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'cell' },
-                    _this2.state.dataList[idx]
-                  )
-                );
-              })
-            )
           )
         )
       );
+    }
+  }, {
+    key: 'columnsCount',
+    get: function get() {
+      return this.props.store.columns.length;
+    }
+  }, {
+    key: 'leftFixedCount',
+    get: function get() {
+      return this.props.store.fixedColumns.length;
+    }
+  }, {
+    key: 'rightFixedCount',
+    get: function get() {
+      return this.props.store.rightFixedColumns.length;
     }
   }]);
   return TableFooter;
@@ -135,11 +162,6 @@ var TableFooter = function (_Component) {
 
 var _default = TableFooter;
 exports.default = _default;
-
-
-TableFooter.contextTypes = {
-  $owerTable: _libs.PropTypes.object
-};
 ;
 
 var _temp = function () {

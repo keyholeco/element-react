@@ -46,10 +46,8 @@ var DatePicker = function (_BasePicker) {
   (0, _inherits3.default)(DatePicker, _BasePicker);
   (0, _createClass3.default)(DatePicker, null, [{
     key: 'propTypes',
-
-    // why this is used, goto: http://exploringjs.com/es6/ch_classes.html
     get: function get() {
-      return Object.assign({}, _BasePicker3.default.propTypes, (0, _utils.pick)(_DatePanel2.default.propTypes, ['value', 'showTime', 'shortcuts', 'selectionMode', 'disabledDate', 'showWeekNumber', 'firstDayOfWeek']));
+      return Object.assign({}, _BasePicker3.default.propTypes, (0, _utils.pick)(_DatePanel2.default.propTypes, ['value', 'shortcuts', 'selectionMode', 'disabledDate', 'showWeekNumber', 'firstDayOfWeek', 'isShowTime']));
     }
   }, {
     key: 'defaultProps',

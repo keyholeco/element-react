@@ -72,6 +72,26 @@ var Transfer = function (_Component) {
   }
 
   (0, _createClass3.default)(Transfer, [{
+    key: '__addToRight__REACT_HOT_LOADER__',
+    value: function __addToRight__REACT_HOT_LOADER__() {
+      return this.__addToRight__REACT_HOT_LOADER__.apply(this, arguments);
+    }
+  }, {
+    key: '__addToLeft__REACT_HOT_LOADER__',
+    value: function __addToLeft__REACT_HOT_LOADER__() {
+      return this.__addToLeft__REACT_HOT_LOADER__.apply(this, arguments);
+    }
+  }, {
+    key: '__onTargetCheckedChange__REACT_HOT_LOADER__',
+    value: function __onTargetCheckedChange__REACT_HOT_LOADER__() {
+      return this.__onTargetCheckedChange__REACT_HOT_LOADER__.apply(this, arguments);
+    }
+  }, {
+    key: '__onSourceCheckedChange__REACT_HOT_LOADER__',
+    value: function __onSourceCheckedChange__REACT_HOT_LOADER__() {
+      return this.__onSourceCheckedChange__REACT_HOT_LOADER__.apply(this, arguments);
+    }
+  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
       var _props = this.props,

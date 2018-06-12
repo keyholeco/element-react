@@ -32,25 +32,25 @@ var _TimeSpinner = require('../basic/TimeSpinner');
 
 var _TimeSpinner2 = _interopRequireDefault(_TimeSpinner);
 
-var _utils2 = require('../../../libs/utils');
-
 var _locale = require('../../locale');
 
 var _locale2 = _interopRequireDefault(_locale);
+
+var _PopperBase2 = require('./PopperBase');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapPropsToState = function mapPropsToState(props) {
   var state = {
     format: props.format || 'HH:mm:ss',
-    currentDate: props.currentDate || Date()
+    currentDate: props.currentDate || new Date()
   };
   state.isShowSeconds = (state.format || '').indexOf('ss') !== -1;
   return state;
 };
 
-var TimePanel = function (_Component) {
-  (0, _inherits3.default)(TimePanel, _Component);
+var TimePanel = function (_PopperBase) {
+  (0, _inherits3.default)(TimePanel, _PopperBase);
   (0, _createClass3.default)(TimePanel, null, [{
     key: 'propTypes',
     get: function get() {
@@ -68,11 +68,8 @@ var TimePanel = function (_Component) {
         onPicked: _libs.PropTypes.func.isRequired,
         // cancel btn is clicked
         //()=>()
-        onCancel: _libs.PropTypes.func.isRequired,
-        //()=>HtmlElement
-        getPopperRefElement: _libs.PropTypes.func, //todo: make this dry
-        popperMixinOption: _libs.PropTypes.object
-      });
+        onCancel: _libs.PropTypes.func.isRequired
+      }, _PopperBase2.PopperBase.propTypes);
     }
   }, {
     key: 'defaultProps',
@@ -89,14 +86,6 @@ var TimePanel = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (TimePanel.__proto__ || Object.getPrototypeOf(TimePanel)).call(this, props));
 
     _this.state = mapPropsToState(props);
-    //todo: make this dry
-    _utils2.PopperReactMixin.call(_this, function () {
-      return _this.refs.root;
-    }, props.getPopperRefElement, Object.assign({
-      boundariesPadding: 0,
-      gpuAcceleration: false
-    }, props.popperMixinOption));
-
     return _this;
   }
 
@@ -208,7 +197,7 @@ var TimePanel = function (_Component) {
     }
   }]);
   return TimePanel;
-}(_libs.Component);
+}(_PopperBase2.PopperBase);
 
 var _default = TimePanel;
 exports.default = _default;

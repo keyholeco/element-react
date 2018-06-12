@@ -8,13 +8,13 @@ var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
 var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
@@ -26,29 +26,39 @@ var _react2 = _interopRequireDefault(_react);
 
 var _libs = require('../../../libs');
 
-var _utils = require('../../../libs/utils');
-
 var _dom = require('../../../libs/utils/dom');
 
 var _scrollbar = require('../../scrollbar');
 
+var _PopperBase2 = require('./PopperBase');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TimeSelectPanel = function (_Component) {
-  (0, _inherits3.default)(TimeSelectPanel, _Component);
+var TimeSelectPanel = function (_PopperBase) {
+  (0, _inherits3.default)(TimeSelectPanel, _PopperBase);
+  (0, _createClass3.default)(TimeSelectPanel, null, [{
+    key: 'propTypes',
+    get: function get() {
+      return Object.assign({
+        start: _libs.PropTypes.string,
+        end: _libs.PropTypes.string,
+        step: _libs.PropTypes.string,
+        minTime: _libs.PropTypes.string,
+        maxTime: _libs.PropTypes.string,
+        value: _libs.PropTypes.string,
+        onPicked: _libs.PropTypes.func,
+        //(string)=>date
+        dateParser: _libs.PropTypes.func.isRequired,
+        //()=>HtmlElement
+        getPopperRefElement: _libs.PropTypes.func,
+        popperMixinOption: _libs.PropTypes.object
+      }, _PopperBase2.PopperBase.propTypes);
+    }
+  }]);
 
   function TimeSelectPanel(props) {
     (0, _classCallCheck3.default)(this, TimeSelectPanel);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (TimeSelectPanel.__proto__ || Object.getPrototypeOf(TimeSelectPanel)).call(this, props));
-
-    _utils.PopperReactMixin.call(_this, function () {
-      return _this.refs.root;
-    }, _this.props.getPopperRefElement, Object.assign({
-      boundariesPadding: 0,
-      gpuAcceleration: false
-    }, props.popperMixinOption));
-    return _this;
+    return (0, _possibleConstructorReturn3.default)(this, (TimeSelectPanel.__proto__ || Object.getPrototypeOf(TimeSelectPanel)).call(this, props));
   }
 
   (0, _createClass3.default)(TimeSelectPanel, [{
@@ -125,7 +135,7 @@ var TimeSelectPanel = function (_Component) {
     }
   }]);
   return TimeSelectPanel;
-}(_libs.Component);
+}(_PopperBase2.PopperBase);
 
 var _default = TimeSelectPanel;
 exports.default = _default;
@@ -166,21 +176,6 @@ TimeSelectPanel.items = function (_ref2) {
     }
   }
   return result;
-};
-
-TimeSelectPanel.propTypes = {
-  start: _libs.PropTypes.string,
-  end: _libs.PropTypes.string,
-  step: _libs.PropTypes.string,
-  minTime: _libs.PropTypes.string,
-  maxTime: _libs.PropTypes.string,
-  value: _libs.PropTypes.string,
-  onPicked: _libs.PropTypes.func,
-  //(string)=>date
-  dateParser: _libs.PropTypes.func.isRequired,
-  //()=>HtmlElement
-  getPopperRefElement: _libs.PropTypes.func,
-  popperMixinOption: _libs.PropTypes.object
 };
 
 TimeSelectPanel.defaultProps = {

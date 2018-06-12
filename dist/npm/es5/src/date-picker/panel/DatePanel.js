@@ -8,13 +8,13 @@ var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
 var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
@@ -24,17 +24,33 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _libs = require('../../../libs');
 
 var _locale = require('../../locale');
 
 var _locale2 = _interopRequireDefault(_locale);
 
+var _input = require('../../input');
+
+var _input2 = _interopRequireDefault(_input);
+
+var _TimePanel = require('./TimePanel');
+
+var _TimePanel2 = _interopRequireDefault(_TimePanel);
+
+var _MountBody = require('../MountBody');
+
 var _utils = require('../utils');
 
 var _basic = require('../basic');
 
-var _utils2 = require('../../../libs/utils');
+var _PopperBase2 = require('./PopperBase');
+
+var _constants = require('../constants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,14 +58,39 @@ var PICKER_VIEWS = {
   YEAR: 'year',
   MONTH: 'month',
   DATE: 'date'
-
-  /*
-  handle todos:
-    handle timepicker inside this picker
-  */
 };
-var DatePanel = function (_Component) {
-  (0, _inherits3.default)(DatePanel, _Component);
+
+var DatePanel = function (_PopperBase) {
+  (0, _inherits3.default)(DatePanel, _PopperBase);
+  (0, _createClass3.default)(DatePanel, null, [{
+    key: 'propTypes',
+    get: function get() {
+
+      return Object.assign({
+        // user picked date value
+        // value: Date | null
+        value: _libs.PropTypes.instanceOf(Date),
+        // (Date)=>void
+        onPick: _libs.PropTypes.func.isRequired,
+        isShowTime: _libs.PropTypes.bool,
+        showWeekNumber: _libs.PropTypes.bool,
+        format: _libs.PropTypes.string,
+        // Array[{text: String, onClick: (picker)=>()}]
+        shortcuts: _libs.PropTypes.arrayOf(_libs.PropTypes.shape({
+          text: _libs.PropTypes.string.isRequired,
+          // ()=>()
+          onClick: _libs.PropTypes.func.isRequired
+        })),
+        selectionMode: _libs.PropTypes.oneOf(Object.keys(_utils.SELECTION_MODES).map(function (e) {
+          return _utils.SELECTION_MODES[e];
+        })),
+        // (Date)=>bool, if true, disabled
+        disabledDate: _libs.PropTypes.func,
+        firstDayOfWeek: _libs.PropTypes.range(0, 6)
+
+      }, _PopperBase2.PopperBase.propTypes);
+    }
+  }]);
 
   function DatePanel(props) {
     (0, _classCallCheck3.default)(this, DatePanel);
@@ -66,26 +107,25 @@ var DatePanel = function (_Component) {
 
     _this.state = {
       currentView: currentView,
+      timePickerVisible: false,
+      pickerWidth: 0,
       date: new Date() // current view's date
     };
 
     if (props.value) {
       _this.state.date = new Date(props.value);
     }
-
-    _utils2.PopperReactMixin.call(_this, function () {
-      return _this.refs.root;
-    }, props.getPopperRefElement, Object.assign({
-      boundariesPadding: 0,
-      gpuAcceleration: false
-    }, props.popperMixinOption));
     return _this;
   }
 
   (0, _createClass3.default)(DatePanel, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      var date = nextProps.value || new Date();
+      var date = new Date();
+      if (nextProps.value) {
+        date = (0, _utils.toDate)(nextProps.value);
+      }
+
       this.setState({ date: date });
     }
   }, {
@@ -194,25 +234,19 @@ var DatePanel = function (_Component) {
     value: function handleShortcutClick(shortcut) {
       shortcut.onClick();
     }
-
-    //todo:
-    // handleTimePick(picker, visible, first) {
-    // if (picker) {
-    //   let oldDate = new Date(this.date.getTime());
-    //   let hour = picker.getHours();
-    //   let minute = picker.getMinutes();
-    //   let second = picker.getSeconds();
-    //   oldDate.setHours(hour);
-    //   oldDate.setMinutes(minute);
-    //   oldDate.setSeconds(second);
-    //   this.date = new Date(oldDate.getTime());
-    // }
-
-    // if (!first) {
-    //   this.timePickerVisible = visible;
-    // }
-    // }
-
+  }, {
+    key: 'handleTimePick',
+    value: function handleTimePick(pickedDate, isKeepPanel) {
+      this.updateState(function (state) {
+        if (pickedDate) {
+          var oldDate = state.date;
+          oldDate.setHours(pickedDate.getHours());
+          oldDate.setMinutes(pickedDate.getMinutes());
+          oldDate.setSeconds(pickedDate.getSeconds());
+        }
+        state.timePickerVisible = isKeepPanel;
+      });
+    }
   }, {
     key: 'handleMonthPick',
     value: function handleMonthPick(month) {
@@ -244,12 +278,12 @@ var DatePanel = function (_Component) {
         var date = state.date;
         var _props = _this7.props,
             selectionMode = _props.selectionMode,
-            showTime = _props.showTime,
+            isShowTime = _props.isShowTime,
             onPick = _props.onPick;
 
         var pdate = value.date;
         if (selectionMode === _utils.SELECTION_MODES.DAY) {
-          if (!showTime) {
+          if (!isShowTime) {
             onPick(new Date(pdate.getTime()));
           }
           date.setTime(pdate.getTime());
@@ -263,24 +297,17 @@ var DatePanel = function (_Component) {
     value: function handleYearPick(year) {
       var _this8 = this;
 
-      var close = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
       this.updateState(function (state) {
         var _props2 = _this8.props,
             onPick = _props2.onPick,
             selectionMode = _props2.selectionMode;
         var date = state.date;
 
-
-        if (!close) {
-          date.setFullYear(year);
+        date.setFullYear(year);
+        if (selectionMode === _utils.SELECTION_MODES.YEAR) {
+          onPick(new Date(year, 0));
         } else {
-          date.setFullYear(year);
-          if (selectionMode === _utils.SELECTION_MODES.YEAR) {
-            onPick(new Date(year, 0));
-          } else {
-            state.currentView = PICKER_VIEWS.MONTH;
-          }
+          state.currentView = PICKER_VIEWS.MONTH;
         }
       });
     }
@@ -294,7 +321,23 @@ var DatePanel = function (_Component) {
   }, {
     key: 'confirm',
     value: function confirm() {
-      this.props.onPick(new Date(this.state.date));
+      this.props.onPick(new Date(this.state.date.getTime()));
+    }
+  }, {
+    key: 'resetView',
+    value: function resetView() {
+      var selectionMode = this.props.selectionMode;
+
+
+      this.updateState(function (state) {
+        if (selectionMode === _utils.SELECTION_MODES.MONTH) {
+          state.currentView = PICKER_VIEWS.MONTH;
+        } else if (selectionMode === _utils.SELECTION_MODES.YEAR) {
+          state.currentView = PICKER_VIEWS.YEAR;
+        } else {
+          state.currentView = PICKER_VIEWS.DATE;
+        }
+      });
     }
   }, {
     key: 'yearLabel',
@@ -316,11 +359,11 @@ var DatePanel = function (_Component) {
       }
       return year + ' ' + yearTranslation;
     }
-
-    // end: ------ public methods
-
   }, {
     key: '_pickerContent',
+
+
+    // end: ------ public methods
     value: function _pickerContent() {
       var _props3 = this.props,
           value = _props3.value,
@@ -373,11 +416,13 @@ var DatePanel = function (_Component) {
       var _this9 = this;
 
       var _props4 = this.props,
-          showTime = _props4.showTime,
+          isShowTime = _props4.isShowTime,
           shortcuts = _props4.shortcuts;
       var _state4 = this.state,
           currentView = _state4.currentView,
-          date = _state4.date;
+          date = _state4.date,
+          pickerWidth = _state4.pickerWidth,
+          timePickerVisible = _state4.timePickerVisible;
 
       var _deconstructDate7 = (0, _utils.deconstructDate)(date),
           month = _deconstructDate7.month;
@@ -390,8 +435,9 @@ var DatePanel = function (_Component) {
           ref: 'root',
           className: this.classNames('el-picker-panel el-date-picker', {
             'has-sidebar': shortcuts,
-            'has-time': showTime
-          }) },
+            'has-time': isShowTime
+          })
+        },
         _react2.default.createElement(
           'div',
           { className: 'el-picker-panel__body-wrapper' },
@@ -415,29 +461,63 @@ var DatePanel = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'el-picker-panel__body' },
-            showTime && _react2.default.createElement(
+            isShowTime && _react2.default.createElement(
               'div',
               { className: 'el-date-picker__time-header' },
               _react2.default.createElement(
                 'span',
                 { className: 'el-date-picker__editor-wrap' },
-                _react2.default.createElement('input', {
-                  placehoder: t('el.datepicker.selectDate'),
-                  type: 'text',
-                  className: 'el-date-picker__editor' })
+                _react2.default.createElement(_input2.default, {
+                  placeholder: t('el.datepicker.selectDate'),
+                  value: this.visibleDate,
+                  size: 'small',
+                  onChange: function onChange(date) {
+                    return _this9.visibleDate = date;
+                  }
+                })
               ),
               _react2.default.createElement(
                 'span',
                 { className: 'el-date-picker__editor-wrap' },
-                _react2.default.createElement('input', {
+                _react2.default.createElement(_input2.default, {
                   ref: 'input',
                   onFocus: function onFocus() {
-                    //todo:
-                    // timePickerVisible = !timePickerVisible
+                    return _this9.setState({ timePickerVisible: !_this9.state.timePickerVisible });
                   },
                   placeholder: t('el.datepicker.selectTime'),
-                  type: 'text',
-                  className: 'el-date-picker__editor' })
+                  value: this.visibleTime,
+                  size: 'small',
+                  onChange: function onChange(date) {
+                    return _this9.visibleDate = date;
+                  }
+                }),
+                timePickerVisible && _react2.default.createElement(
+                  _MountBody.MountBody,
+                  null,
+                  _react2.default.createElement(_TimePanel2.default, {
+                    ref: 'timepicker',
+                    currentDate: new Date(date.getTime()) /* should i dont mutate date directly here ? */,
+                    pickerWidth: pickerWidth
+                    /* 
+                    todo: pickerWidth? in original elmenent repo, this width is set by getting input with using getClientRect() method  
+                    but it seems work even though I purposely leave this logic unimplemented. To be honest it would require some hack to get 
+                    this actually done, since I can't do any setState method on componentDidUpdate method. 
+                    DateRangePicker has same issue
+                    */
+                    ,
+                    onPicked: this.handleTimePick.bind(this),
+                    format: this.timeFormat,
+                    getPopperRefElement: function getPopperRefElement() {
+                      return _reactDom2.default.findDOMNode(_this9.refs.input);
+                    },
+                    popperMixinOption: {
+                      placement: _constants.PLACEMENT_MAP[this.props.align] || _constants.PLACEMENT_MAP.left
+                    },
+                    onCancel: function onCancel() {
+                      return _this9.setState({ timePickerVisible: false });
+                    }
+                  })
+                )
               )
             ),
             currentView !== 'time' && _react2.default.createElement(
@@ -484,7 +564,7 @@ var DatePanel = function (_Component) {
             )
           )
         ),
-        showTime && currentView === PICKER_VIEWS.DATE && _react2.default.createElement(
+        isShowTime && currentView === PICKER_VIEWS.DATE && _react2.default.createElement(
           'div',
           {
             className: 'el-picker-panel__footer' },
@@ -509,44 +589,72 @@ var DatePanel = function (_Component) {
         )
       );
     }
+  }, {
+    key: 'visibleTime',
+    get: function get() {
+      return (0, _utils.formatDate)(this.state.date, this.timeFormat);
+    },
+    set: function set(val) {
+      if (val) {
+        var ndate = (0, _utils.parseDate)(val, this.timeFormat);
+        var date = this.state.date;
+
+        if (ndate) {
+          ndate.setFullYear(date.getFullYear());
+          ndate.setMonth(date.getMonth());
+          ndate.setDate(date.getDate());
+          this.setState({ date: ndate, timePickerVisible: false });
+        }
+      }
+    }
+  }, {
+    key: 'visibleDate',
+    get: function get() {
+      return (0, _utils.formatDate)(this.state.date, this.dateFormat);
+    },
+    set: function set(val) {
+      var ndate = (0, _utils.parseDate)(val, this.dateFormat);
+      if (!ndate) {
+        return;
+      }
+      var disabledDate = this.props.disabledDate;
+      var date = this.state.date;
+
+      if (typeof disabledDate === 'function' && disabledDate(ndate)) {
+        return;
+      }
+      ndate.setHours(date.getHours());
+      ndate.setMinutes(date.getMinutes());
+      ndate.setSeconds(date.getSeconds());
+      this.setState({ date: ndate });
+      this.resetView();
+    }
+  }, {
+    key: 'timeFormat',
+    get: function get() {
+      var format = this.props.format;
+
+      if (format && format.indexOf('ss') === -1) {
+        return 'HH:mm';
+      } else {
+        return 'HH:mm:ss';
+      }
+    }
+  }, {
+    key: 'dateFormat',
+    get: function get() {
+      if (this.props.format) return this.props.format.replace('HH:mm', '').replace(':ss', '').trim();else return 'yyyy-MM-dd';
+    }
   }]);
   return DatePanel;
-}(_libs.Component);
+}(_PopperBase2.PopperBase);
 
 var _default = DatePanel;
 exports.default = _default;
 
 
-DatePanel.propTypes = {
-  // user picked date value
-  // value: Date | null
-  value: _libs.PropTypes.instanceOf(Date),
-  // todo:
-  onPick: _libs.PropTypes.func.isRequired,
-  showTime: _libs.PropTypes.bool,
-  showWeekNumber: _libs.PropTypes.bool,
-  format: _libs.PropTypes.string,
-  // Array[{text: String, onClick: (picker)=>()}]
-  shortcuts: _libs.PropTypes.arrayOf(_libs.PropTypes.shape({
-    text: _libs.PropTypes.string.isRequired,
-    // ()=>()
-    onClick: _libs.PropTypes.func.isRequired
-  })),
-  selectionMode: _libs.PropTypes.oneOf(Object.keys(_utils.SELECTION_MODES).map(function (e) {
-    return _utils.SELECTION_MODES[e];
-  })),
-  // (Date)=>bool, if true, disabled
-  disabledDate: _libs.PropTypes.func,
-  firstDayOfWeek: _libs.PropTypes.range(0, 6),
-
-  //()=>HtmlElement
-  getPopperRefElement: _libs.PropTypes.func,
-  popperMixinOption: _libs.PropTypes.object
-};
-
 DatePanel.defaultProps = {
-  showTime: false,
-  timePickerVisible: false,
+  isShowTime: false,
   selectionMode: _utils.SELECTION_MODES.DAY
 };
 ;

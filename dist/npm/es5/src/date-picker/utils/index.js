@@ -109,10 +109,19 @@ var getStartDateOfMonth = exports.getStartDateOfMonth = function getStartDateOfM
   return result;
 };
 
+/**
+ * 
+ * @export
+ * @param {any} day , first day of current month, 0 - 6
+ * @param {number} [offsetWeek=0, 0-6, 0 sunday, 6 saturday] 
+ * @returns 
+ */
 function getOffsetToWeekOrigin(day) {
   var offsetWeek = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-  return day >= offsetWeek ? day - offsetWeek : 7 + day - offsetWeek;
+  var offset = day >= offsetWeek ? day - offsetWeek : 7 + day - offsetWeek;
+  offset = offset === 0 ? 7 : offset; // if the two days collide, we force 7 days padding
+  return offset;
 }
 
 var getWeekNumber = exports.getWeekNumber = function getWeekNumber(src) {
@@ -155,22 +164,22 @@ var prevMonth = exports.prevMonth = function prevMonth(src) {
 };
 
 var nextMonth = exports.nextMonth = function nextMonth(src) {
-  var year = src.getFullYear();
-  var month = src.getMonth();
-  var date = src.getDate();
+  var clone = new Date(src.getTime());
+  var year = clone.getFullYear();
+  var month = clone.getMonth();
+  var date = clone.getDate();
 
   var newYear = month === 11 ? year + 1 : year;
   var newMonth = month === 11 ? 0 : month + 1;
 
   var newMonthDayCount = getDayCountOfMonth(newYear, newMonth);
   if (newMonthDayCount < date) {
-    src.setDate(newMonthDayCount);
+    clone.setDate(newMonthDayCount);
   }
 
-  src.setMonth(newMonth);
-  src.setFullYear(newYear);
-
-  return new Date(src.getTime());
+  clone.setMonth(newMonth);
+  clone.setFullYear(newYear);
+  return clone;
 };
 
 var getRangeHours = exports.getRangeHours = function getRangeHours(ranges) {

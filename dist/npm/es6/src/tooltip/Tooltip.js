@@ -27,61 +27,42 @@ var Tooltip = function (_Component) {
     }
   };
 
-  Tooltip.prototype.componentDidUpdate = function componentDidUpdate() {
-    var showPopper = this.state.showPopper;
-
-
-    if (showPopper) {
-      if (this.popperJS) {
-        this.popperJS.update();
-      } else {
-        var _refs = this.refs,
-            popper = _refs.popper,
-            reference = _refs.reference,
-            arrow = _refs.arrow;
-        var placement = this.props.placement;
-
-
-        if (arrow) {
-          arrow.setAttribute('x-arrow', '');
-        }
-
-        this.popperJS = new Popper(reference, popper, { placement: placement });
-      }
-    } else {
-      if (this.popperJS) {
-        this.popperJS.destroy();
-      }
-
-      delete this.popperJS;
-    }
-  };
-
-  Tooltip.prototype.componentWillUnmount = function componentWillUnmount() {
-    if (this.popperJS) {
-      this.popperJS.destroy();
-    }
-  };
-
   Tooltip.prototype.showPopper = function showPopper() {
     var _this2 = this;
 
-    if (this.props.manual) return;
-
-    this.timeout = setTimeout(function () {
-      _this2.setState({ showPopper: true });
-    }, this.props.openDelay);
+    if (!this.props.manual) {
+      this.timeout = setTimeout(function () {
+        _this2.setState({ showPopper: true });
+      }, this.props.openDelay);
+    }
   };
 
   Tooltip.prototype.hidePopper = function hidePopper() {
-    if (this.props.manual) return;
-
-    clearTimeout(this.timeout);
-    this.setState({ showPopper: false });
+    if (!this.props.manual) {
+      clearTimeout(this.timeout);
+      this.setState({ showPopper: false });
+    }
   };
 
-  Tooltip.prototype.updatePopper = function updatePopper() {
-    this.popperJS.update();
+  Tooltip.prototype.onEnter = function onEnter() {
+    var _refs = this.refs,
+        popper = _refs.popper,
+        reference = _refs.reference,
+        arrow = _refs.arrow;
+
+
+    if (arrow) {
+      arrow.setAttribute('x-arrow', '');
+    }
+
+    this.popperJS = new Popper(reference, popper, {
+      placement: this.props.placement,
+      gpuAcceleration: false
+    });
+  };
+
+  Tooltip.prototype.onAfterLeave = function onAfterLeave() {
+    this.popperJS.destroy();
   };
 
   Tooltip.prototype.render = function render() {
@@ -105,12 +86,12 @@ var Tooltip = function (_Component) {
           this.props.children
         )
       ),
-      React.createElement(
+      !disabled && React.createElement(
         Transition,
-        { name: transition },
+        { name: transition, onEnter: this.onEnter.bind(this), onAfterLeave: this.onAfterLeave.bind(this) },
         React.createElement(
           View,
-          { show: !disabled && this.state.showPopper },
+          { show: this.state.showPopper },
           React.createElement(
             'div',
             { ref: 'popper', className: this.classNames("el-tooltip__popper", 'is-' + effect) },

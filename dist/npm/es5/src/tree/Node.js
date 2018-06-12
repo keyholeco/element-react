@@ -40,10 +40,6 @@ var _libs = require('../../libs');
 
 var _utils = require('../../libs/utils');
 
-var _CollapseTransition = require('./CollapseTransition');
-
-var _CollapseTransition2 = _interopRequireDefault(_CollapseTransition);
-
 var _checkbox = require('../checkbox');
 
 var _checkbox2 = _interopRequireDefault(_checkbox);
@@ -324,7 +320,7 @@ var Node = function (_Component) {
           })
         ),
         _react2.default.createElement(
-          _CollapseTransition2.default,
+          _libs.CollapseTransition,
           { isShow: expanded, ref: 'collapse' },
           _react2.default.createElement(
             'div',

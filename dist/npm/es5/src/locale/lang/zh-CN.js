@@ -108,7 +108,7 @@ var _default = {
   }
 };
 exports.default = _default;
-
+;
 
 var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
@@ -118,3 +118,4 @@ var _temp = function () {
   __REACT_HOT_LOADER__.register(_default, 'default', 'src/locale/lang/zh-CN.js');
 }();
 
+;

@@ -4,12 +4,12 @@ import _createClass from 'babel-runtime/helpers/createClass';
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
 
-import { PropTypes, Component } from '../../../libs';
+import { PropTypes } from '../../../libs';
 import { limitRange, parseDate } from '../utils';
 import TimeSpinner from '../basic/TimeSpinner';
-import { PopperReactMixin } from '../../../libs/utils';
 import Locale from '../../locale';
 
+import { PopperBase } from './PopperBase';
 
 var MIN_TIME = parseDate('00:00:00', 'HH:mm:ss');
 var MAX_TIME = parseDate('23:59:59', 'HH:mm:ss');
@@ -53,13 +53,13 @@ var mapPropsToState = function mapPropsToState(props) {
   return state;
 };
 
-var TimeRangePanel = function (_Component) {
-  _inherits(TimeRangePanel, _Component);
+var TimeRangePanel = function (_PopperBase) {
+  _inherits(TimeRangePanel, _PopperBase);
 
   _createClass(TimeRangePanel, null, [{
     key: 'propTypes',
     get: function get() {
-      return Object.assign({}, {
+      return Object.assign({
         pickerWidth: PropTypes.number,
         currentDates: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
         /*
@@ -72,11 +72,8 @@ var TimeRangePanel = function (_Component) {
         //()=>()
         onCancel: PropTypes.func.isRequired,
         // (start, end)=>(), index range indicate which field [hours, minutes, seconds] changes
-        onSelectRangeChange: TimeSpinner.propTypes.onSelectRangeChange,
-        //()=>HtmlElement
-        getPopperRefElement: PropTypes.func,
-        popperMixinOption: PropTypes.object
-      });
+        onSelectRangeChange: TimeSpinner.propTypes.onSelectRangeChange
+      }, PopperBase.propTypes);
     }
   }, {
     key: 'defaultProps',
@@ -90,19 +87,12 @@ var TimeRangePanel = function (_Component) {
   function TimeRangePanel(props) {
     _classCallCheck(this, TimeRangePanel);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+    var _this = _possibleConstructorReturn(this, _PopperBase.call(this, props));
 
     _this.state = Object.assign({
       visible: false,
       width: 0
     }, mapPropsToState(props));
-
-    PopperReactMixin.call(_this, function () {
-      return _this.refs.root;
-    }, props.getPopperRefElement, Object.assign({
-      boundariesPadding: 0,
-      gpuAcceleration: false
-    }, props.popperMixinOption));
     return _this;
   }
 
@@ -276,6 +266,6 @@ var TimeRangePanel = function (_Component) {
   };
 
   return TimeRangePanel;
-}(Component);
+}(PopperBase);
 
 export default TimeRangePanel;

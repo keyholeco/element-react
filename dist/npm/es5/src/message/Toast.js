@@ -63,24 +63,20 @@ var Toast = function (_Component) {
   }, {
     key: 'onClose',
     value: function onClose() {
-      var _this2 = this;
-
       this.stopTimer();
 
       this.setState({
         visible: false
-      }, function () {
-        _this2.props.willUnmount();
       });
     }
   }, {
     key: 'startTimer',
     value: function startTimer() {
-      var _this3 = this;
+      var _this2 = this;
 
       if (this.props.duration > 0) {
         this.timeout = setTimeout(function () {
-          _this3.onClose();
+          _this2.onClose();
         }, this.props.duration);
       }
     }
@@ -92,6 +88,8 @@ var Toast = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var _props = this.props,
           iconClass = _props.iconClass,
           customClass = _props.customClass;
@@ -99,10 +97,12 @@ var Toast = function (_Component) {
 
       return _react2.default.createElement(
         _libs.Transition,
-        { name: 'el-message-fade', duration: '300' },
+        { name: 'el-message-fade', onAfterLeave: function onAfterLeave() {
+            _this3.props.willUnmount();
+          } },
         _react2.default.createElement(
           _libs.View,
-          { key: this.state.visible, show: this.state.visible },
+          { show: this.state.visible },
           _react2.default.createElement(
             'div',
             { className: this.classNames('el-message', customClass), onMouseEnter: this.stopTimer.bind(this), onMouseLeave: this.startTimer.bind(this) },
@@ -132,7 +132,7 @@ exports.default = _default;
 
 Toast.propTypes = {
   type: _libs.PropTypes.oneOf(['success', 'warning', 'info', 'error']),
-  message: _libs.PropTypes.string.isRequired,
+  message: _libs.PropTypes.oneOfType([_libs.PropTypes.string, _libs.PropTypes.element]).isRequired,
   duration: _libs.PropTypes.number,
   showClose: _libs.PropTypes.bool,
   customClass: _libs.PropTypes.string,

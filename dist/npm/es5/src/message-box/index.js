@@ -79,14 +79,10 @@ function next(props) {
 
     var component = _react2.default.createElement(_MessageBox2.default, Object.assign({}, props, {
       promise: { resolve: resolve, reject: reject },
-      onClose: function onClose() {
+      willUnmount: function willUnmount() {
         _reactDom2.default.unmountComponentAtNode(div);
         document.body.removeChild(div);
         document.body.style.removeProperty('overflow');
-
-        if (props.onClose instanceof Function) {
-          props.onClose();
-        }
       }
     }));
 

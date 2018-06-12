@@ -70,31 +70,6 @@ var Popover = function (_Component) {
     }
   };
 
-  Popover.prototype.componentDidUpdate = function componentDidUpdate() {
-    var showPopper = this.state.showPopper;
-
-
-    if (showPopper) {
-      if (this.popperJS) {
-        this.popperJS.update();
-      } else {
-        if (this.refs.arrow) {
-          this.refs.arrow.setAttribute('x-arrow', '');
-        }
-
-        this.popperJS = new Popper(this.reference, this.refs.popper, {
-          placement: this.props.placement
-        });
-      }
-    } else {
-      if (this.popperJS) {
-        this.popperJS.destroy();
-      }
-
-      delete this.popperJS;
-    }
-  };
-
   Popover.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
     if (props.visible != this.props.visible) {
       this.setState({
@@ -105,10 +80,6 @@ var Popover = function (_Component) {
 
   Popover.prototype.componentWillUnmount = function componentWillUnmount() {
     this.reference.parentNode.replaceChild(this.reference.cloneNode(true), this.reference);
-
-    if (this.popperJS) {
-      this.popperJS.destroy();
-    }
   };
 
   Popover.prototype.handleMouseEnter = function handleMouseEnter() {
@@ -129,6 +100,21 @@ var Popover = function (_Component) {
     }, 200);
   };
 
+  Popover.prototype.onEnter = function onEnter() {
+    if (this.refs.arrow) {
+      this.refs.arrow.setAttribute('x-arrow', '');
+    }
+
+    this.popperJS = new Popper(this.reference, this.refs.popper, {
+      placement: this.props.placement,
+      gpuAcceleration: false
+    });
+  };
+
+  Popover.prototype.onAfterLeave = function onAfterLeave() {
+    this.popperJS.destroy();
+  };
+
   Popover.prototype.render = function render() {
     var _props = this.props,
         transition = _props.transition,
@@ -144,7 +130,7 @@ var Popover = function (_Component) {
       null,
       React.createElement(
         Transition,
-        { name: transition, duration: 200 },
+        { name: transition, onEnter: this.onEnter.bind(this), onAfterLeave: this.onAfterLeave.bind(this) },
         React.createElement(
           View,
           { show: this.state.showPopper },

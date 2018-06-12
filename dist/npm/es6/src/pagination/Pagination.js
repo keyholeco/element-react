@@ -11,7 +11,7 @@ var Pre = function Pre(props) {
   var disabled = props.internalCurrentPage <= 1 ? 'disabled' : '';
   return React.createElement(
     'button',
-    { className: 'btn-prev ' + disabled, onClick: props.prev },
+    { type: 'button', className: 'btn-prev ' + disabled, onClick: props.prev },
     React.createElement('i', { className: 'el-icon el-icon-arrow-left' })
   );
 };
@@ -21,7 +21,7 @@ var Next = function Next(props) {
 
   return React.createElement(
     'button',
-    { className: 'btn-next ' + disabled, onClick: props.next },
+    { type: 'button', className: 'btn-next ' + disabled, onClick: props.next },
     React.createElement('i', { className: 'el-icon el-icon-arrow-right' })
   );
 };

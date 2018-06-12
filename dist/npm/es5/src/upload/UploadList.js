@@ -60,88 +60,96 @@ var UploadList = function (_Component) {
       return _react2.default.createElement(
         _libs.Transition,
         {
-          component: 'ul',
-          className: this.classNames((0, _defineProperty3.default)({
-            'el-upload-list': true
-          }, 'el-upload-list--' + listType, true)),
           name: 'list'
         },
-        fileList.map(function (file) {
-          return _react2.default.createElement(
-            'li',
-            {
-              className: _this2.classNames((0, _defineProperty3.default)({
-                'el-upload-list__item': true
-              }, 'is-' + file.status, true)),
-              key: file.uid
-            },
-            ['picture-card', 'picture'].includes(listType) && isFinished(file.status) && _react2.default.createElement('img', {
-              className: 'el-upload-list__item-thumbnail',
-              src: file.url,
-              alt: ''
-            }),
-            _react2.default.createElement(
-              'a',
+        _react2.default.createElement(
+          'ul',
+          {
+            className: this.classNames((0, _defineProperty3.default)({
+              'el-upload-list': true
+            }, 'el-upload-list--' + listType, true))
+          },
+          fileList.map(function (file) {
+            return _react2.default.createElement(
+              'li',
               {
-                className: 'el-upload-list__item-name',
-                onClick: function onClick() {
-                  return onPreview(file);
-                }
+                className: _this2.classNames((0, _defineProperty3.default)({
+                  'el-upload-list__item': true
+                }, 'is-' + file.status, true)),
+                key: file.uid
               },
-              _react2.default.createElement('i', { className: 'el-icon-document' }),
-              file.name
-            ),
-            _react2.default.createElement(
-              'label',
-              {
-                className: 'el-upload-list__item-status-label'
-              },
-              _react2.default.createElement('i', {
-                className: _this2.classNames({
-                  'el-icon-upload-success': true,
-                  'el-icon-circle-check': listType === 'text',
-                  'el-icon-check': ['picture-card', 'picture'].includes(listType)
-                })
-              })
-            ),
-            _react2.default.createElement('i', { className: 'el-icon-close', onClick: function onClick() {
-                return onRemove(file);
-              } }),
-            _react2.default.createElement(
-              _libs.View,
-              {
-                className: 'el-upload-list__item-actions',
-                show: listType === 'picture-card' && isFinished(file.status)
-              },
+              ['picture-card', 'picture'].includes(listType) && isFinished(file.status) && _react2.default.createElement('img', {
+                className: 'el-upload-list__item-thumbnail',
+                src: file.url,
+                alt: ''
+              }),
               _react2.default.createElement(
-                'span',
+                'a',
                 {
+                  className: 'el-upload-list__item-name',
                   onClick: function onClick() {
                     return onPreview(file);
-                  },
-                  className: 'el-upload-list__item-preview'
-                },
-                _react2.default.createElement('i', { className: 'el-icon-view' })
-              ),
-              _react2.default.createElement(
-                'span',
-                {
-                  className: 'el-upload-list__item-delete',
-                  onClick: function onClick() {
-                    return onRemove(file);
                   }
                 },
-                _react2.default.createElement('i', { className: 'el-icon-delete2' })
-              )
-            ),
-            file.status === 'uploading' && _react2.default.createElement(_src.Progress, {
-              strokeWidth: listType === 'picture-card' ? 6 : 2,
-              type: listType === 'picture-card' ? 'circle' : 'line',
-              percentage: parseInt(file.percentage, 10),
-              status: isFinished(file.status) && file.showProgress ? 'success' : ''
-            })
-          );
-        })
+                _react2.default.createElement('i', { className: 'el-icon-document' }),
+                file.name
+              ),
+              _react2.default.createElement(
+                'label',
+                {
+                  className: 'el-upload-list__item-status-label'
+                },
+                _react2.default.createElement('i', {
+                  className: _this2.classNames({
+                    'el-icon-upload-success': true,
+                    'el-icon-circle-check': listType === 'text',
+                    'el-icon-check': ['picture-card', 'picture'].includes(listType)
+                  })
+                })
+              ),
+              _react2.default.createElement('i', { className: 'el-icon-close', onClick: function onClick() {
+                  return onRemove(file);
+                } }),
+              _react2.default.createElement(
+                _libs.View,
+                {
+                  className: 'el-upload-list__item-actions',
+                  show: listType === 'picture-card' && isFinished(file.status)
+                },
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  _react2.default.createElement(
+                    'span',
+                    {
+                      onClick: function onClick() {
+                        return onPreview(file);
+                      },
+                      className: 'el-upload-list__item-preview'
+                    },
+                    _react2.default.createElement('i', { className: 'el-icon-view' })
+                  ),
+                  _react2.default.createElement(
+                    'span',
+                    {
+                      className: 'el-upload-list__item-delete',
+                      onClick: function onClick() {
+                        return onRemove(file);
+                      }
+                    },
+                    _react2.default.createElement('i', { className: 'el-icon-delete2' })
+                  )
+                )
+              ),
+              file.status === 'uploading' && _react2.default.createElement(_src.Progress, {
+                strokeWidth: listType === 'picture-card' ? 6 : 2,
+                type: listType === 'picture-card' ? 'circle' : 'line',
+                percentage: parseInt(file.percentage, 10),
+                status: isFinished(file.status) && file.showProgress ? 'success' : ''
+              })
+            );
+          })
+        )
       );
     }
   }]);

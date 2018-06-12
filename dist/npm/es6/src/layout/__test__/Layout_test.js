@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, render } from 'enzyme';
 
 import Layout from '../';
 
@@ -105,12 +105,22 @@ describe('Layout test', function () {
         React.createElement('div', { className: 'grid-content bg-purple-light' })
       )
     ));
+    var w6 = mount(React.createElement(
+      Layout.Row,
+      null,
+      React.createElement(
+        Layout.Col,
+        { span: '0' },
+        React.createElement('div', { className: 'grid-content bg-purple' })
+      )
+    ));
     expect(w1.find('.el-row .el-col-24 .grid-content').exists()).toBeTruthy();
     expect(w1.find('.el-row .el-col-24').length).toBe(1);
     expect(w2.find('.el-row .el-col-12').length).toBe(2);
     expect(w3.find('.el-row .el-col-8').length).toBe(3);
     expect(w4.find('.el-row .el-col-6').length).toBe(4);
     expect(w5.find('.el-row .el-col-4').length).toBe(6);
+    expect(w6.find('.el-row .el-col-0').length).toBe(1);
   });
 
   it('Column spacing', function () {
@@ -256,7 +266,7 @@ describe('Layout test', function () {
   });
 
   it('Alignment', function () {
-    var w1 = mount(React.createElement(
+    var w1 = render(React.createElement(
       Layout.Row,
       { type: 'flex', className: 'row-bg' },
       React.createElement(
@@ -275,7 +285,7 @@ describe('Layout test', function () {
         React.createElement('div', { className: 'grid-content bg-purple' })
       )
     ));
-    var w2 = mount(React.createElement(
+    var w2 = render(React.createElement(
       Layout.Row,
       { type: 'flex', className: 'row-bg', justify: 'center' },
       React.createElement(
@@ -294,7 +304,7 @@ describe('Layout test', function () {
         React.createElement('div', { className: 'grid-content bg-purple' })
       )
     ));
-    var w3 = mount(React.createElement(
+    var w3 = render(React.createElement(
       Layout.Row,
       { type: 'flex', className: 'row-bg', justify: 'end' },
       React.createElement(
@@ -313,7 +323,7 @@ describe('Layout test', function () {
         React.createElement('div', { className: 'grid-content bg-purple' })
       )
     ));
-    var w4 = mount(React.createElement(
+    var w4 = render(React.createElement(
       Layout.Row,
       { type: 'flex', className: 'row-bg', justify: 'space-between' },
       React.createElement(
@@ -332,7 +342,7 @@ describe('Layout test', function () {
         React.createElement('div', { className: 'grid-content bg-purple' })
       )
     ));
-    var w5 = mount(React.createElement(
+    var w5 = render(React.createElement(
       Layout.Row,
       { type: 'flex', className: 'row-bg', justify: 'space-around' },
       React.createElement(
@@ -383,8 +393,18 @@ describe('Layout test', function () {
         React.createElement('div', { className: 'grid-content bg-purple-light' })
       )
     ));
+    var w1 = mount(React.createElement(
+      Layout.Row,
+      { gutter: '10' },
+      React.createElement(
+        Layout.Col,
+        { xs: '0', sm: '6', md: '4', lg: '3' },
+        React.createElement('div', { className: 'grid-content bg-purple' })
+      )
+    ));
     expect(w.find('.el-col-24.el-col-xs-8.el-col-sm-6.el-col-md-4.el-col-lg-3').length).toBe(2);
     expect(w.find('.el-col-24.el-col-xs-4.el-col-sm-6.el-col-md-8.el-col-lg-9').length).toBe(2);
+    expect(w1.find('.el-col-24.el-col-xs-0.el-col-sm-6.el-col-md-4.el-col-lg-3').length).toBe(1);
   });
 
   it('Row custom tag', function () {
@@ -414,7 +434,7 @@ describe('Layout test', function () {
   });
 
   it('Row with align', function () {
-    var w1 = mount(React.createElement(
+    var w1 = render(React.createElement(
       Layout.Row,
       { type: 'flex', align: 'middle', className: 'row-bg' },
       React.createElement(
@@ -433,7 +453,7 @@ describe('Layout test', function () {
         React.createElement('div', { className: 'grid-content bg-purple' })
       )
     ));
-    var w2 = mount(React.createElement(
+    var w2 = render(React.createElement(
       Layout.Row,
       { type: 'flex', align: 'bottom', className: 'row-bg' },
       React.createElement(

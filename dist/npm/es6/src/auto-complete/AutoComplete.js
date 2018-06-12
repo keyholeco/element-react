@@ -70,12 +70,16 @@ var AutoComplete = function (_Component) {
       this.setState({ suggestions: [] });return;
     }
 
+    if (this.props.onChange) {
+      this.props.onChange(value);
+    }
+
     this.getData(value);
   };
 
-  AutoComplete.prototype.handleFocus = function handleFocus() {
+  AutoComplete.prototype.handleFocus = function handleFocus(e) {
     this.setState({ isFocus: true });
-
+    if (this.props.onFocus) this.props.onFocus(e);
     if (this.props.triggerOnFocus) {
       this.getData(this.state.inputValue);
     }
@@ -197,6 +201,7 @@ var AutoComplete = function (_Component) {
         onIconClick: onIconClick,
         onChange: this.handleChange.bind(this),
         onFocus: this.handleFocus.bind(this),
+        onBlur: this.props.onBlur,
         onKeyDown: this.onKeyDown.bind(this)
       }),
       React.createElement(Suggestions, {

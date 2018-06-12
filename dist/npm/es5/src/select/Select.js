@@ -114,6 +114,8 @@ var Select = function (_Component) {
     _this.debouncedOnInputChange = (0, _debounce2.default)(_this.debounce(), function () {
       _this.onInputChange();
     });
+
+    _this.resetInputWidth = _this._resetInputWidth.bind(_this);
     return _this;
   }
 
@@ -127,8 +129,6 @@ var Select = function (_Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      (0, _resizeEvent.addResizeListener)(this.refs.root, this.resetInputWidth.bind(this));
-
       this.reference = _reactDom2.default.findDOMNode(this.refs.reference);
       this.popper = _reactDom2.default.findDOMNode(this.refs.popper);
 
@@ -181,35 +181,13 @@ var Select = function (_Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
-      var visible = this.state.visible;
-
-
-      if (visible) {
-        if (this.popperJS) {
-          this.popperJS.update();
-        } else {
-          this.popperJS = new _popper2.default(this.reference, this.popper, {
-            gpuAcceleration: false
-          });
-        }
-      } else {
-        if (this.popperJS) {
-          this.popperJS.destroy();
-        }
-
-        delete this.popperJS;
-      }
-
       this.state.inputWidth = this.reference.getBoundingClientRect().width;
+      (0, _resizeEvent.addResizeListener)(this.refs.root, this.resetInputWidth);
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      (0, _resizeEvent.removeResizeListener)(this.refs.root, this.resetInputWidth.bind(this));
-
-      if (this.popperJS) {
-        this.popperJS.destroy();
-      }
+      (0, _resizeEvent.removeResizeListener)(this.refs.root, this.resetInputWidth);
     }
   }, {
     key: 'debounce',
@@ -381,6 +359,8 @@ var Select = function (_Component) {
             _this4.addOptionToValue(option);
           }
         });
+
+        this.forceUpdate();
       }
 
       if (!multiple) {
@@ -390,15 +370,15 @@ var Select = function (_Component) {
 
         if (option) {
           this.addOptionToValue(option);
+          this.setState({ selectedInit: selectedInit, currentPlaceholder: currentPlaceholder });
         } else {
           selected = {};
           selectedLabel = '';
+          this.setState({ selectedInit: selectedInit, selected: selected, currentPlaceholder: currentPlaceholder, selectedLabel: selectedLabel }, function () {
+            _this4.resetHoverIndex();
+          });
         }
       }
-
-      this.setState({ selectedInit: selectedInit, selected: selected, currentPlaceholder: currentPlaceholder, selectedLabel: selectedLabel }, function () {
-        _this4.resetHoverIndex();
-      });
     }
   }, {
     key: 'onSelectedChange',
@@ -515,6 +495,18 @@ var Select = function (_Component) {
       }
 
       this.setState({ hoverIndex: hoverIndex, voidRemoteQuery: voidRemoteQuery });
+    }
+  }, {
+    key: 'onEnter',
+    value: function onEnter() {
+      this.popperJS = new _popper2.default(this.reference, this.popper, {
+        gpuAcceleration: false
+      });
+    }
+  }, {
+    key: 'onAfterLeave',
+    value: function onAfterLeave() {
+      this.popperJS.destroy();
     }
   }, {
     key: 'optionsAllDisabled',
@@ -650,9 +642,9 @@ var Select = function (_Component) {
         selected = option;
         selectedLabel = option.currentLabel();
         hoverIndex = option.index;
-      }
 
-      this.setState({ selected: selected, selectedLabel: selectedLabel, hoverIndex: hoverIndex });
+        this.setState({ selected: selected, selectedLabel: selectedLabel, hoverIndex: hoverIndex });
+      }
     }
   }, {
     key: 'managePlaceholder',
@@ -680,8 +672,8 @@ var Select = function (_Component) {
       });
     }
   }, {
-    key: 'resetInputWidth',
-    value: function resetInputWidth() {
+    key: '_resetInputWidth',
+    value: function _resetInputWidth() {
       this.setState({
         inputWidth: this.reference.getBoundingClientRect().width
       });
@@ -945,7 +937,7 @@ var Select = function (_Component) {
         selected = selected.slice(0);
 
         selected.forEach(function (item, index) {
-          if (item === option || item.currentLabel() === option.currentLabel()) {
+          if (item === option || item.props.value === option.props.value) {
             optionIndex = index;
           }
         });
@@ -1123,7 +1115,7 @@ var Select = function (_Component) {
         }),
         _react2.default.createElement(
           _libs.Transition,
-          { name: 'md-fade-bottom', duration: '200' },
+          { name: 'el-zoom-in-top', onEnter: this.onEnter.bind(this), onAfterLeave: this.onAfterLeave.bind(this) },
           _react2.default.createElement(
             _libs.View,
             { show: visible && this.emptyText() !== false },

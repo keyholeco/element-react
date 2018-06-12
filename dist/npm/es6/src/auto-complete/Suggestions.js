@@ -23,33 +23,6 @@ var Suggestions = function (_Component) {
     return _this;
   }
 
-  Suggestions.prototype.componentDidUpdate = function componentDidUpdate() {
-    var reference = ReactDOM.findDOMNode(this.parent().inputNode);
-
-    if (this.state.showPopper) {
-      if (this.popperJS) {
-        this.popperJS.update();
-      } else {
-        this.popperJS = new Popper(reference, this.refs.popper, {
-          gpuAcceleration: false,
-          forceAbsolute: true
-        });
-      }
-    } else {
-      if (this.popperJS) {
-        this.popperJS.destroy();
-      }
-
-      delete this.popperJS;
-    }
-  };
-
-  Suggestions.prototype.componentWillUnmount = function componentWillUnmount() {
-    if (this.popperJS) {
-      this.popperJS.destroy();
-    }
-  };
-
   Suggestions.prototype.onVisibleChange = function onVisibleChange(visible, inputWidth) {
     this.setState({
       dropdownWidth: inputWidth,
@@ -63,6 +36,19 @@ var Suggestions = function (_Component) {
 
   Suggestions.prototype.onSelect = function onSelect(item) {
     this.parent().select(item);
+  };
+
+  Suggestions.prototype.onEnter = function onEnter() {
+    var reference = ReactDOM.findDOMNode(this.parent().inputNode);
+
+    this.popperJS = new Popper(reference, this.refs.popper, {
+      gpuAcceleration: false,
+      forceAbsolute: true
+    });
+  };
+
+  Suggestions.prototype.onAfterLeave = function onAfterLeave() {
+    this.popperJS.destroy();
   };
 
   Suggestions.prototype.render = function render() {
@@ -80,7 +66,7 @@ var Suggestions = function (_Component) {
 
     return React.createElement(
       Transition,
-      { name: 'el-zoom-in-top' },
+      { name: 'el-zoom-in-top', onEnter: this.onEnter.bind(this), onAfterLeave: this.onAfterLeave.bind(this) },
       React.createElement(
         View,
         { show: showPopper },
@@ -88,7 +74,7 @@ var Suggestions = function (_Component) {
           'div',
           {
             ref: 'popper',
-            className: this.classNames('el-autocomplete-suggestion', {
+            className: this.classNames('el-autocomplete-suggestion', 'el-popper', {
               'is-loading': loading
             }),
             style: {

@@ -11,8 +11,8 @@ describe('Tag test', function () {
       { type: 'primary' },
       'TEST'
     ));
-    expect(w.childAt(0).hasClass('el-tag--primary')).toBeTruthy();
-    expect(w.childAt(0).text()).toBe('TEST');
+    expect(w.find('.el-tag--primary')).toHaveLength(1);
+    expect(w.find('.el-tag--primary').text()).toBe('TEST');
   });
 
   it('closable', function () {
@@ -21,11 +21,11 @@ describe('Tag test', function () {
       { type: 'primary', closable: true },
       'TEST'
     ));
-    expect(w.childAt(0).find('i.el-tag__close').exists()).toBe(true);
+    expect(w.find('i.el-tag__close').exists()).toBe(true);
   });
 
   // it('closeTransition', () => {
-  //   const w = mount(
+  //   const w = shallow(
   //     <Tag closable={true} closeTransition={false}>TEST</Tag>
   //   );
   //   expect(w.find('[name="el-zoom-in-center"]').exists()).toBe(true);
@@ -37,12 +37,12 @@ describe('Tag test', function () {
       { hit: true },
       'TEST'
     ));
-    expect(w.childAt(0).hasClass('is-hit')).toBeTruthy();
+    expect(w.find('.el-tag').first().hasClass('is-hit')).toBeTruthy();
   });
 
   it('onClose', function () {
     var onClose = sinon.spy();
-    var w = mount(React.createElement(
+    var w = shallow(React.createElement(
       Tag,
       { type: 'primary', closable: true, onClose: onClose },
       'TEST'

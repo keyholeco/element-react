@@ -2,7 +2,7 @@ import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
-import { Component, View, PropTypes } from '../../libs';
+import { Component, View, Transition, PropTypes } from '../../libs';
 
 var Dialog = function (_Component) {
   _inherits(Dialog, _Component);
@@ -45,7 +45,9 @@ var Dialog = function (_Component) {
   };
 
   Dialog.prototype.componentWillUnmount = function componentWillUnmount() {
-    if (document.body && document.body.style) document.body.style.removeProperty('overflow');
+    if (this.props.lockScroll && document.body && document.body.style) {
+      document.body.style.removeProperty('overflow');
+    }
   };
 
   Dialog.prototype.onKeyDown = function onKeyDown(e) {
@@ -83,55 +85,63 @@ var Dialog = function (_Component) {
         size = _props.size,
         top = _props.top,
         modal = _props.modal,
-        customClass = _props.customClass;
+        customClass = _props.customClass,
+        showClose = _props.showClose;
 
 
     return React.createElement(
-      View,
-      { show: visible },
+      'div',
+      null,
       React.createElement(
-        'div',
-        {
-          style: this.style({ zIndex: 1013 }),
-          className: this.className('el-dialog__wrapper'),
-          onClick: function onClick(e) {
-            return _this2.handleWrapperClick(e);
-          },
-          ref: 'wrap',
-          tabIndex: -1,
-          onKeyDown: function onKeyDown(e) {
-            return _this2.onKeyDown(e);
-          }
-        },
+        Transition,
+        { name: 'dialog-fade' },
         React.createElement(
-          'div',
-          {
-            ref: 'dialog',
-            className: this.classNames("el-dialog", 'el-dialog--' + size, customClass),
-            style: size === 'full' ? {} : { 'marginBottom': '50px', 'top': top }
-          },
+          View,
+          { show: visible },
           React.createElement(
             'div',
-            { className: 'el-dialog__header' },
-            React.createElement(
-              'span',
-              { className: 'el-dialog__title' },
-              title
-            ),
+            {
+              ref: 'wrap',
+              style: { zIndex: 1013 },
+              className: this.classNames('el-dialog__wrapper'),
+              onClick: function onClick(e) {
+                return _this2.handleWrapperClick(e);
+              },
+              onKeyDown: function onKeyDown(e) {
+                return _this2.onKeyDown(e);
+              }
+            },
             React.createElement(
               'div',
-              { className: 'el-dialog__headerbtn' },
-              React.createElement('i', { className: 'el-dialog__close el-icon el-icon-close', onClick: function onClick(e) {
-                  return _this2.close(e);
-                } })
+              {
+                ref: 'dialog',
+                style: this.style(size === 'full' ? {} : { 'top': top }),
+                className: this.className("el-dialog", 'el-dialog--' + size, customClass)
+              },
+              React.createElement(
+                'div',
+                { className: 'el-dialog__header' },
+                React.createElement(
+                  'span',
+                  { className: 'el-dialog__title' },
+                  title
+                ),
+                showClose && React.createElement(
+                  'button',
+                  { type: 'button', className: 'el-dialog__headerbtn' },
+                  React.createElement('i', { className: 'el-dialog__close el-icon el-icon-close', onClick: function onClick(e) {
+                      return _this2.close(e);
+                    } })
+                )
+              ),
+              this.props.children
             )
-          ),
-          this.props.children
+          )
         )
       ),
-      React.createElement(
+      modal && React.createElement(
         View,
-        { show: modal, transition: 'v-modal', transitionKey: 'dialog-v-modal' },
+        { show: visible },
         React.createElement('div', { className: 'v-modal', style: { zIndex: 1012 } })
       )
     );
@@ -148,7 +158,8 @@ Dialog.defaultProps = {
   modal: true,
   lockScroll: true,
   closeOnClickModal: true,
-  closeOnPressEscape: true
+  closeOnPressEscape: true,
+  showClose: true
 };
 export default Dialog;
 
@@ -173,5 +184,6 @@ Dialog.propTypes = {
   // 是否可以通过按下 ESC 关闭 Dialog
   closeOnPressEscape: PropTypes.bool,
   // 点击遮罩层或右上角叉或取消按钮的回调
-  onCancel: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired,
+  showClose: PropTypes.bool
 };

@@ -43,7 +43,9 @@ describe('Alert test', function () {
     var onClose = _sinon2.default.spy();
     var w = (0, _enzyme.mount)(_react2.default.createElement(_2.default, { title: 'TEST', onClose: onClose }));
     w.find('i.el-alert__closebtn').simulate('click');
-    expect(onClose.calledOnce).toBe(true);
+    setTimeout(function () {
+      expect(onClose.calledOnce).toBe(true);
+    }, 1000);
   });
 
   it('showIcon', function () {

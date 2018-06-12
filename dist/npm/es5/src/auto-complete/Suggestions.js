@@ -54,35 +54,6 @@ var Suggestions = function (_Component) {
   }
 
   (0, _createClass3.default)(Suggestions, [{
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      var reference = _reactDom2.default.findDOMNode(this.parent().inputNode);
-
-      if (this.state.showPopper) {
-        if (this.popperJS) {
-          this.popperJS.update();
-        } else {
-          this.popperJS = new _popper2.default(reference, this.refs.popper, {
-            gpuAcceleration: false,
-            forceAbsolute: true
-          });
-        }
-      } else {
-        if (this.popperJS) {
-          this.popperJS.destroy();
-        }
-
-        delete this.popperJS;
-      }
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      if (this.popperJS) {
-        this.popperJS.destroy();
-      }
-    }
-  }, {
     key: 'onVisibleChange',
     value: function onVisibleChange(visible, inputWidth) {
       this.setState({
@@ -101,6 +72,21 @@ var Suggestions = function (_Component) {
       this.parent().select(item);
     }
   }, {
+    key: 'onEnter',
+    value: function onEnter() {
+      var reference = _reactDom2.default.findDOMNode(this.parent().inputNode);
+
+      this.popperJS = new _popper2.default(reference, this.refs.popper, {
+        gpuAcceleration: false,
+        forceAbsolute: true
+      });
+    }
+  }, {
+    key: 'onAfterLeave',
+    value: function onAfterLeave() {
+      this.popperJS.destroy();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -117,7 +103,7 @@ var Suggestions = function (_Component) {
 
       return _react2.default.createElement(
         _libs.Transition,
-        { name: 'el-zoom-in-top' },
+        { name: 'el-zoom-in-top', onEnter: this.onEnter.bind(this), onAfterLeave: this.onAfterLeave.bind(this) },
         _react2.default.createElement(
           _libs.View,
           { show: showPopper },
@@ -125,7 +111,7 @@ var Suggestions = function (_Component) {
             'div',
             {
               ref: 'popper',
-              className: this.classNames('el-autocomplete-suggestion', {
+              className: this.classNames('el-autocomplete-suggestion', 'el-popper', {
                 'is-loading': loading
               }),
               style: {

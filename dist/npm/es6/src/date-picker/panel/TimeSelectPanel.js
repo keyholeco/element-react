@@ -1,29 +1,43 @@
 import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
+import _createClass from 'babel-runtime/helpers/createClass';
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
 
-import { PropTypes, Component } from '../../../libs';
-import { PopperReactMixin } from '../../../libs/utils';
+import { PropTypes } from '../../../libs';
 import { scrollIntoView } from '../../../libs/utils/dom';
 
 import { Scrollbar } from '../../scrollbar';
 
-var TimeSelectPanel = function (_Component) {
-  _inherits(TimeSelectPanel, _Component);
+import { PopperBase } from './PopperBase';
+
+var TimeSelectPanel = function (_PopperBase) {
+  _inherits(TimeSelectPanel, _PopperBase);
+
+  _createClass(TimeSelectPanel, null, [{
+    key: 'propTypes',
+    get: function get() {
+      return Object.assign({
+        start: PropTypes.string,
+        end: PropTypes.string,
+        step: PropTypes.string,
+        minTime: PropTypes.string,
+        maxTime: PropTypes.string,
+        value: PropTypes.string,
+        onPicked: PropTypes.func,
+        //(string)=>date
+        dateParser: PropTypes.func.isRequired,
+        //()=>HtmlElement
+        getPopperRefElement: PropTypes.func,
+        popperMixinOption: PropTypes.object
+      }, PopperBase.propTypes);
+    }
+  }]);
 
   function TimeSelectPanel(props) {
     _classCallCheck(this, TimeSelectPanel);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
-
-    PopperReactMixin.call(_this, function () {
-      return _this.refs.root;
-    }, _this.props.getPopperRefElement, Object.assign({
-      boundariesPadding: 0,
-      gpuAcceleration: false
-    }, props.popperMixinOption));
-    return _this;
+    return _possibleConstructorReturn(this, _PopperBase.call(this, props));
   }
 
   TimeSelectPanel.prototype.handleClick = function handleClick(item) {
@@ -93,7 +107,7 @@ var TimeSelectPanel = function (_Component) {
   };
 
   return TimeSelectPanel;
-}(Component);
+}(PopperBase);
 
 export default TimeSelectPanel;
 
@@ -133,21 +147,6 @@ TimeSelectPanel.items = function (_ref2) {
     }
   }
   return result;
-};
-
-TimeSelectPanel.propTypes = {
-  start: PropTypes.string,
-  end: PropTypes.string,
-  step: PropTypes.string,
-  minTime: PropTypes.string,
-  maxTime: PropTypes.string,
-  value: PropTypes.string,
-  onPicked: PropTypes.func,
-  //(string)=>date
-  dateParser: PropTypes.func.isRequired,
-  //()=>HtmlElement
-  getPopperRefElement: PropTypes.func,
-  popperMixinOption: PropTypes.object
 };
 
 TimeSelectPanel.defaultProps = {

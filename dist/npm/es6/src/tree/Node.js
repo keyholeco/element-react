@@ -5,9 +5,8 @@ import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
 import debounce from 'throttle-debounce/debounce';
 
-import { PropTypes, Component } from '../../libs';
+import { PropTypes, Component, CollapseTransition } from '../../libs';
 import { watchPropertyChange, IDGenerator } from '../../libs/utils';
-import CollapseTransition from './CollapseTransition';
 import Checkbox from '../checkbox';
 
 function NodeContent(_ref) {

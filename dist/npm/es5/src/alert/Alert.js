@@ -51,25 +51,26 @@ var Alert = function (_Component) {
   (0, _createClass3.default)(Alert, [{
     key: 'close',
     value: function close() {
-      var _this2 = this;
-
       this.setState({
         visible: false
-      }, function () {
-        if (_this2.props.onClose) {
-          _this2.props.onClose();
-        }
       });
+    }
+  }, {
+    key: 'onAfterLeave',
+    value: function onAfterLeave() {
+      if (this.props.onClose) {
+        this.props.onClose();
+      }
     }
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         _libs.Transition,
-        { name: 'el-alert-fade', duration: '200' },
+        { name: 'el-alert-fade', onAfterLeave: this.onAfterLeave.bind(this) },
         _react2.default.createElement(
           _libs.View,
-          { key: this.state.visible, show: this.state.visible },
+          { show: this.state.visible },
           _react2.default.createElement(
             'div',
             { style: this.style(), className: this.className('el-alert', 'el-alert--' + this.props.type) },

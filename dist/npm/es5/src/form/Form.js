@@ -112,7 +112,7 @@ var Form = function (_Component) {
         'form',
         { style: this.style(), className: this.className('el-form', this.props.labelPosition && 'el-form--label-' + this.props.labelPosition, {
             'el-form--inline': this.props.inline
-          }) },
+          }), onSubmit: this.props.onSubmit },
         this.props.children
       );
     }
@@ -134,7 +134,8 @@ Form.propTypes = {
   labelPosition: _libs.PropTypes.oneOf(['right', 'left', 'top']),
   labelWidth: _libs.PropTypes.oneOfType([_libs.PropTypes.string, _libs.PropTypes.number]),
   labelSuffix: _libs.PropTypes.string,
-  inline: _libs.PropTypes.bool
+  inline: _libs.PropTypes.bool,
+  onSubmit: _libs.PropTypes.func
 };
 
 Form.defaultProps = {

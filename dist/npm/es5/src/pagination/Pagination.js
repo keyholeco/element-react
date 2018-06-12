@@ -44,7 +44,7 @@ var Pre = function Pre(props) {
   var disabled = props.internalCurrentPage <= 1 ? 'disabled' : '';
   return _react2.default.createElement(
     'button',
-    { className: 'btn-prev ' + disabled, onClick: props.prev },
+    { type: 'button', className: 'btn-prev ' + disabled, onClick: props.prev },
     _react2.default.createElement('i', { className: 'el-icon el-icon-arrow-left' })
   );
 };
@@ -54,7 +54,7 @@ var Next = function Next(props) {
 
   return _react2.default.createElement(
     'button',
-    { className: 'btn-next ' + disabled, onClick: props.next },
+    { type: 'button', className: 'btn-next ' + disabled, onClick: props.next },
     _react2.default.createElement('i', { className: 'el-icon el-icon-arrow-right' })
   );
 };

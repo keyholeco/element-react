@@ -1,13 +1,21 @@
-var getError = function getError(action, option, xhr) {
-  var msg = 'fail to post ' + action + ' ' + xhr.status + '\'';
+function getError(action, option, xhr) {
+  var msg = void 0;
+  if (xhr.response) {
+    msg = xhr.status + ' ' + (xhr.response.error || xhr.response);
+  } else if (xhr.responseText) {
+    msg = xhr.status + ' ' + xhr.responseText;
+  } else {
+    msg = 'fail to post ' + action + ' ' + xhr.status;
+  }
+
   var err = new Error(msg);
   err.status = xhr.status;
   err.method = 'post';
   err.url = action;
   return err;
-};
+}
 
-var getBody = function getBody(xhr) {
+function getBody(xhr) {
   var text = xhr.responseText || xhr.response;
   if (!text) {
     return text;
@@ -18,9 +26,9 @@ var getBody = function getBody(xhr) {
   } catch (e) {
     return text;
   }
-};
+}
 
-var upload = function upload(option) {
+export default function upload(option) {
   if (typeof XMLHttpRequest === 'undefined') {
     return;
   }
@@ -53,7 +61,7 @@ var upload = function upload(option) {
 
   xhr.onload = function onload() {
     if (xhr.status < 200 || xhr.status >= 300) {
-      return option.onError(getError(action, option, xhr), getBody(xhr));
+      return option.onError(getError(action, option, xhr));
     }
 
     option.onSuccess(getBody(xhr));
@@ -67,16 +75,11 @@ var upload = function upload(option) {
 
   var headers = option.headers || {};
 
-  if (headers['X-Requested-With'] !== null) {
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-  }
-
   for (var item in headers) {
     if (headers.hasOwnProperty(item) && headers[item] !== null) {
       xhr.setRequestHeader(item, headers[item]);
     }
   }
   xhr.send(formData);
-};
-
-export default upload;
+  return xhr;
+}

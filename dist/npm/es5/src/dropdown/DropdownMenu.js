@@ -51,42 +51,26 @@ var DropdownMenu = function (_Component) {
   }
 
   (0, _createClass3.default)(DropdownMenu, [{
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      var showPopper = this.state.showPopper;
-
-
-      if (showPopper) {
-        if (this.popperJS) {
-          this.popperJS.update();
-        } else {
-          var parent = _reactDom2.default.findDOMNode(this.parent());
-
-          this.popperJS = new _popper2.default(parent, this.refs.popper, {
-            placement: this.placement()
-          });
-        }
-      } else {
-        if (this.popperJS) {
-          this.popperJS.destroy();
-        }
-
-        delete this.popperJS;
-      }
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      if (this.popperJS) {
-        this.popperJS.destroy();
-      }
-    }
-  }, {
     key: 'onVisibleChange',
     value: function onVisibleChange(visible) {
       this.setState({
         showPopper: visible
       });
+    }
+  }, {
+    key: 'onEnter',
+    value: function onEnter() {
+      var parent = _reactDom2.default.findDOMNode(this.parent());
+
+      this.popperJS = new _popper2.default(parent, this.refs.popper, {
+        placement: this.placement(),
+        gpuAcceleration: false
+      });
+    }
+  }, {
+    key: 'onAfterLeave',
+    value: function onAfterLeave() {
+      this.popperJS.destroy();
     }
   }, {
     key: 'parent',
@@ -103,7 +87,7 @@ var DropdownMenu = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         _libs.Transition,
-        { name: 'md-fade-bottom' },
+        { name: 'el-zoom-in-top', onEnter: this.onEnter.bind(this), onAfterLeave: this.onAfterLeave.bind(this) },
         _react2.default.createElement(
           _libs.View,
           { show: this.state.showPopper },

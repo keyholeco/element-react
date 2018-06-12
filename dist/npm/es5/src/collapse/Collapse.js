@@ -43,6 +43,11 @@ var Collapse = function (_Component) {
   }
 
   (0, _createClass3.default)(Collapse, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      this.setActiveNames(nextProps.value);
+    }
+  }, {
     key: 'setActiveNames',
     value: function setActiveNames(activeNames) {
       var _this2 = this;

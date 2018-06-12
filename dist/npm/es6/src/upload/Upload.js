@@ -47,14 +47,12 @@ var Upload = function (_Component) {
   };
 
   Upload.prototype.getFile = function getFile(file) {
-    var fileList = this.state.fileList;
-
-    var target = fileList.find(function (item) {
-      return item.uid === file.uid;
-    });
-    if (target) {
-      return target;
+    if (file) {
+      return this.state.fileList.find(function (item) {
+        return item.uid === file.uid;
+      });
     }
+
     return null;
   };
 
@@ -63,7 +61,9 @@ var Upload = function (_Component) {
         tempIndex = _state.tempIndex,
         fileList = _state.fileList;
 
+
     file.uid = Date.now() + tempIndex++;
+
     var _file = {
       status: 'ready',
       name: file.name,
@@ -72,12 +72,13 @@ var Upload = function (_Component) {
       uid: file.uid,
       raw: file
     };
+
     try {
       _file.url = URL.createObjectURL(file);
     } catch (err) {
-      console.error(err);
       return;
     }
+
     fileList.push(_file);
     this.setState({
       fileList: fileList,
@@ -176,8 +177,6 @@ var Upload = function (_Component) {
   };
 
   Upload.prototype.render = function render() {
-    var _this6 = this;
-
     var fileList = this.state.fileList;
     var _props = this.props,
         showFileList = _props.showFileList,
@@ -211,26 +210,14 @@ var Upload = function (_Component) {
       data: data,
       accept: accept,
       listType: listType,
-      onStart: function onStart(file) {
-        return _this6.handleStart(file);
-      },
-      onProgress: function onProgress(e, file) {
-        return _this6.handleProgress(e, file);
-      },
-      onSuccess: function onSuccess(res, file) {
-        return _this6.handleSuccess(res, file);
-      },
-      onError: function onError(error, res, file) {
-        return _this6.handleError(error, file);
-      },
-      onPreview: function onPreview(file) {
-        return _this6.handlePreview(file);
-      },
-      onRemove: function onRemove(file) {
-        return _this6.handleRemove(file);
-      },
-      ref: 'upload-inner',
-      showCover: this.showCover()
+      onStart: this.handleStart.bind(this),
+      onProgress: this.handleProgress.bind(this),
+      onSuccess: this.handleSuccess.bind(this),
+      onError: this.handleError.bind(this),
+      onPreview: this.handlePreview.bind(this),
+      onRemove: this.handleRemove.bind(this),
+      showCover: this.showCover(),
+      ref: 'upload-inner'
     };
     var trigger = this.props.trigger || this.props.children;
     var uploadComponent = typeof FormData !== 'undefined' ? React.createElement(

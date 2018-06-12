@@ -161,7 +161,8 @@ var CollapseTransition = function (_Component) {
       return _react2.default.createElement(
         'div',
         {
-          className: 'el-tree-node__children collapse-transition',
+          className: 'collapse-transition',
+          style: { overflow: 'hidden' },
           ref: function ref(e) {
             return _this4.selfRef = e;
           }
@@ -182,11 +183,11 @@ var _temp = function () {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(ANIMATION_DURATION, 'ANIMATION_DURATION', 'src/tree/CollapseTransition.jsx');
+  __REACT_HOT_LOADER__.register(ANIMATION_DURATION, 'ANIMATION_DURATION', 'libs/collapse/index.jsx');
 
-  __REACT_HOT_LOADER__.register(CollapseTransition, 'CollapseTransition', 'src/tree/CollapseTransition.jsx');
+  __REACT_HOT_LOADER__.register(CollapseTransition, 'CollapseTransition', 'libs/collapse/index.jsx');
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/tree/CollapseTransition.jsx');
+  __REACT_HOT_LOADER__.register(_default, 'default', 'libs/collapse/index.jsx');
 }();
 
 ;

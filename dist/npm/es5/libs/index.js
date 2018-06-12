@@ -4,6 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _collapse = require('./collapse');
+
+Object.defineProperty(exports, 'CollapseTransition', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_collapse).default;
+  }
+});
+
 var _transition = require('./transition');
 
 Object.defineProperty(exports, 'Transition', {

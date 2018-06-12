@@ -157,6 +157,7 @@ var Tree = function (_Component) {
     return React.createElement(
       'div',
       {
+        style: this.style(),
         className: this.className('el-tree', {
           'el-tree--highlight-current': highlightCurrent
         })

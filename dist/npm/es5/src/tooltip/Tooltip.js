@@ -56,66 +56,46 @@ var Tooltip = function (_Component) {
       }
     }
   }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      var showPopper = this.state.showPopper;
-
-
-      if (showPopper) {
-        if (this.popperJS) {
-          this.popperJS.update();
-        } else {
-          var _refs = this.refs,
-              popper = _refs.popper,
-              reference = _refs.reference,
-              arrow = _refs.arrow;
-          var placement = this.props.placement;
-
-
-          if (arrow) {
-            arrow.setAttribute('x-arrow', '');
-          }
-
-          this.popperJS = new _popper2.default(reference, popper, { placement: placement });
-        }
-      } else {
-        if (this.popperJS) {
-          this.popperJS.destroy();
-        }
-
-        delete this.popperJS;
-      }
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      if (this.popperJS) {
-        this.popperJS.destroy();
-      }
-    }
-  }, {
     key: 'showPopper',
     value: function showPopper() {
       var _this2 = this;
 
-      if (this.props.manual) return;
-
-      this.timeout = setTimeout(function () {
-        _this2.setState({ showPopper: true });
-      }, this.props.openDelay);
+      if (!this.props.manual) {
+        this.timeout = setTimeout(function () {
+          _this2.setState({ showPopper: true });
+        }, this.props.openDelay);
+      }
     }
   }, {
     key: 'hidePopper',
     value: function hidePopper() {
-      if (this.props.manual) return;
-
-      clearTimeout(this.timeout);
-      this.setState({ showPopper: false });
+      if (!this.props.manual) {
+        clearTimeout(this.timeout);
+        this.setState({ showPopper: false });
+      }
     }
   }, {
-    key: 'updatePopper',
-    value: function updatePopper() {
-      this.popperJS.update();
+    key: 'onEnter',
+    value: function onEnter() {
+      var _refs = this.refs,
+          popper = _refs.popper,
+          reference = _refs.reference,
+          arrow = _refs.arrow;
+
+
+      if (arrow) {
+        arrow.setAttribute('x-arrow', '');
+      }
+
+      this.popperJS = new _popper2.default(reference, popper, {
+        placement: this.props.placement,
+        gpuAcceleration: false
+      });
+    }
+  }, {
+    key: 'onAfterLeave',
+    value: function onAfterLeave() {
+      this.popperJS.destroy();
     }
   }, {
     key: 'render',
@@ -140,12 +120,12 @@ var Tooltip = function (_Component) {
             this.props.children
           )
         ),
-        _react2.default.createElement(
+        !disabled && _react2.default.createElement(
           _libs.Transition,
-          { name: transition },
+          { name: transition, onEnter: this.onEnter.bind(this), onAfterLeave: this.onAfterLeave.bind(this) },
           _react2.default.createElement(
             _libs.View,
-            { show: !disabled && this.state.showPopper },
+            { show: this.state.showPopper },
             _react2.default.createElement(
               'div',
               { ref: 'popper', className: this.classNames("el-tooltip__popper", 'is-' + effect) },

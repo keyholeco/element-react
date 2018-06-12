@@ -426,6 +426,9 @@ Cascader.defaultProps = {
     label: 'label',
     value: 'value',
     disabled: 'disabled'
+  },
+  beforeFilter: function beforeFilter() {
+    return function () {};
   }
 };
 

@@ -4,13 +4,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Table = require('./Table');
+var _TableStore = require('./TableStore');
 
-var _Table2 = _interopRequireDefault(_Table);
+var _TableStore2 = _interopRequireDefault(_TableStore);
+
+var _TableColumn = require('./TableColumn');
+
+var _TableColumn2 = _interopRequireDefault(_TableColumn);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _default = _Table2.default;
+_TableStore2.default.Column = _TableColumn2.default;
+
+var _default = _TableStore2.default;
 exports.default = _default;
 ;
 

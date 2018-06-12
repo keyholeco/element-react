@@ -114,12 +114,22 @@ describe('Layout test', function () {
         _react2.default.createElement('div', { className: 'grid-content bg-purple-light' })
       )
     ));
+    var w6 = (0, _enzyme.mount)(_react2.default.createElement(
+      _2.default.Row,
+      null,
+      _react2.default.createElement(
+        _2.default.Col,
+        { span: '0' },
+        _react2.default.createElement('div', { className: 'grid-content bg-purple' })
+      )
+    ));
     expect(w1.find('.el-row .el-col-24 .grid-content').exists()).toBeTruthy();
     expect(w1.find('.el-row .el-col-24').length).toBe(1);
     expect(w2.find('.el-row .el-col-12').length).toBe(2);
     expect(w3.find('.el-row .el-col-8').length).toBe(3);
     expect(w4.find('.el-row .el-col-6').length).toBe(4);
     expect(w5.find('.el-row .el-col-4').length).toBe(6);
+    expect(w6.find('.el-row .el-col-0').length).toBe(1);
   });
 
   it('Column spacing', function () {
@@ -265,7 +275,7 @@ describe('Layout test', function () {
   });
 
   it('Alignment', function () {
-    var w1 = (0, _enzyme.mount)(_react2.default.createElement(
+    var w1 = (0, _enzyme.render)(_react2.default.createElement(
       _2.default.Row,
       { type: 'flex', className: 'row-bg' },
       _react2.default.createElement(
@@ -284,7 +294,7 @@ describe('Layout test', function () {
         _react2.default.createElement('div', { className: 'grid-content bg-purple' })
       )
     ));
-    var w2 = (0, _enzyme.mount)(_react2.default.createElement(
+    var w2 = (0, _enzyme.render)(_react2.default.createElement(
       _2.default.Row,
       { type: 'flex', className: 'row-bg', justify: 'center' },
       _react2.default.createElement(
@@ -303,7 +313,7 @@ describe('Layout test', function () {
         _react2.default.createElement('div', { className: 'grid-content bg-purple' })
       )
     ));
-    var w3 = (0, _enzyme.mount)(_react2.default.createElement(
+    var w3 = (0, _enzyme.render)(_react2.default.createElement(
       _2.default.Row,
       { type: 'flex', className: 'row-bg', justify: 'end' },
       _react2.default.createElement(
@@ -322,7 +332,7 @@ describe('Layout test', function () {
         _react2.default.createElement('div', { className: 'grid-content bg-purple' })
       )
     ));
-    var w4 = (0, _enzyme.mount)(_react2.default.createElement(
+    var w4 = (0, _enzyme.render)(_react2.default.createElement(
       _2.default.Row,
       { type: 'flex', className: 'row-bg', justify: 'space-between' },
       _react2.default.createElement(
@@ -341,7 +351,7 @@ describe('Layout test', function () {
         _react2.default.createElement('div', { className: 'grid-content bg-purple' })
       )
     ));
-    var w5 = (0, _enzyme.mount)(_react2.default.createElement(
+    var w5 = (0, _enzyme.render)(_react2.default.createElement(
       _2.default.Row,
       { type: 'flex', className: 'row-bg', justify: 'space-around' },
       _react2.default.createElement(
@@ -392,8 +402,18 @@ describe('Layout test', function () {
         _react2.default.createElement('div', { className: 'grid-content bg-purple-light' })
       )
     ));
+    var w1 = (0, _enzyme.mount)(_react2.default.createElement(
+      _2.default.Row,
+      { gutter: '10' },
+      _react2.default.createElement(
+        _2.default.Col,
+        { xs: '0', sm: '6', md: '4', lg: '3' },
+        _react2.default.createElement('div', { className: 'grid-content bg-purple' })
+      )
+    ));
     expect(w.find('.el-col-24.el-col-xs-8.el-col-sm-6.el-col-md-4.el-col-lg-3').length).toBe(2);
     expect(w.find('.el-col-24.el-col-xs-4.el-col-sm-6.el-col-md-8.el-col-lg-9').length).toBe(2);
+    expect(w1.find('.el-col-24.el-col-xs-0.el-col-sm-6.el-col-md-4.el-col-lg-3').length).toBe(1);
   });
 
   it('Row custom tag', function () {
@@ -423,7 +443,7 @@ describe('Layout test', function () {
   });
 
   it('Row with align', function () {
-    var w1 = (0, _enzyme.mount)(_react2.default.createElement(
+    var w1 = (0, _enzyme.render)(_react2.default.createElement(
       _2.default.Row,
       { type: 'flex', align: 'middle', className: 'row-bg' },
       _react2.default.createElement(
@@ -442,7 +462,7 @@ describe('Layout test', function () {
         _react2.default.createElement('div', { className: 'grid-content bg-purple' })
       )
     ));
-    var w2 = (0, _enzyme.mount)(_react2.default.createElement(
+    var w2 = (0, _enzyme.render)(_react2.default.createElement(
       _2.default.Row,
       { type: 'flex', align: 'bottom', className: 'row-bg' },
       _react2.default.createElement(

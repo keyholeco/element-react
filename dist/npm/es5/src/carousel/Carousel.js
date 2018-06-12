@@ -57,6 +57,8 @@ var Carousel = function (_Component) {
     _this.throttledIndicatorHover = (0, _throttle2.default)(300, function (index) {
       _this.handleIndicatorHover(index);
     });
+
+    _this.resetItemPosition = _this._resetItemPosition.bind(_this);
     return _this;
   }
 
@@ -70,7 +72,6 @@ var Carousel = function (_Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      (0, _resizeEvent.addResizeListener)(this.refs.root, this.resetItemPosition.bind(this));
 
       if (this.props.initialIndex < this.state.items.length && this.props.initialIndex >= 0) {
         this.setState({
@@ -83,8 +84,10 @@ var Carousel = function (_Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(props, state) {
+      (0, _resizeEvent.addResizeListener)(this.refs.root, this.resetItemPosition);
+
       if (state.activeIndex != this.state.activeIndex) {
-        this.resetItemPosition();
+        this.resetItemPosition(state.activeIndex);
 
         if (this.props.onChange) {
           this.props.onChange(this.state.activeIndex, state.activeIndex);
@@ -94,7 +97,7 @@ var Carousel = function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      (0, _resizeEvent.removeResizeListener)(this.refs.root, this.resetItemPosition.bind(this));
+      (0, _resizeEvent.removeResizeListener)(this.refs.root, this.resetItemPosition);
     }
   }, {
     key: 'handleMouseEnter',
@@ -140,12 +143,12 @@ var Carousel = function (_Component) {
       });
     }
   }, {
-    key: 'resetItemPosition',
-    value: function resetItemPosition() {
+    key: '_resetItemPosition',
+    value: function _resetItemPosition(oldIndex) {
       var _this3 = this;
 
       this.state.items.forEach(function (item, index) {
-        item.translateItem(index, _this3.state.activeIndex);
+        item.translateItem(index, _this3.state.activeIndex, oldIndex);
       });
     }
   }, {
@@ -275,10 +278,10 @@ var Carousel = function (_Component) {
             style: { height: height } },
           _react2.default.createElement(
             _libs.Transition,
-            { name: 'carousel-arrow-left', duration: '300' },
+            { name: 'carousel-arrow-left' },
             arrow !== 'never' && _react2.default.createElement(
               _libs.View,
-              { key: arrow === 'always' || hover, show: arrow === 'always' || hover },
+              { show: arrow === 'always' || hover },
               _react2.default.createElement(
                 'button',
                 {
@@ -296,7 +299,7 @@ var Carousel = function (_Component) {
             { name: 'carousel-arrow-right' },
             arrow !== 'never' && _react2.default.createElement(
               _libs.View,
-              { key: arrow === 'always' || hover, show: arrow === 'always' || hover },
+              { show: arrow === 'always' || hover },
               _react2.default.createElement(
                 'button',
                 {

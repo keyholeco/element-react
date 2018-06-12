@@ -14,8 +14,8 @@ var Button = function (_Component) {
   }
 
   Button.prototype.onClick = function onClick(e) {
-    if (this.props.onClick) {
-      this.props.onClick(e);
+    if (!this.props.loading) {
+      this.props.onClick && this.props.onClick(e);
     }
   };
 

@@ -41,23 +41,19 @@ var Notification = function (_Component) {
   };
 
   Notification.prototype.onClose = function onClose() {
-    var _this2 = this;
-
     this.stopTimer();
 
     this.setState({
       visible: false
-    }, function () {
-      _this2.props.willUnmount();
     });
   };
 
   Notification.prototype.startTimer = function startTimer() {
-    var _this3 = this;
+    var _this2 = this;
 
     if (this.props.duration) {
       this.timeout = setTimeout(function () {
-        _this3.onClose();
+        _this2.onClose();
       }, this.props.duration);
     }
   };
@@ -71,18 +67,40 @@ var Notification = function (_Component) {
   };
 
   Notification.prototype.render = function render() {
+    var _this3 = this;
+
     return React.createElement(
       Transition,
-      { name: 'el-notification-fade', duration: '300' },
+      {
+        name: 'el-notification-fade',
+        onAfterEnter: function onAfterEnter() {
+          _this3.offsetHeight = _this3.rootDOM.offsetHeight;
+        },
+        onLeave: function onLeave() {
+          _this3.props.onClose && _this3.props.onClose();
+        },
+        onAfterLeave: function onAfterLeave() {
+          _this3.props.willUnmount(_this3.offsetHeight, parseInt(_this3.rootDOM.style.top));
+        }
+      },
       React.createElement(
         View,
-        { key: this.state.visible, show: this.state.visible },
+        { show: this.state.visible },
         React.createElement(
           'div',
-          { className: 'el-notification', style: {
+          {
+            ref: function ref(ele) {
+              _this3.rootDOM = ele;
+            },
+            className: 'el-notification',
+            style: {
               top: this.props.top,
               zIndex: 9999
-            }, onMouseEnter: this.stopTimer.bind(this), onMouseLeave: this.startTimer.bind(this), onClick: this.onClick.bind(this) },
+            },
+            onMouseEnter: this.stopTimer.bind(this),
+            onMouseLeave: this.startTimer.bind(this),
+            onClick: this.onClick.bind(this)
+          },
           this.props.type && React.createElement('i', { className: this.classNames('el-notification__icon', this.typeClass(), this.props.iconClass) }),
           React.createElement(
             'div',
@@ -115,7 +133,7 @@ export default Notification;
 Notification.propTypes = {
   type: PropTypes.oneOf(['success', 'warning', 'info', 'error']),
   title: PropTypes.string,
-  message: PropTypes.string,
+  message: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   duration: PropTypes.number,
   iconClass: PropTypes.string,
   onClick: PropTypes.func,

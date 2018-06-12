@@ -10,12 +10,6 @@ import { getRangeHours } from '../utils';
 import { Scrollbar } from '../../scrollbar';
 
 
-function withIndex(arr) {
-  return arr.map(function (e, i) {
-    return e, i;
-  });
-}
-
 function range(end) {
   var r = [];
   for (var i = 0; i < end; i++) {
@@ -54,8 +48,8 @@ function propsToState(props) {
     return state.seconds = seconds;
   });
   state.hoursList = getRangeHours(selectableRange);
-  state.minutesLisit = withIndex(range(60));
-  state.secondsList = withIndex(range(60));
+  state.minutesLisit = range(60);
+  state.secondsList = range(60);
   return state;
 }
 
@@ -76,13 +70,13 @@ var TimeSpinner = function (_Component) {
         seconds: PropTypes.number,
         isShowSeconds: PropTypes.bool,
         //[[datefrom, dateend]...]
-        selectableRange: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.instanceOf(Date))).isRequired,
+        selectableRange: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.instanceOf(Date))),
         /*
         type: one of [hours, minutes, seconds]
          onChange: ({type})=>()
         */
         onChange: PropTypes.func.isRequired,
-        onSelectRangeChange: PropTypes.func.isRequired
+        onSelectRangeChange: PropTypes.func
       };
     }
   }, {
@@ -92,7 +86,8 @@ var TimeSpinner = function (_Component) {
         hours: 0,
         minutes: 0,
         seconds: 0,
-        isShowSeconds: true
+        isShowSeconds: true,
+        onSelectRangeChange: function onSelectRangeChange() {}
       };
     }
   }]);
@@ -242,19 +237,19 @@ var TimeSpinner = function (_Component) {
           viewClass: 'el-time-spinner__list',
           viewComponent: 'ul'
         },
-        minutesLisit.map(function (disabled, idx) {
+        minutesLisit.map(function (minute) {
           return React.createElement(
             'li',
             {
-              key: idx,
+              key: minute,
               onClick: function onClick() {
-                return _this4.handleChange('minutes', idx);
+                return _this4.handleChange('minutes', minute);
               },
               className: _this4.classNames('el-time-spinner__item', {
-                active: idx === minutes
+                active: minute === minutes
               })
             },
-            idx
+            minute
           );
         })
       ),
@@ -273,19 +268,19 @@ var TimeSpinner = function (_Component) {
           viewClass: 'el-time-spinner__list',
           viewComponent: 'ul'
         },
-        secondsList.map(function (disabled, idx) {
+        secondsList.map(function (sec) {
           return React.createElement(
             'li',
             {
-              key: idx,
+              key: sec,
               onClick: function onClick() {
-                return _this4.handleChange('seconds', idx);
+                return _this4.handleChange('seconds', sec);
               },
               className: _this4.classNames('el-time-spinner__item', {
-                active: idx === seconds
+                active: sec === seconds
               })
             },
-            idx
+            sec
           );
         })
       )

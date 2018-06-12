@@ -27,7 +27,7 @@ function Message() {
 
   document.body.appendChild(div);
 
-  if (typeof props === 'string') {
+  if (typeof props === 'string' || _react2.default.isValidElement(props)) {
     props = {
       message: props
     };

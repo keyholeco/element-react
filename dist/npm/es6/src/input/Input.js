@@ -17,7 +17,7 @@ var Input = function (_Component) {
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.state = {
-      textareaStyle: null
+      textareaStyle: { resize: props.resize }
     };
     return _this;
   }
@@ -60,7 +60,6 @@ var Input = function (_Component) {
     if (onChange) {
       onChange(e.target.value);
     }
-
     this.resizeTextarea();
   };
 
@@ -94,9 +93,10 @@ var Input = function (_Component) {
 
     var minRows = autosize.minRows;
     var maxRows = autosize.maxRows;
+    var textareaCalcStyle = calcTextareaHeight(this.refs.textarea, minRows, maxRows);
 
     this.setState({
-      textareaStyle: calcTextareaHeight(this.refs.textarea, minRows, maxRows)
+      textareaStyle: Object.assign({}, this.state.textareaStyle, textareaCalcStyle)
     });
   };
 
@@ -127,6 +127,7 @@ var Input = function (_Component) {
       delete otherProps.defaultValue;
     }
 
+    delete otherProps.resize;
     delete otherProps.style;
     delete otherProps.autosize;
     delete otherProps.onIconClick;
@@ -212,6 +213,7 @@ Input.propTypes = {
   // type === 'textarea'
   autosize: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   rows: PropTypes.number,
+  resize: PropTypes.oneOf(['none', 'both', 'horizontal', 'vertical']),
 
   // event
   onFocus: PropTypes.func,

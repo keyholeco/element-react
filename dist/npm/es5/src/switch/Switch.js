@@ -91,6 +91,27 @@ var Switch = function (_Component) {
       this.refs.core.style.backgroundColor = newColor;
     }
   }, {
+    key: 'setFocus',
+    value: function setFocus() {
+      if (this.props.allowFocus) {
+        this.refs.input.focus();
+      }
+    }
+  }, {
+    key: 'handleFocus',
+    value: function handleFocus(e) {
+      if (this.props.allowFocus) {
+        this.props.onFocus(e);
+      }
+    }
+  }, {
+    key: 'handleBlur',
+    value: function handleBlur(e) {
+      if (this.props.allowFocus) {
+        this.props.onBlur(e);
+      }
+    }
+  }, {
     key: 'handleChange',
     value: function handleChange(e) {
       var _this3 = this;
@@ -127,7 +148,8 @@ var Switch = function (_Component) {
           offText = _props.offText,
           onValue = _props.onValue,
           onIconClass = _props.onIconClass,
-          offIconClass = _props.offIconClass;
+          offIconClass = _props.offIconClass,
+          allowFocus = _props.allowFocus;
       var _state2 = this.state,
           value = _state2.value,
           coreWidth = _state2.coreWidth,
@@ -149,17 +171,22 @@ var Switch = function (_Component) {
           _react2.default.createElement('div', { className: 'el-switch__mask' })
         ),
         _react2.default.createElement('input', {
-          className: 'el-switch__input',
+          className: this.className('el-switch__input', {
+            'allow-focus': allowFocus
+          }),
           type: 'checkbox',
           checked: value === onValue,
           name: name,
+          ref: 'input',
           disabled: disabled,
-          onChange: this.handleChange.bind(this)
+          onChange: this.handleChange.bind(this),
+          onFocus: this.handleFocus.bind(this),
+          onBlur: this.handleBlur.bind(this)
         }),
         _react2.default.createElement(
           'span',
           { className: 'el-switch__core', ref: 'core', style: { 'width': coreWidth + 'px' } },
-          _react2.default.createElement('span', { className: 'el-switch__button', style: Object.assign({}, buttonStyle) })
+          _react2.default.createElement('span', { className: 'el-switch__button', style: Object.assign({}, buttonStyle), onClick: this.setFocus.bind(this) })
         ),
         _react2.default.createElement(
           _libs.Transition,
@@ -226,7 +253,10 @@ Switch.propTypes = {
   onValue: _libs.PropTypes.oneOfType([_libs.PropTypes.number, _libs.PropTypes.string, _libs.PropTypes.bool]),
   offValue: _libs.PropTypes.oneOfType([_libs.PropTypes.number, _libs.PropTypes.string, _libs.PropTypes.bool]),
   name: _libs.PropTypes.string,
-  onChange: _libs.PropTypes.func
+  onChange: _libs.PropTypes.func,
+  onBlur: _libs.PropTypes.func,
+  onFocus: _libs.PropTypes.func,
+  allowFocus: _libs.PropTypes.bool
 };
 
 Switch.defaultProps = {
@@ -241,7 +271,8 @@ Switch.defaultProps = {
   offValue: false,
   onColor: '',
   offColor: '',
-  name: ''
+  name: '',
+  allowFocus: false
 };
 ;
 

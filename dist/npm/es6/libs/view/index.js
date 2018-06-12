@@ -18,16 +18,9 @@ var View = function (_Component) {
       display: 'none'
     };
 
-    if (React.Children.count(this.props.children) > 1) {
-      return React.createElement(this.props.component, {
-        style: Object.assign({}, this.props.style, style),
-        className: this.props.className
-      }, this.props.children);
-    } else {
-      return React.cloneElement(this.props.children, {
-        style: Object.assign({}, this.props.children.props.style, style)
-      });
-    }
+    return React.cloneElement(React.Children.only(this.props.children), {
+      style: Object.assign({}, this.props.children.props.style, style)
+    });
   };
 
   return View;
@@ -38,13 +31,8 @@ var View = function (_Component) {
 
 export default View;
 View.propTypes = {
-  show: PropTypes.any,
-  component: PropTypes.string,
-  className: PropTypes.string,
-  style: PropTypes.object
+  show: PropTypes.any
 };
 /* eslint-enable */
 
-View.defaultProps = {
-  component: 'span'
-};
+View._typeName = 'View';

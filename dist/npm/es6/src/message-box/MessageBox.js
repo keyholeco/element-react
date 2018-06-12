@@ -23,7 +23,8 @@ var MessageBox = function (_Component) {
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.state = {
-      visible: false
+      visible: false,
+      inputValue: props.inputValue
     };
     return _this;
   }
@@ -32,6 +33,7 @@ var MessageBox = function (_Component) {
     this.setState({
       visible: true
     });
+    document.activeElement && document.activeElement.blur();
   };
 
   MessageBox.prototype.confirmButtonText = function confirmButtonText() {
@@ -43,6 +45,9 @@ var MessageBox = function (_Component) {
   };
 
   MessageBox.prototype.onChange = function onChange(value) {
+    this.setState({
+      inputValue: value
+    });
     this.validate(value);
   };
 
@@ -74,7 +79,6 @@ var MessageBox = function (_Component) {
       }
     }
 
-    this.inputValue = value;
     this.setState({ editorErrorMessage: editorErrorMessage });
 
     return !editorErrorMessage;
@@ -94,9 +98,9 @@ var MessageBox = function (_Component) {
           break;
         case 'confirm':
           if (modal === 'prompt') {
-            if (this.validate(this.inputValue)) {
+            if (this.validate(this.state.inputValue || '')) {
               if (showInput) {
-                promise.resolve({ value: this.inputValue, action: action });
+                promise.resolve({ value: this.state.inputValue, action: action });
               } else {
                 promise.resolve(action);
               }
@@ -118,18 +122,29 @@ var MessageBox = function (_Component) {
   };
 
   MessageBox.prototype.close = function close() {
-    var _this2 = this;
-
     this.setState({
       visible: false
     });
-
-    setTimeout(function () {
-      _this2.props.onClose();
-    }, 200);
   };
 
   MessageBox.prototype.render = function render() {
+    var _props3 = this.props,
+        willUnmount = _props3.willUnmount,
+        title = _props3.title,
+        showClose = _props3.showClose,
+        message = _props3.message,
+        showInput = _props3.showInput,
+        inputPlaceholder = _props3.inputPlaceholder,
+        showCancelButton = _props3.showCancelButton,
+        cancelButtonClass = _props3.cancelButtonClass,
+        showConfirmButton = _props3.showConfirmButton,
+        confirmButtonClass = _props3.confirmButtonClass,
+        inputType = _props3.inputType;
+    var _state = this.state,
+        visible = _state.visible,
+        editorErrorMessage = _state.editorErrorMessage;
+
+
     return React.createElement(
       'div',
       null,
@@ -138,31 +153,36 @@ var MessageBox = function (_Component) {
         { style: { position: 'absolute', zIndex: 2001 } },
         React.createElement(
           Transition,
-          { name: 'msgbox-fade', duration: '300' },
+          {
+            name: 'msgbox-fade',
+            onAfterLeave: function onAfterLeave() {
+              willUnmount && willUnmount();
+            }
+          },
           React.createElement(
             View,
-            { key: this.state.visible, show: this.state.visible },
+            { show: visible },
             React.createElement(
               'div',
               { className: 'el-message-box__wrapper' },
               React.createElement(
                 'div',
                 { className: 'el-message-box' },
-                this.props.title && React.createElement(
+                title && React.createElement(
                   'div',
                   { className: 'el-message-box__header' },
                   React.createElement(
                     'div',
                     { className: 'el-message-box__title' },
-                    this.props.title
+                    title
                   ),
-                  this.props.showClose && React.createElement(
+                  showClose && React.createElement(
                     'button',
                     { type: 'button', className: 'el-message-box__headerbtn', 'aria-label': 'Close', onClick: this.handleAction.bind(this, 'cancel') },
                     React.createElement('i', { className: 'el-message-box__close el-icon-close' })
                   )
                 ),
-                this.props.message && React.createElement(
+                message && React.createElement(
                   'div',
                   { className: 'el-message-box__content' },
                   React.createElement('div', { className: this.classNames('el-message-box__status', this.typeClass()) }),
@@ -172,28 +192,30 @@ var MessageBox = function (_Component) {
                     React.createElement(
                       'p',
                       null,
-                      this.props.message
+                      message
                     )
                   ),
                   React.createElement(
                     View,
-                    { show: this.props.showInput },
+                    { show: showInput },
                     React.createElement(
                       'div',
                       { className: 'el-message-box__input' },
                       React.createElement(Input, {
                         className: this.classNames({
-                          'invalid': this.state.editorErrorMessage
+                          'invalid': editorErrorMessage
                         }),
-                        placeholder: this.props.inputPlaceholder,
+                        type: inputType,
+                        value: this.state.inputValue,
+                        placeholder: inputPlaceholder,
                         onChange: this.onChange.bind(this)
                       }),
                       React.createElement(
                         'div',
                         { className: 'el-message-box__errormsg', style: {
-                            visibility: this.state.editorErrorMessage ? 'visible' : 'hidden'
+                            visibility: editorErrorMessage ? 'visible' : 'hidden'
                           } },
-                        this.state.editorErrorMessage
+                        editorErrorMessage
                       )
                     )
                   )
@@ -203,19 +225,19 @@ var MessageBox = function (_Component) {
                   { className: 'el-message-box__btns' },
                   React.createElement(
                     View,
-                    { show: this.props.showCancelButton },
+                    { show: showCancelButton },
                     React.createElement(
                       Button,
-                      { className: this.props.cancelButtonClass, onClick: this.handleAction.bind(this, 'cancel') },
+                      { className: cancelButtonClass, onClick: this.handleAction.bind(this, 'cancel') },
                       this.cancelButtonText()
                     )
                   ),
                   React.createElement(
                     View,
-                    { show: this.props.showConfirmButton },
+                    { show: showConfirmButton },
                     React.createElement(
                       Button,
-                      { className: this.classNames('el-button--primary', this.props.confirmButtonClass), onClick: this.handleAction.bind(this, 'confirm') },
+                      { className: this.classNames('el-button--primary', confirmButtonClass), onClick: this.handleAction.bind(this, 'confirm') },
                       this.confirmButtonText()
                     )
                   )
@@ -227,10 +249,10 @@ var MessageBox = function (_Component) {
       ),
       React.createElement(
         Transition,
-        { name: 'v-modal', duration: '200' },
+        { name: 'v-modal' },
         React.createElement(
           View,
-          { key: this.state.visible, show: this.state.visible },
+          { show: visible },
           React.createElement('div', { className: 'v-modal', style: { zIndex: 1006 } })
         )
       )
@@ -247,7 +269,7 @@ MessageBox.propTypes = {
   modal: PropTypes.oneOf(['alert', 'confirm', 'prompt']),
   type: PropTypes.oneOf(['success', 'warning', 'info', 'error']),
   title: PropTypes.string,
-  message: PropTypes.string,
+  message: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   showInput: PropTypes.bool,
   showClose: PropTypes.bool,
   showCancelButton: PropTypes.bool,
@@ -260,6 +282,8 @@ MessageBox.propTypes = {
   inputPattern: PropTypes.regex,
   inputValidator: PropTypes.func,
   inputErrorMessage: PropTypes.string,
+  inputValue: PropTypes.any,
+  inputType: PropTypes.string,
   promise: PropTypes.object,
   onClose: PropTypes.func
 };

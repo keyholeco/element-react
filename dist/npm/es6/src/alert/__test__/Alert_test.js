@@ -31,7 +31,9 @@ describe('Alert test', function () {
     var onClose = sinon.spy();
     var w = mount(React.createElement(Alert, { title: 'TEST', onClose: onClose }));
     w.find('i.el-alert__closebtn').simulate('click');
-    expect(onClose.calledOnce).toBe(true);
+    setTimeout(function () {
+      expect(onClose.calledOnce).toBe(true);
+    }, 1000);
   });
 
   it('showIcon', function () {

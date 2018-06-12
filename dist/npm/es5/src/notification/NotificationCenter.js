@@ -19,16 +19,17 @@ var _Notification2 = _interopRequireDefault(_Notification);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var className = '.el-notification';
+
 function NotificationCenter() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var type = arguments[1];
 
-  var div = document.createElement('div'),
-      className = 'el-notification';
+  var div = document.createElement('div');
 
   document.body.appendChild(div);
 
-  if (typeof props === 'string') {
+  if (typeof props === 'string' || _react2.default.isValidElement(props)) {
     props = {
       message: props
     };
@@ -38,44 +39,37 @@ function NotificationCenter() {
     props.type = type;
   }
 
-  var instances = document.getElementsByClassName(className);
-
-  props.top = props.offset || 0;
-
-  for (var i = 0, len = instances.length; i < len; i++) {
-    props.top += instances[i].offsetHeight + 16;
+  if (!props.offset) {
+    props.offset = 0;
   }
 
-  props.top += 16;
+  var instances = document.querySelectorAll(className);
 
-  var component = _react2.default.createElement(_Notification2.default, Object.assign({}, props, {
-    willUnmount: function willUnmount() {
+  var lastInstance = instances[instances.length - 1];
+
+  props.top = (lastInstance ? parseInt(lastInstance.style.top) + lastInstance.offsetHeight : props.offset) + 16;
+
+  var element = _react2.default.createElement(_Notification2.default, Object.assign({}, props, {
+    willUnmount: function willUnmount(height, top) {
       _reactDom2.default.unmountComponentAtNode(div);
       document.body.removeChild(div);
 
-      setTimeout(function () {
-        var instances = document.querySelectorAll('.el-notification');
+      requestAnimationFrame(function () {
+        var instances = document.querySelectorAll(className);
 
-        for (var _i = 0, _len = instances.length; _i < _len; _i++) {
-          var element = instances[_i];
+        for (var i = 0, len = instances.length; i < len; i++) {
+          var _element = instances[i];
+          var elementTop = parseInt(_element.style.top);
 
-          if (element.offsetTop > props.offsetHeight) {
-            element.style.top = element.offsetTop - props.offsetHeight - 16 + 'px';
+          if (elementTop > top) {
+            _element.style.top = elementTop - height - 16 + 'px';
           }
         }
       });
-
-      if (props.onClose instanceof Function) {
-        props.onClose();
-      }
     }
   }));
 
-  _reactDom2.default.render(component, div, function () {
-    setTimeout(function () {
-      props.offsetHeight = div.getElementsByClassName(className)[0].offsetHeight;
-    });
-  });
+  _reactDom2.default.render(element, div);
 }
 
 /* eslint-disable */
@@ -94,6 +88,8 @@ var _temp = function () {
   if (typeof __REACT_HOT_LOADER__ === 'undefined') {
     return;
   }
+
+  __REACT_HOT_LOADER__.register(className, 'className', 'src/notification/NotificationCenter.jsx');
 
   __REACT_HOT_LOADER__.register(NotificationCenter, 'NotificationCenter', 'src/notification/NotificationCenter.jsx');
 }();

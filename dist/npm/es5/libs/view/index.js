@@ -45,16 +45,9 @@ var View = function (_Component) {
         display: 'none'
       };
 
-      if (_react2.default.Children.count(this.props.children) > 1) {
-        return _react2.default.createElement(this.props.component, {
-          style: Object.assign({}, this.props.style, style),
-          className: this.props.className
-        }, this.props.children);
-      } else {
-        return _react2.default.cloneElement(this.props.children, {
-          style: Object.assign({}, this.props.children.props.style, style)
-        });
-      }
+      return _react2.default.cloneElement(_react2.default.Children.only(this.props.children), {
+        style: Object.assign({}, this.props.children.props.style, style)
+      });
     }
   }]);
   return View;
@@ -66,16 +59,11 @@ var View = function (_Component) {
 var _default = View;
 exports.default = _default;
 View.propTypes = {
-  show: _propTypes2.default.any,
-  component: _propTypes2.default.string,
-  className: _propTypes2.default.string,
-  style: _propTypes2.default.object
+  show: _propTypes2.default.any
 };
 /* eslint-enable */
 
-View.defaultProps = {
-  component: 'span'
-};
+View._typeName = 'View';
 ;
 
 var _temp = function () {

@@ -39,8 +39,8 @@ var Button = function (_Component) {
   (0, _createClass3.default)(Button, [{
     key: 'onClick',
     value: function onClick(e) {
-      if (this.props.onClick) {
-        this.props.onClick(e);
+      if (!this.props.loading) {
+        this.props.onClick && this.props.onClick(e);
       }
     }
   }, {

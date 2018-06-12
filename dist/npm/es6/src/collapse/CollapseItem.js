@@ -2,8 +2,7 @@ import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
-import { Component, PropTypes, Transition } from '../../libs';
-import { loadStyleString } from '../../libs/utils/dom';
+import { Component, PropTypes, CollapseTransition } from '../../libs';
 
 var CollapseItem = function (_Component) {
   _inherits(CollapseItem, _Component);
@@ -13,10 +12,6 @@ var CollapseItem = function (_Component) {
 
     return _possibleConstructorReturn(this, _Component.call(this, props));
   }
-
-  CollapseItem.prototype.componentWillMount = function componentWillMount() {
-    loadStyleString('.collapse-enter {\n        max-height: 0px;\n        -webkit-transition: max-height .3s ease;\n        overflow: hidden;\n      }\n      .collapse-enter.collapse-enter-active {\n        height: auto;\n        max-height: 100px;\n      }\n      .collapse-leave {\n        max-height: 100px;\n        -webkit-transition: max-height .3s ease;\n      }\n      .collapse-leave.collapse-leave-active {\n        overflow: hidden;\n        max-height: 0px;\n      }\n      ', 'collaspe-item');
-  };
 
   CollapseItem.prototype.render = function render() {
     var _props = this.props,
@@ -43,9 +38,9 @@ var CollapseItem = function (_Component) {
         title
       ),
       React.createElement(
-        Transition,
-        { name: 'collapse' },
-        isActive && React.createElement(
+        CollapseTransition,
+        { isShow: isActive },
+        React.createElement(
           'div',
           { className: 'el-collapse-item__wrap' },
           React.createElement(

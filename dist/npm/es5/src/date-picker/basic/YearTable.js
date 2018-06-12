@@ -62,7 +62,7 @@ var YearTable = function (_Component) {
       if (target.tagName === 'A') {
         if ((0, _utils.hasClass)(target.parentNode, 'disabled')) return;
         var year = target.textContent || target.innerText;
-        this.props.onPick(parseInt(year));
+        this.props.onPick(+year);
       }
     }
   }, {

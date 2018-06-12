@@ -103,12 +103,12 @@ var AjaxUpload = function (_Component) {
             _this3.post(rawFile);
           }
         }, function () {
-          if (file) _this3.onRemove(file);
+          if (file && typeof _this3.props.onRemove === 'function') _this3.props.onRemove(file);
         });
       } else if (before !== false) {
         this.post(rawFile);
       } else {
-        if (file) this.onRemove(file);
+        if (file && typeof this.props.onRemove === 'function') this.props.onRemove(file);
       }
     }
   }, {

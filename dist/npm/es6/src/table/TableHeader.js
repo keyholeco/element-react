@@ -1,348 +1,357 @@
 import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
+import _createClass from 'babel-runtime/helpers/createClass';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _inherits from 'babel-runtime/helpers/inherits';
-import React from 'react';
-import ReactDom from 'react-dom';
-import Checkbox from '../checkbox';
+import * as React from 'react';
+import throttle from 'throttle-debounce/throttle';
 import { Component, PropTypes } from '../../libs';
-import { getScrollBarWidth } from './utils';
-import Filter from './filter';
+import Checkbox from '../checkbox';
+import FilterPannel from './FilterPannel';
+
+var _document = document;
 
 var TableHeader = function (_Component) {
   _inherits(TableHeader, _Component);
 
-  function TableHeader(props, context) {
+  function TableHeader(props) {
     _classCallCheck(this, TableHeader);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.$ower = context.$owerTable;
-
-    _this.state = {
-      allChecked: false,
-      dragging: false,
-      dragState: {},
-      sortStatus: 0, //0：没有排序 1：升序 2：降序
-      sortPropertyName: '',
-      filterParams: { column: null, condi: null //存储当前的过滤条件
-      } };
+    ['handleHeaderClick', 'handleFilterClick', 'handleSortClick'].forEach(function (fn) {
+      _this[fn] = throttle(300, true, _this[fn]);
+    });
     return _this;
   }
 
-  TableHeader.prototype.handleMouseMove = function handleMouseMove(event, column) {
-    var target = event.target;
-    while (target && target.tagName !== 'TH') {
-      target = target.parentNode;
-    }
+  TableHeader.prototype.handleMouseMove = function handleMouseMove(column, event) {
+    if (!column.resizable) return;
+    if (column.subColumns && column.subColumns.length) return;
 
-    if (!column || !this.$ower.props.border || column.type == 'selection' || column.type == 'index' || typeof column.resizable != 'undefined' && column.resizable) {
-      return;
-    }
+    if (!this.dragging && this.props.border) {
+      var target = event.target;
+      while (target && target.tagName !== 'TH') {
+        target = target.parentNode;
+      }
 
-    if (!this.dragging) {
       var rect = target.getBoundingClientRect();
-      var body = document.body || target;
-      var bodyStyle = body.style;
-
+      var bodyStyle = _document.body.style;
       if (rect.width > 12 && rect.right - event.pageX < 8) {
         bodyStyle.cursor = 'col-resize';
         this.draggingColumn = column;
-      } else if (!this.dragging) {
+      } else {
         bodyStyle.cursor = '';
         this.draggingColumn = null;
       }
     }
   };
 
-  TableHeader.prototype.handleMouseDown = function handleMouseDown(event, column) {
+  TableHeader.prototype.handleMouseDown = function handleMouseDown(column, event) {
     var _this2 = this;
 
-    if (this.draggingColumn && this.$ower.props.border) {
+    if (this.draggingColumn) {
       this.dragging = true;
 
-      var columnEl = event.target;
-      var body = document.body || columnEl;
+      var table = this.context.table;
+      var tableEl = table.el,
+          resizeProxy = table.resizeProxy;
 
+      var tableLeft = tableEl.getBoundingClientRect().left;
+      var columnEl = event.target;
       while (columnEl && columnEl.tagName !== 'TH') {
         columnEl = columnEl.parentNode;
       }
-
-      this.$ower.setState({ resizeProxyVisible: true });
-
-      var tableEl = ReactDom.findDOMNode(this.context.$owerTable);
-      var pos = tableEl.getBoundingClientRect() || { left: 0 };
-      var tableLeft = pos.left;
       var columnRect = columnEl.getBoundingClientRect();
       var minLeft = columnRect.left - tableLeft + 30;
-
       columnEl.classList.add('noclick');
 
-      this.state.dragState = {
-        startMouseLeft: event.clientX,
-        startLeft: columnRect.right - tableLeft,
-        startColumnLeft: columnRect.left - tableLeft,
-        tableLeft: tableLeft
-      };
+      var startMouseLeft = event.clientX;
+      var startLeft = columnRect.right - tableLeft;
+      var startColumnLeft = columnRect.left - tableLeft;
 
-      var resizeProxy = this.context.$owerTable.refs.resizeProxy;
-      resizeProxy.style.left = this.state.dragState.startLeft + 'px';
+      resizeProxy.style.visibility = 'visible';
+      resizeProxy.style.left = startLeft + 'px';
 
-      var preventFunc = function preventFunc() {
+      _document.onselectstart = function () {
         return false;
       };
+      _document.ondragstart = function () {
+        return false;
+      };
+
       var handleMouseMove = function handleMouseMove(event) {
-        var deltaLeft = event.clientX - _this2.state.dragState.startMouseLeft;
-        var proxyLeft = _this2.state.dragState.startLeft + deltaLeft;
+        var deltaLeft = event.clientX - startMouseLeft;
+        var proxyLeft = startLeft + deltaLeft;
 
         resizeProxy.style.left = Math.max(minLeft, proxyLeft) + 'px';
       };
 
-      var handleMouseUp = function handleMouseUp() {
+      var handleMouseUp = function handleMouseUp(event) {
         if (_this2.dragging) {
           var finalLeft = parseInt(resizeProxy.style.left, 10);
-          var columnWidth = finalLeft - _this2.state.dragState.startColumnLeft;
-          //width本应为配置的高度， 如果改变过宽度， realWidth 与 width永远保持一致
-          //这列不再参与宽度的自动重新分配
-          column.realWidth = column.width = column.minWidth > columnWidth ? column.minWidth : columnWidth;
+          var columnWidth = finalLeft - startColumnLeft;
+          var oldWidth = column.realWidth;
+          column.width = column.realWidth = columnWidth;
 
-          _this2.context.$owerTable.scheduleLayout();
-
-          body.style.cursor = '';
           _this2.dragging = false;
           _this2.draggingColumn = null;
-          _this2.dragState = {};
 
-          _this2.context.$owerTable.setState({ resizeProxyVisible: false });
+          _document.body.style.cursor = '';
+          resizeProxy.style.visibility = 'hidden';
+          _document.removeEventListener('mousemove', handleMouseMove);
+          _document.removeEventListener('mouseup', handleMouseUp);
+          _document.onselectstart = null;
+          _document.ondragstart = null;
+          setTimeout(function () {
+            columnEl.classList.remove('noclick');
+          });
+
+          _this2.context.layout.scheduleLayout();
+          _this2.dispatchEvent('onHeaderDragEnd', columnWidth, oldWidth, column, event);
         }
-
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-        document.removeEventListener('selectstart', preventFunc);
-        document.removeEventListener('dragstart', preventFunc);
-
-        setTimeout(function () {
-          columnEl.classList.remove('noclick');
-        }, 0);
       };
 
-      document.addEventListener('selectstart', preventFunc);
-      document.addEventListener('dragstart', preventFunc);
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
+      _document.addEventListener('mousemove', handleMouseMove);
+      _document.addEventListener('mouseup', handleMouseUp);
     }
   };
 
-  TableHeader.prototype.onAllChecked = function onAllChecked(checked) {
-    var mainBody = this.context.$owerTable.refs.mainBody;
-
-    this.setState({ allChecked: checked });
-    mainBody.selectAll(checked);
+  TableHeader.prototype.handleMouseOut = function handleMouseOut() {
+    _document.body.style.cursor = "";
   };
 
-  TableHeader.prototype.onSort = function onSort(column) {
-    var sortStatus = this.state.sortStatus;
-    var $owerTable = this.context.$owerTable;
-
-    var nextStatus = void 0;
-
-    switch (sortStatus) {
-      case 0:
-        nextStatus = 1;break;
-      case 1:
-        nextStatus = 2;break;
-      case 2:
-        nextStatus = 0;break;
-    }
-
-    this.setState({
-      sortStatus: nextStatus,
-      sortPropertyName: column.property
-    });
-    $owerTable.sortBy(nextStatus, column.property, column.sortMethod);
-  };
-
-  TableHeader.prototype.onFilter = function onFilter(e, filters, columnData) {
-    var filterParams = this.state.filterParams;
-
-
-    e.stopPropagation();
-
-    var column = e.target.parentNode;
-    var ower = this.context.$owerTable;
-    var arrow = void 0,
-        pos = void 0;
-
-    while (column.tagName.toLowerCase() != 'th') {
-      column = column.parentNode;
-    }
-
-    pos = this.getPosByEle(column);
-
-    arrow = column.querySelector('.el-icon-arrow-down');
-    pos.x = this.getPosByEle(arrow).x + arrow.offsetWidth;
-    pos.y = pos.y + column.offsetHeight - 3;
-
-    var visible = void 0;
-    if (arrow.className.indexOf('el-icon-arrow-up') > -1) {
-      arrow.className = arrow.className.replace('el-icon-arrow-up', '');
-      visible = false;
+  TableHeader.prototype.handleHeaderClick = function handleHeaderClick(column, event) {
+    if (column.sortable && !column.filters) {
+      this.handleSortClick(column, null, event);
+    } else if (column.filters && !column.sortable) {
+      this.handleFilterClick(column, event);
     } else {
-      arrow.className = arrow.className + ' el-icon-arrow-up';
-      visible = true;
+      this.dispatchEvent('onHeaderClick', column, event);
+    }
+  };
+
+  TableHeader.prototype.handleSortClick = function handleSortClick(column, givenOrder, event) {
+    event.stopPropagation();
+    event.nativeEvent.stopImmediatePropagation();
+
+    var target = event.target;
+    while (target && target.tagName !== 'TH') {
+      target = target.parentNode;
+    }
+    if (target.classList.contains('noclick')) return;
+
+    var order = void 0;
+    if (givenOrder) {
+      order = givenOrder;
+    } else {
+      var _props$store = this.props.store,
+          sortColumn = _props$store.sortColumn,
+          sortOrder = _props$store.sortOrder;
+
+      if (column === sortColumn) {
+        if (!sortOrder) {
+          order = 'ascending';
+        } else {
+          order = sortOrder === 'ascending' ? 'descending' : null;
+        }
+      } else {
+        order = 'ascending';
+      }
+    }
+    this.context.store.changeSortCondition(column, order);
+
+    this.dispatchEvent('onHeaderClick', column, event);
+  };
+
+  TableHeader.prototype.handleFilterClick = function handleFilterClick(column, event) {
+    if (event) {
+      event.stopPropagation();
+      event.nativeEvent.stopImmediatePropagation();
     }
 
-    var onClose = function onClose() {
-      arrow.className = arrow.className.replace('el-icon-arrow-up', '');
-    };
+    this.context.store.toggleFilterOpened(column);
 
-    ReactDom.render(React.createElement(Filter, {
-      defaultCondi: filterParams.column == columnData ? filterParams.condi : null,
-      onFilter: this.onFilterAction.bind(this, columnData),
-      popper: this.refs.popper,
-      visible: visible,
-      onClose: onClose,
-      filters: filters,
-      position: pos,
-      ower: ower }), ower.filterContainer);
+    event && this.dispatchEvent('onHeaderClick', column, event);
   };
 
-  TableHeader.prototype.onFilterAction = function onFilterAction(column, filterCondi) {
-    var filterParams = this.state.filterParams;
+  TableHeader.prototype.dispatchEvent = function dispatchEvent(name) {
+    var fn = this.props[name];
 
-
-    filterParams.column = filterCondi && filterCondi.length ? column : null;
-    filterParams.condi = filterCondi && filterCondi.length ? filterCondi : null;
-    this.context.$owerTable.filterBy(column, filterCondi);
-  };
-
-  TableHeader.prototype.getPosByEle = function getPosByEle(el) {
-    var y = el.offsetTop;
-    var x = el.offsetLeft;
-
-    while (el == el.offsetParent) {
-      y += el.offsetTop;
-      x += el.offsetLeft;
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
     }
 
-    return { x: x, y: y };
+    fn && fn.apply(undefined, args);
   };
 
-  TableHeader.prototype.cancelAllChecked = function cancelAllChecked() {
-    this.setState({ allChecked: false });
+  TableHeader.prototype.changeFilteredValue = function changeFilteredValue(column, value) {
+    this.context.store.changeFilteredValue(column, value);
+  };
+
+  TableHeader.prototype.isCellHidden = function isCellHidden(index, columns) {
+    var fixed = this.props.fixed;
+
+    if (fixed === true || fixed === 'left') {
+      return index >= this.leftFixedCount;
+    } else if (fixed === 'right') {
+      var before = 0;
+      for (var i = 0; i < index; i++) {
+        before += columns[i].colSpan;
+      }
+      return before < this.columnsCount - this.rightFixedCount;
+    } else {
+      return index < this.leftFixedCount || index >= this.columnsCount - this.rightFixedCount;
+    }
+  };
+
+  TableHeader.prototype.renderHeader = function renderHeader(column) {
+    var type = column.type;
+
+    if (type === 'expand') {
+      return column.label || '';
+    }
+
+    if (type === 'index') {
+      return column.label || '#';
+    }
+
+    if (type === 'selection') {
+      return React.createElement(Checkbox, {
+        checked: this.context.store.isAllSelected,
+        onChange: this.context.store.toggleAllSelection
+      });
+    }
+
+    return column.renderHeader ? column.renderHeader(column) : column.label;
   };
 
   TableHeader.prototype.render = function render() {
     var _this3 = this;
 
     var _props = this.props,
-        style = _props.style,
-        isScrollY = _props.isScrollY,
-        fixed = _props.fixed,
-        flattenColumns = _props.flattenColumns;
-    var _state = this.state,
-        sortPropertyName = _state.sortPropertyName,
-        sortStatus = _state.sortStatus;
-    var leafColumns = flattenColumns.leafColumns,
-        headerLevelColumns = flattenColumns.headerLevelColumns;
+        store = _props.store,
+        layout = _props.layout,
+        fixed = _props.fixed;
 
 
     return React.createElement(
       'table',
       {
-        style: style,
-        className: this.classNames('el-table__header'),
+        className: 'el-table__header',
         cellPadding: 0,
-        cellSpacing: 0 },
+        cellSpacing: 0,
+        style: this.style({
+          borderSpacing: 0,
+          border: 0
+        })
+      },
       React.createElement(
         'colgroup',
         null,
-        leafColumns.map(function (item, idx) {
-          return React.createElement('col', { key: idx, style: { width: item.width } });
-        })
+        store.columns.map(function (column, index) {
+          return React.createElement('col', { width: column.realWidth, style: { width: column.realWidth }, key: index });
+        }),
+        !fixed && React.createElement('col', { width: layout.scrollY ? layout.gutterWidth : 0, style: { width: layout.scrollY ? layout.gutterWidth : 0 } })
       ),
       React.createElement(
         'thead',
         null,
-        headerLevelColumns.map(function (item, index) {
-          var columnList = item;
+        store.columnRows.map(function (columns, rowIndex) {
           return React.createElement(
             'tr',
-            { key: index },
-            columnList.map(function (column, idx) {
-              var className = _this3.classNames({
-                'is-center': column.align == 'center',
-                'is-right': column.align == 'right',
-                'is-hidden': !_this3.props.fixed && column.fixed,
-                'ascending': sortPropertyName == column.property && sortStatus == 1,
-                'descending': sortPropertyName == column.property && sortStatus == 2
-              });
-
+            { key: rowIndex },
+            columns.map(function (column, cellIndex) {
               return React.createElement(
                 'th',
                 {
-                  key: idx,
-                  rowSpan: column.rowSpan,
                   colSpan: column.colSpan,
-                  className: className,
-                  onMouseMove: function onMouseMove(e) {
-                    return _this3.handleMouseMove(e, column);
-                  },
-                  onMouseDown: function onMouseDown(e) {
-                    return _this3.handleMouseDown(e, column);
-                  },
-                  style: column.colSpan ? {} : { width: column.realWidth } },
-                column.type == 'selection' && React.createElement(
+                  rowSpan: column.rowSpan,
+                  className: _this3.className(store.sortColumn === column && store.sortOrder, column.headerAlign, column.className, column.labelClassName, column.columnKey, {
+                    'is-hidden': rowIndex === 0 && _this3.isCellHidden(cellIndex, columns),
+                    'is-leaf': !column.subColumns,
+                    'is-sortable': column.sortable
+                  }),
+                  onMouseMove: _this3.handleMouseMove.bind(_this3, column),
+                  onMouseDown: _this3.handleMouseDown.bind(_this3, column),
+                  onMouseOut: _this3.handleMouseOut,
+                  onClick: _this3.handleHeaderClick.bind(_this3, column),
+                  key: cellIndex
+                },
+                React.createElement(
                   'div',
                   { className: 'cell' },
-                  React.createElement(Checkbox, {
-                    checked: _this3.state.allChecked,
-                    onChange: function onChange(checked) {
-                      return _this3.onAllChecked(checked);
-                    } })
-                ),
-                column.type == 'index' && React.createElement(
-                  'div',
-                  { className: 'cell' },
-                  '#'
-                ),
-                column.type != 'selection' && column.type != 'index' && React.createElement(
-                  'div',
-                  { className: 'cell' },
-                  column.label,
-                  column.sortable ? React.createElement(
-                    'span',
-                    { className: 'caret-wrapper', onClick: function onClick() {
-                        _this3.onSort(column);
-                      } },
-                    React.createElement('i', { className: 'sort-caret ascending' }),
-                    React.createElement('i', { className: 'sort-caret descending' })
-                  ) : '',
-                  column.filterable ? React.createElement(
+                  _this3.renderHeader(column),
+                  column.sortable && React.createElement(
                     'span',
                     {
-                      ref: 'popper',
-                      className: 'el-table__column-filter-trigger',
-                      onClick: function onClick(e) {
-                        return _this3.onFilter(e, column.filters, column);
-                      } },
-                    React.createElement('i', { className: 'el-icon-arrow-down' })
-                  ) : ''
+                      className: 'caret-wrapper',
+                      onClick: _this3.handleSortClick.bind(_this3, column, null)
+                    },
+                    React.createElement('i', {
+                      className: 'sort-caret ascending',
+                      onClick: _this3.handleSortClick.bind(_this3, column, 'ascending')
+                    }),
+                    React.createElement('i', {
+                      className: 'sort-caret descending',
+                      onClick: _this3.handleSortClick.bind(_this3, column, 'descending')
+                    })
+                  ),
+                  column.filterable && React.createElement(
+                    FilterPannel,
+                    {
+                      visible: column.filterOpened,
+                      multiple: column.filterMultiple,
+                      filters: column.filters,
+                      filteredValue: column.filteredValue,
+                      placement: column.filterPlacement,
+                      onFilterChange: _this3.changeFilteredValue.bind(_this3, column),
+                      toggleFilter: _this3.handleFilterClick.bind(_this3, column)
+                    },
+                    React.createElement(
+                      'span',
+                      {
+                        className: 'el-table__column-filter-trigger',
+                        onClick: _this3.handleFilterClick.bind(_this3, column)
+                      },
+                      React.createElement('i', { className: _this3.classNames('el-icon-arrow-down', { 'el-icon-arrow-up': column.filterOpened }) })
+                    )
+                  )
                 )
               );
             }),
-            !fixed && isScrollY && React.createElement('th', { className: 'gutter', style: { width: getScrollBarWidth() } })
+            !fixed && React.createElement('th', {
+              className: 'gutter',
+              style: { width: layout.scrollY ? layout.gutterWidth : 0 }
+            })
           );
         })
       )
     );
   };
 
+  _createClass(TableHeader, [{
+    key: 'columnsCount',
+    get: function get() {
+      return this.props.store.columns.length;
+    }
+  }, {
+    key: 'leftFixedCount',
+    get: function get() {
+      return this.props.store.fixedColumns.length;
+    }
+  }, {
+    key: 'rightFixedCount',
+    get: function get() {
+      return this.props.store.rightFixedColumns.length;
+    }
+  }]);
+
   return TableHeader;
 }(Component);
 
-export default TableHeader;
-
-
 TableHeader.contextTypes = {
-  $owerTable: PropTypes.object
+  store: PropTypes.any,
+  layout: PropTypes.any,
+  table: PropTypes.any
 };
+export default TableHeader;

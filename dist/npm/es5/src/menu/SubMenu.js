@@ -136,9 +136,21 @@ var SubMenu = function (_MixinComponent) {
               'el-icon-caret-bottom': this.rootMenu().props.mode === 'horizontal'
             }) })
         ),
-        _react2.default.createElement(
-          _libs.View,
-          { show: this.opened() },
+        this.rootMenu().props.mode === 'horizontal' ? _react2.default.createElement(
+          _libs.Transition,
+          { name: 'el-zoom-in-top' },
+          _react2.default.createElement(
+            _libs.View,
+            { show: this.opened() },
+            _react2.default.createElement(
+              'ul',
+              { className: 'el-menu' },
+              this.props.children
+            )
+          )
+        ) : _react2.default.createElement(
+          _libs.CollapseTransition,
+          { isShow: this.opened() },
           _react2.default.createElement(
             'ul',
             { className: 'el-menu' },

@@ -61,6 +61,24 @@ var Switch = function (_Component) {
     this.refs.core.style.backgroundColor = newColor;
   };
 
+  Switch.prototype.setFocus = function setFocus() {
+    if (this.props.allowFocus) {
+      this.refs.input.focus();
+    }
+  };
+
+  Switch.prototype.handleFocus = function handleFocus(e) {
+    if (this.props.allowFocus) {
+      this.props.onFocus(e);
+    }
+  };
+
+  Switch.prototype.handleBlur = function handleBlur(e) {
+    if (this.props.allowFocus) {
+      this.props.onBlur(e);
+    }
+  };
+
   Switch.prototype.handleChange = function handleChange(e) {
     var _this3 = this;
 
@@ -94,7 +112,8 @@ var Switch = function (_Component) {
         offText = _props.offText,
         onValue = _props.onValue,
         onIconClass = _props.onIconClass,
-        offIconClass = _props.offIconClass;
+        offIconClass = _props.offIconClass,
+        allowFocus = _props.allowFocus;
     var _state2 = this.state,
         value = _state2.value,
         coreWidth = _state2.coreWidth,
@@ -116,17 +135,22 @@ var Switch = function (_Component) {
         React.createElement('div', { className: 'el-switch__mask' })
       ),
       React.createElement('input', {
-        className: 'el-switch__input',
+        className: this.className('el-switch__input', {
+          'allow-focus': allowFocus
+        }),
         type: 'checkbox',
         checked: value === onValue,
         name: name,
+        ref: 'input',
         disabled: disabled,
-        onChange: this.handleChange.bind(this)
+        onChange: this.handleChange.bind(this),
+        onFocus: this.handleFocus.bind(this),
+        onBlur: this.handleBlur.bind(this)
       }),
       React.createElement(
         'span',
         { className: 'el-switch__core', ref: 'core', style: { 'width': coreWidth + 'px' } },
-        React.createElement('span', { className: 'el-switch__button', style: Object.assign({}, buttonStyle) })
+        React.createElement('span', { className: 'el-switch__button', style: Object.assign({}, buttonStyle), onClick: this.setFocus.bind(this) })
       ),
       React.createElement(
         Transition,
@@ -192,7 +216,10 @@ Switch.propTypes = {
   onValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.bool]),
   offValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.bool]),
   name: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  onFocus: PropTypes.func,
+  allowFocus: PropTypes.bool
 };
 
 Switch.defaultProps = {
@@ -207,5 +234,6 @@ Switch.defaultProps = {
   offValue: false,
   onColor: '',
   offColor: '',
-  name: ''
+  name: '',
+  allowFocus: false
 };

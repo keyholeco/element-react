@@ -60,7 +60,7 @@ var Col = function (_Component) {
       var classList = [];
 
       ['span', 'offset', 'pull', 'push'].forEach(function (prop) {
-        if (_this2.props[prop]) {
+        if (_this2.props[prop] >= 0) {
           classList.push(prop !== 'span' ? 'el-col-' + prop + '-' + _this2.props[prop] : 'el-col-' + _this2.props[prop]);
         }
       });
@@ -71,10 +71,8 @@ var Col = function (_Component) {
           Object.keys(props).forEach(function (prop) {
             classList.push(prop !== 'span' ? 'el-col-' + size + '-' + prop + '-' + props[prop] : 'el-col-' + size + '-' + props[prop]);
           });
-        } else {
-          if (_this2.props[size]) {
-            classList.push('el-col-' + size + '-' + Number(_this2.props[size]));
-          }
+        } else if (_this2.props[size] >= 0) {
+          classList.push('el-col-' + size + '-' + Number(_this2.props[size]));
         }
       });
 

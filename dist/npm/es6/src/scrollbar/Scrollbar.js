@@ -1,3 +1,4 @@
+import _extends from 'babel-runtime/helpers/extends';
 import _objectWithoutProperties from 'babel-runtime/helpers/objectWithoutProperties';
 import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
 import _createClass from 'babel-runtime/helpers/createClass';
@@ -5,6 +6,7 @@ import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructo
 import _inherits from 'babel-runtime/helpers/inherits';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { PropTypes, Component } from '../../libs';
 import { addResizeListener, removeResizeListener } from '../../libs/utils/resize-event';
@@ -26,22 +28,27 @@ export var Scrollbar = function (_Component) {
       moveX: 0,
       moveY: 0
     };
+
+    _this.update = _this._update.bind(_this);
     return _this;
   }
 
   Scrollbar.prototype.componentDidMount = function componentDidMount() {
-    var _this2 = this;
-
     if (this.native) return;
-    var handler = this.update.bind(this);
-    var rafId = requestAnimationFrame(handler);
+    var rafId = requestAnimationFrame(this.update);
     this.cleanRAF = function () {
       cancelAnimationFrame(rafId);
     };
+  };
+
+  Scrollbar.prototype.componentDidUpdate = function componentDidUpdate() {
+    var _this2 = this;
+
+    this.resizeDom = ReactDOM.findDOMNode(this.refs.resize);
     if (!this.props.noresize) {
-      addResizeListener(this.refs.resize, handler);
+      addResizeListener(this.resizeDom, this.update);
       this.cleanResize = function () {
-        removeResizeListener(_this2.refs.resize, handler);
+        removeResizeListener(_this2.resizeDom, _this2.update);
       };
     }
   };
@@ -59,7 +66,7 @@ export var Scrollbar = function (_Component) {
     });
   };
 
-  Scrollbar.prototype.update = function update() {
+  Scrollbar.prototype._update = function _update() {
     var heightPercentage = void 0,
         widthPercentage = void 0;
     var wrap = this.wrap;
@@ -118,12 +125,13 @@ export var Scrollbar = function (_Component) {
     if (!native) {
       var wrap = React.createElement(
         'div',
-        { ref: 'wrap',
+        _extends({}, others, {
+          ref: 'wrap',
           key: 0,
           style: style,
           onScroll: this.handleScroll.bind(this),
           className: this.classNames(wrapClass, 'el-scrollbar__wrap', gutter ? '' : 'el-scrollbar__wrap--hidden-default')
-        },
+        }),
         view
       );
       nodes = [wrap, React.createElement(Bar, { key: 1, move: moveX, size: sizeWidth, getParentWrap: function getParentWrap() {
@@ -134,7 +142,11 @@ export var Scrollbar = function (_Component) {
     } else {
       nodes = [React.createElement(
         'div',
-        { key: 0, ref: 'wrap', className: this.classNames(wrapClass, 'el-scrollbar__wrap'), style: style },
+        _extends({}, others, {
+          key: 0,
+          ref: 'wrap',
+          className: this.classNames(wrapClass, 'el-scrollbar__wrap'),
+          style: style }),
         view
       )];
     }

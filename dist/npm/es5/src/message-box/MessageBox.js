@@ -56,7 +56,8 @@ var MessageBox = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (MessageBox.__proto__ || Object.getPrototypeOf(MessageBox)).call(this, props));
 
     _this.state = {
-      visible: false
+      visible: false,
+      inputValue: props.inputValue
     };
     return _this;
   }
@@ -67,6 +68,7 @@ var MessageBox = function (_Component) {
       this.setState({
         visible: true
       });
+      document.activeElement && document.activeElement.blur();
     }
   }, {
     key: 'confirmButtonText',
@@ -81,6 +83,9 @@ var MessageBox = function (_Component) {
   }, {
     key: 'onChange',
     value: function onChange(value) {
+      this.setState({
+        inputValue: value
+      });
       this.validate(value);
     }
   }, {
@@ -114,7 +119,6 @@ var MessageBox = function (_Component) {
         }
       }
 
-      this.inputValue = value;
       this.setState({ editorErrorMessage: editorErrorMessage });
 
       return !editorErrorMessage;
@@ -135,9 +139,9 @@ var MessageBox = function (_Component) {
             break;
           case 'confirm':
             if (modal === 'prompt') {
-              if (this.validate(this.inputValue)) {
+              if (this.validate(this.state.inputValue || '')) {
                 if (showInput) {
-                  promise.resolve({ value: this.inputValue, action: action });
+                  promise.resolve({ value: this.state.inputValue, action: action });
                 } else {
                   promise.resolve(action);
                 }
@@ -160,19 +164,30 @@ var MessageBox = function (_Component) {
   }, {
     key: 'close',
     value: function close() {
-      var _this2 = this;
-
       this.setState({
         visible: false
       });
-
-      setTimeout(function () {
-        _this2.props.onClose();
-      }, 200);
     }
   }, {
     key: 'render',
     value: function render() {
+      var _props3 = this.props,
+          willUnmount = _props3.willUnmount,
+          title = _props3.title,
+          showClose = _props3.showClose,
+          message = _props3.message,
+          showInput = _props3.showInput,
+          inputPlaceholder = _props3.inputPlaceholder,
+          showCancelButton = _props3.showCancelButton,
+          cancelButtonClass = _props3.cancelButtonClass,
+          showConfirmButton = _props3.showConfirmButton,
+          confirmButtonClass = _props3.confirmButtonClass,
+          inputType = _props3.inputType;
+      var _state = this.state,
+          visible = _state.visible,
+          editorErrorMessage = _state.editorErrorMessage;
+
+
       return _react2.default.createElement(
         'div',
         null,
@@ -181,31 +196,36 @@ var MessageBox = function (_Component) {
           { style: { position: 'absolute', zIndex: 2001 } },
           _react2.default.createElement(
             _libs.Transition,
-            { name: 'msgbox-fade', duration: '300' },
+            {
+              name: 'msgbox-fade',
+              onAfterLeave: function onAfterLeave() {
+                willUnmount && willUnmount();
+              }
+            },
             _react2.default.createElement(
               _libs.View,
-              { key: this.state.visible, show: this.state.visible },
+              { show: visible },
               _react2.default.createElement(
                 'div',
                 { className: 'el-message-box__wrapper' },
                 _react2.default.createElement(
                   'div',
                   { className: 'el-message-box' },
-                  this.props.title && _react2.default.createElement(
+                  title && _react2.default.createElement(
                     'div',
                     { className: 'el-message-box__header' },
                     _react2.default.createElement(
                       'div',
                       { className: 'el-message-box__title' },
-                      this.props.title
+                      title
                     ),
-                    this.props.showClose && _react2.default.createElement(
+                    showClose && _react2.default.createElement(
                       'button',
                       { type: 'button', className: 'el-message-box__headerbtn', 'aria-label': 'Close', onClick: this.handleAction.bind(this, 'cancel') },
                       _react2.default.createElement('i', { className: 'el-message-box__close el-icon-close' })
                     )
                   ),
-                  this.props.message && _react2.default.createElement(
+                  message && _react2.default.createElement(
                     'div',
                     { className: 'el-message-box__content' },
                     _react2.default.createElement('div', { className: this.classNames('el-message-box__status', this.typeClass()) }),
@@ -215,28 +235,30 @@ var MessageBox = function (_Component) {
                       _react2.default.createElement(
                         'p',
                         null,
-                        this.props.message
+                        message
                       )
                     ),
                     _react2.default.createElement(
                       _libs.View,
-                      { show: this.props.showInput },
+                      { show: showInput },
                       _react2.default.createElement(
                         'div',
                         { className: 'el-message-box__input' },
                         _react2.default.createElement(_input2.default, {
                           className: this.classNames({
-                            'invalid': this.state.editorErrorMessage
+                            'invalid': editorErrorMessage
                           }),
-                          placeholder: this.props.inputPlaceholder,
+                          type: inputType,
+                          value: this.state.inputValue,
+                          placeholder: inputPlaceholder,
                           onChange: this.onChange.bind(this)
                         }),
                         _react2.default.createElement(
                           'div',
                           { className: 'el-message-box__errormsg', style: {
-                              visibility: this.state.editorErrorMessage ? 'visible' : 'hidden'
+                              visibility: editorErrorMessage ? 'visible' : 'hidden'
                             } },
-                          this.state.editorErrorMessage
+                          editorErrorMessage
                         )
                       )
                     )
@@ -246,19 +268,19 @@ var MessageBox = function (_Component) {
                     { className: 'el-message-box__btns' },
                     _react2.default.createElement(
                       _libs.View,
-                      { show: this.props.showCancelButton },
+                      { show: showCancelButton },
                       _react2.default.createElement(
                         _button2.default,
-                        { className: this.props.cancelButtonClass, onClick: this.handleAction.bind(this, 'cancel') },
+                        { className: cancelButtonClass, onClick: this.handleAction.bind(this, 'cancel') },
                         this.cancelButtonText()
                       )
                     ),
                     _react2.default.createElement(
                       _libs.View,
-                      { show: this.props.showConfirmButton },
+                      { show: showConfirmButton },
                       _react2.default.createElement(
                         _button2.default,
-                        { className: this.classNames('el-button--primary', this.props.confirmButtonClass), onClick: this.handleAction.bind(this, 'confirm') },
+                        { className: this.classNames('el-button--primary', confirmButtonClass), onClick: this.handleAction.bind(this, 'confirm') },
                         this.confirmButtonText()
                       )
                     )
@@ -270,10 +292,10 @@ var MessageBox = function (_Component) {
         ),
         _react2.default.createElement(
           _libs.Transition,
-          { name: 'v-modal', duration: '200' },
+          { name: 'v-modal' },
           _react2.default.createElement(
             _libs.View,
-            { key: this.state.visible, show: this.state.visible },
+            { show: visible },
             _react2.default.createElement('div', { className: 'v-modal', style: { zIndex: 1006 } })
           )
         )
@@ -291,7 +313,7 @@ MessageBox.propTypes = {
   modal: _libs.PropTypes.oneOf(['alert', 'confirm', 'prompt']),
   type: _libs.PropTypes.oneOf(['success', 'warning', 'info', 'error']),
   title: _libs.PropTypes.string,
-  message: _libs.PropTypes.string,
+  message: _libs.PropTypes.oneOfType([_libs.PropTypes.string, _libs.PropTypes.element]),
   showInput: _libs.PropTypes.bool,
   showClose: _libs.PropTypes.bool,
   showCancelButton: _libs.PropTypes.bool,
@@ -304,6 +326,8 @@ MessageBox.propTypes = {
   inputPattern: _libs.PropTypes.regex,
   inputValidator: _libs.PropTypes.func,
   inputErrorMessage: _libs.PropTypes.string,
+  inputValue: _libs.PropTypes.any,
+  inputType: _libs.PropTypes.string,
   promise: _libs.PropTypes.object,
   onClose: _libs.PropTypes.func
 };

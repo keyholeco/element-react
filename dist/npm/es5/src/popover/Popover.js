@@ -102,32 +102,6 @@ var Popover = function (_Component) {
       }
     }
   }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      var showPopper = this.state.showPopper;
-
-
-      if (showPopper) {
-        if (this.popperJS) {
-          this.popperJS.update();
-        } else {
-          if (this.refs.arrow) {
-            this.refs.arrow.setAttribute('x-arrow', '');
-          }
-
-          this.popperJS = new _popper2.default(this.reference, this.refs.popper, {
-            placement: this.props.placement
-          });
-        }
-      } else {
-        if (this.popperJS) {
-          this.popperJS.destroy();
-        }
-
-        delete this.popperJS;
-      }
-    }
-  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(props) {
       if (props.visible != this.props.visible) {
@@ -140,10 +114,6 @@ var Popover = function (_Component) {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this.reference.parentNode.replaceChild(this.reference.cloneNode(true), this.reference);
-
-      if (this.popperJS) {
-        this.popperJS.destroy();
-      }
     }
   }, {
     key: 'handleMouseEnter',
@@ -166,6 +136,23 @@ var Popover = function (_Component) {
       }, 200);
     }
   }, {
+    key: 'onEnter',
+    value: function onEnter() {
+      if (this.refs.arrow) {
+        this.refs.arrow.setAttribute('x-arrow', '');
+      }
+
+      this.popperJS = new _popper2.default(this.reference, this.refs.popper, {
+        placement: this.props.placement,
+        gpuAcceleration: false
+      });
+    }
+  }, {
+    key: 'onAfterLeave',
+    value: function onAfterLeave() {
+      this.popperJS.destroy();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -182,7 +169,7 @@ var Popover = function (_Component) {
         null,
         _react2.default.createElement(
           _libs.Transition,
-          { name: transition, duration: 200 },
+          { name: transition, onEnter: this.onEnter.bind(this), onAfterLeave: this.onAfterLeave.bind(this) },
           _react2.default.createElement(
             _libs.View,
             { show: this.state.showPopper },

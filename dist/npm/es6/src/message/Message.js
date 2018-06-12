@@ -11,7 +11,7 @@ export default function Message() {
 
   document.body.appendChild(div);
 
-  if (typeof props === 'string') {
+  if (typeof props === 'string' || React.isValidElement(props)) {
     props = {
       message: props
     };

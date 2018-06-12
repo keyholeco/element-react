@@ -20,7 +20,7 @@ var Canvas = function (_React$Component) {
     _this.playerId = '' + parseInt(Math.random() * 1e9).toString(36);
     _this.document = _this.props.children.match(/([^]*)\n?(```[^]+```)/);
     _this.description = marked(_this.document[1]);
-    _this.source = _this.document[2].match(/```(.*)\n([^]+)```/);
+    _this.source = _this.document[2].match(/```(.*)\n?([^]+)```/);
 
     _this.state = {
       showBlock: false
@@ -67,7 +67,11 @@ var Canvas = function (_React$Component) {
       new (Function.prototype.bind.apply(Function, [null].concat(args)))().apply(null, argv);
 
       _this2.source[2] = value;
-    }).catch(function () {});
+    }).catch(function (err) {
+      if (process.env.NODE_ENV !== 'production') {
+        throw err;
+      }
+    });
   };
 
   Canvas.prototype.render = function render() {
