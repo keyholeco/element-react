@@ -28,7 +28,7 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _popper = require('../../libs/utils/popper');
+var _popper = require('popper.js');
 
 var _popper2 = _interopRequireDefault(_popper);
 
@@ -37,6 +37,11 @@ var _libs = require('../../libs');
 var _scrollbar = require('../scrollbar');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
 var Suggestions = function (_Component) {
   (0, _inherits3.default)(Suggestions, _Component);
@@ -77,8 +82,11 @@ var Suggestions = function (_Component) {
       var reference = _reactDom2.default.findDOMNode(this.parent().inputNode);
 
       this.popperJS = new _popper2.default(reference, this.refs.popper, {
-        gpuAcceleration: false,
-        forceAbsolute: true
+        modifiers: {
+          computeStyle: {
+            gpuAcceleration: false
+          }
+        }
       });
     }
   }, {
@@ -148,6 +156,13 @@ var Suggestions = function (_Component) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Suggestions;
 }(_libs.Component);
@@ -161,14 +176,20 @@ Suggestions.contextTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Suggestions, 'Suggestions', 'src/auto-complete/Suggestions.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/auto-complete/Suggestions.jsx');
-}();
+  reactHotLoader.register(Suggestions, 'Suggestions', 'src/auto-complete/Suggestions.jsx');
+  reactHotLoader.register(_default, 'default', 'src/auto-complete/Suggestions.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

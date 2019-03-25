@@ -34,6 +34,11 @@ var _util = require('./util');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var InputNumber = function (_Component) {
   (0, _inherits3.default)(InputNumber, _Component);
 
@@ -230,6 +235,13 @@ var InputNumber = function (_Component) {
       );
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'isValid',
     get: function get() {
       return this.state.value !== '' && !isNaN(Number(this.state.value));
@@ -272,14 +284,20 @@ InputNumber.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(InputNumber, 'InputNumber', 'src/input-number/InputNumber.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/input-number/InputNumber.jsx');
-}();
+  reactHotLoader.register(InputNumber, 'InputNumber', 'src/input-number/InputNumber.jsx');
+  reactHotLoader.register(_default, 'default', 'src/input-number/InputNumber.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

@@ -38,6 +38,15 @@ var _raf2 = _interopRequireDefault(_raf);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})(); /* eslint-disable */
+
+
+/**
+ * @deprecated
+ */
 var Transition = function (_Component) {
   (0, _inherits3.default)(Transition, _Component);
 
@@ -284,6 +293,13 @@ var Transition = function (_Component) {
       return this.state.children || null;
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'transitionClass',
     get: function get() {
       var name = this.props.name;
@@ -315,14 +331,20 @@ Transition.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Transition, 'Transition', 'libs/transition/index.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'libs/transition/index.js');
-}();
+  reactHotLoader.register(Transition, 'Transition', 'libs/transition/index.js');
+  reactHotLoader.register(_default, 'default', 'libs/transition/index.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

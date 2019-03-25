@@ -19,6 +19,11 @@ var _Notification2 = _interopRequireDefault(_Notification);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var className = '.el-notification';
 
 function NotificationCenter() {
@@ -51,16 +56,15 @@ function NotificationCenter() {
 
   var element = _react2.default.createElement(_Notification2.default, Object.assign({}, props, {
     willUnmount: function willUnmount(height, top) {
-      _reactDom2.default.unmountComponentAtNode(div);
-      document.body.removeChild(div);
-
+      setTimeout(function () {
+        return document.body.removeChild(div);
+      });
       requestAnimationFrame(function () {
         var instances = document.querySelectorAll(className);
-
-        for (var i = 0, len = instances.length; i < len; i++) {
+        var len = instances.length;
+        for (var i = 0; i < len; i++) {
           var _element = instances[i];
           var elementTop = parseInt(_element.style.top);
-
           if (elementTop > top) {
             _element.style.top = elementTop - height - 16 + 'px';
           }
@@ -76,7 +80,6 @@ function NotificationCenter() {
 ['success', 'warning', 'info', 'error'].forEach(function (type) {
   NotificationCenter[type] = function () {
     var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
     return NotificationCenter(options, type);
   };
 });
@@ -84,14 +87,20 @@ function NotificationCenter() {
 
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(className, 'className', 'src/notification/NotificationCenter.jsx');
-
-  __REACT_HOT_LOADER__.register(NotificationCenter, 'NotificationCenter', 'src/notification/NotificationCenter.jsx');
-}();
+  reactHotLoader.register(className, 'className', 'src/notification/NotificationCenter.jsx');
+  reactHotLoader.register(NotificationCenter, 'NotificationCenter', 'src/notification/NotificationCenter.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

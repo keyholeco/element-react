@@ -13,6 +13,11 @@ var _utils = require("./utils");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 function defaultRender(row, column) {
   return (0, _utils.getValueByPath)(row, column.property);
 }
@@ -114,20 +119,23 @@ function normalizeColumns(columns, tableIDSeed) {
 }
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(defaultRender, "defaultRender", "src/table/normalizeColumns.jsx");
-
-  __REACT_HOT_LOADER__.register(defaults, "defaults", "src/table/normalizeColumns.jsx");
-
-  __REACT_HOT_LOADER__.register(forced, "forced", "src/table/normalizeColumns.jsx");
-
-  __REACT_HOT_LOADER__.register(columnIDSeed, "columnIDSeed", "src/table/normalizeColumns.jsx");
-
-  __REACT_HOT_LOADER__.register(normalizeColumns, "normalizeColumns", "src/table/normalizeColumns.jsx");
-}();
+  reactHotLoader.register(defaultRender, "defaultRender", "src/table/normalizeColumns.jsx");
+  reactHotLoader.register(defaults, "defaults", "src/table/normalizeColumns.jsx");
+  reactHotLoader.register(forced, "forced", "src/table/normalizeColumns.jsx");
+  reactHotLoader.register(columnIDSeed, "columnIDSeed", "src/table/normalizeColumns.jsx");
+  reactHotLoader.register(normalizeColumns, "normalizeColumns", "src/table/normalizeColumns.jsx");
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

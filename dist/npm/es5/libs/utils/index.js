@@ -54,6 +54,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 exports.require_condition = _assert.require_condition;
 exports.ReactUtils = ReactUtils;
 exports.Errors = Errors;
@@ -157,20 +162,23 @@ function range(start, stop, step) {
 
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(watchPropertyChange, 'watchPropertyChange', 'libs/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(createPropType, 'createPropType', 'libs/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(hashCode, 'hashCode', 'libs/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(pick, 'pick', 'libs/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(range, 'range', 'libs/utils/index.js');
-}();
+  reactHotLoader.register(watchPropertyChange, 'watchPropertyChange', 'libs/utils/index.js');
+  reactHotLoader.register(createPropType, 'createPropType', 'libs/utils/index.js');
+  reactHotLoader.register(hashCode, 'hashCode', 'libs/utils/index.js');
+  reactHotLoader.register(pick, 'pick', 'libs/utils/index.js');
+  reactHotLoader.register(range, 'range', 'libs/utils/index.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

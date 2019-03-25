@@ -22,6 +22,11 @@ var _MessageBox2 = _interopRequireDefault(_MessageBox);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 function alert(message, title, props) {
   if ((typeof title === 'undefined' ? 'undefined' : (0, _typeof3.default)(title)) === 'object') {
     props = title;
@@ -99,22 +104,24 @@ var _default = {
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(alert, 'alert', 'src/message-box/index.js');
-
-  __REACT_HOT_LOADER__.register(confirm, 'confirm', 'src/message-box/index.js');
-
-  __REACT_HOT_LOADER__.register(prompt, 'prompt', 'src/message-box/index.js');
-
-  __REACT_HOT_LOADER__.register(msgbox, 'msgbox', 'src/message-box/index.js');
-
-  __REACT_HOT_LOADER__.register(next, 'next', 'src/message-box/index.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/message-box/index.js');
-}();
+  reactHotLoader.register(alert, 'alert', 'src/message-box/index.js');
+  reactHotLoader.register(confirm, 'confirm', 'src/message-box/index.js');
+  reactHotLoader.register(prompt, 'prompt', 'src/message-box/index.js');
+  reactHotLoader.register(msgbox, 'msgbox', 'src/message-box/index.js');
+  reactHotLoader.register(next, 'next', 'src/message-box/index.js');
+  reactHotLoader.register(_default, 'default', 'src/message-box/index.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

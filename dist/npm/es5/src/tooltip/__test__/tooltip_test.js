@@ -112,12 +112,3 @@ test('Advanced usage', function () {
 
   expect(state.disabled).toBe(true);
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

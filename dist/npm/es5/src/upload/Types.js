@@ -9,6 +9,10 @@ var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
+var _createClass2 = require("babel-runtime/helpers/createClass");
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
 var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
@@ -19,6 +23,11 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var RawFile = exports.RawFile = function (_File2) {
   (0, _inherits3.default)(RawFile, _File2);
 
@@ -27,6 +36,14 @@ var RawFile = exports.RawFile = function (_File2) {
     return (0, _possibleConstructorReturn3.default)(this, (RawFile.__proto__ || Object.getPrototypeOf(RawFile)).apply(this, arguments));
   }
 
+  (0, _createClass3.default)(RawFile, [{
+    key: "__reactstandin__regenerateByEval",
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }]);
   return RawFile;
 }(File);
 
@@ -41,19 +58,33 @@ var _ProgressEvent = exports._ProgressEvent = function (_ProgressEvent2) {
     return (0, _possibleConstructorReturn3.default)(this, (_ProgressEvent.__proto__ || Object.getPrototypeOf(_ProgressEvent)).apply(this, arguments));
   }
 
+  (0, _createClass3.default)(_ProgressEvent, [{
+    key: "__reactstandin__regenerateByEval",
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }]);
   return _ProgressEvent;
 }(ProgressEvent);
 
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(RawFile, "RawFile", "src/upload/Types.js");
-
-  __REACT_HOT_LOADER__.register(_ProgressEvent, "_ProgressEvent", "src/upload/Types.js");
-}();
+  reactHotLoader.register(RawFile, "RawFile", "src/upload/Types.js");
+  reactHotLoader.register(_ProgressEvent, "_ProgressEvent", "src/upload/Types.js");
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

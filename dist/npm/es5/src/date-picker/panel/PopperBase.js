@@ -27,6 +27,11 @@ var _utils = require('../../../libs/utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var PopperBase = exports.PopperBase = function (_Component) {
   (0, _inherits3.default)(PopperBase, _Component);
   (0, _createClass3.default)(PopperBase, null, [{
@@ -54,17 +59,32 @@ var PopperBase = exports.PopperBase = function (_Component) {
     return _this;
   }
 
+  (0, _createClass3.default)(PopperBase, [{
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }]);
   return PopperBase;
 }(_libs.Component);
 
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(PopperBase, 'PopperBase', 'src/date-picker/panel/PopperBase.js');
-}();
+  reactHotLoader.register(PopperBase, 'PopperBase', 'src/date-picker/panel/PopperBase.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

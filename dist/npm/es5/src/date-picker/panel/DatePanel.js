@@ -54,6 +54,11 @@ var _constants = require('../constants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var PICKER_VIEWS = {
   YEAR: 'year',
   MONTH: 'month',
@@ -155,6 +160,8 @@ var DatePanel = function (_PopperBase) {
             month = _deconstructDate.month,
             year = _deconstructDate.year;
 
+        date.setMonth(month, 1);
+
         if (month == 0) {
           date.setFullYear(year - 1);
           date.setMonth(11);
@@ -174,6 +181,8 @@ var DatePanel = function (_PopperBase) {
         var _deconstructDate2 = (0, _utils.deconstructDate)(date),
             month = _deconstructDate2.month,
             year = _deconstructDate2.year;
+
+        date.setMonth(month, 1);
 
         if (month == 11) {
           date.setFullYear(year + 1);
@@ -369,7 +378,8 @@ var DatePanel = function (_PopperBase) {
           value = _props3.value,
           selectionMode = _props3.selectionMode,
           disabledDate = _props3.disabledDate,
-          showWeekNumber = _props3.showWeekNumber;
+          showWeekNumber = _props3.showWeekNumber,
+          firstDayOfWeek = _props3.firstDayOfWeek;
       var date = this.state.date;
       var currentView = this.state.currentView;
 
@@ -383,7 +393,8 @@ var DatePanel = function (_PopperBase) {
             value: value,
             selectionMode: selectionMode,
             disabledDate: disabledDate,
-            showWeekNumber: showWeekNumber
+            showWeekNumber: showWeekNumber,
+            firstDayOfWeek: firstDayOfWeek
           });
 
           break;
@@ -498,10 +509,10 @@ var DatePanel = function (_PopperBase) {
                     ref: 'timepicker',
                     currentDate: new Date(date.getTime()) /* should i dont mutate date directly here ? */,
                     pickerWidth: pickerWidth
-                    /* 
-                    todo: pickerWidth? in original elmenent repo, this width is set by getting input with using getClientRect() method  
-                    but it seems work even though I purposely leave this logic unimplemented. To be honest it would require some hack to get 
-                    this actually done, since I can't do any setState method on componentDidUpdate method. 
+                    /*
+                    todo: pickerWidth? in original elmenent repo, this width is set by getting input with using getClientRect() method
+                    but it seems work even though I purposely leave this logic unimplemented. To be honest it would require some hack to get
+                    this actually done, since I can't do any setState method on componentDidUpdate method.
                     DateRangePicker has same issue
                     */
                     ,
@@ -590,6 +601,13 @@ var DatePanel = function (_PopperBase) {
       );
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'visibleTime',
     get: function get() {
       return (0, _utils.formatDate)(this.state.date, this.timeFormat);
@@ -659,16 +677,21 @@ DatePanel.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(PICKER_VIEWS, 'PICKER_VIEWS', 'src/date-picker/panel/DatePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(DatePanel, 'DatePanel', 'src/date-picker/panel/DatePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/date-picker/panel/DatePanel.jsx');
-}();
+  reactHotLoader.register(PICKER_VIEWS, 'PICKER_VIEWS', 'src/date-picker/panel/DatePanel.jsx');
+  reactHotLoader.register(DatePanel, 'DatePanel', 'src/date-picker/panel/DatePanel.jsx');
+  reactHotLoader.register(_default, 'default', 'src/date-picker/panel/DatePanel.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

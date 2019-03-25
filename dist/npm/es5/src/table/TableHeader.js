@@ -24,9 +24,7 @@ var _react = require('react');
 
 var React = _interopRequireWildcard(_react);
 
-var _throttle = require('throttle-debounce/throttle');
-
-var _throttle2 = _interopRequireDefault(_throttle);
+var _throttleDebounce = require('throttle-debounce');
 
 var _libs = require('../../libs');
 
@@ -42,6 +40,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var _document = document;
 
 var TableHeader = function (_Component) {
@@ -53,7 +56,7 @@ var TableHeader = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (TableHeader.__proto__ || Object.getPrototypeOf(TableHeader)).call(this, props));
 
     ['handleHeaderClick', 'handleFilterClick', 'handleSortClick'].forEach(function (fn) {
-      _this[fn] = (0, _throttle2.default)(300, true, _this[fn]);
+      _this[fn] = (0, _throttleDebounce.throttle)(300, true, _this[fn]);
     });
     return _this;
   }
@@ -375,6 +378,13 @@ var TableHeader = function (_Component) {
       );
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'columnsCount',
     get: function get() {
       return this.props.store.columns.length;
@@ -402,16 +412,21 @@ var _default = TableHeader;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_document, '_document', 'src/table/TableHeader.jsx');
-
-  __REACT_HOT_LOADER__.register(TableHeader, 'TableHeader', 'src/table/TableHeader.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/table/TableHeader.jsx');
-}();
+  reactHotLoader.register(_document, '_document', 'src/table/TableHeader.jsx');
+  reactHotLoader.register(TableHeader, 'TableHeader', 'src/table/TableHeader.jsx');
+  reactHotLoader.register(_default, 'default', 'src/table/TableHeader.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

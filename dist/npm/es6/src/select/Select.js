@@ -4,9 +4,9 @@ import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ClickOutside from 'react-click-outside';
-import debounce from 'throttle-debounce/debounce';
+import { debounce } from 'throttle-debounce';
+import Popper from 'popper.js';
 import StyleSheet from '../../libs/utils/style';
-import Popper from '../../libs/utils/popper';
 import { Component, PropTypes, Transition, View } from '../../libs';
 import { addResizeListener, removeResizeListener } from '../../libs/utils/resize-event';
 
@@ -82,6 +82,7 @@ var Select = function (_Component) {
     this.popper = ReactDOM.findDOMNode(this.refs.popper);
 
     this.handleValueChange();
+    addResizeListener(this.refs.root, this.resetInputWidth);
   };
 
   Select.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
@@ -128,7 +129,6 @@ var Select = function (_Component) {
 
   Select.prototype.componentDidUpdate = function componentDidUpdate() {
     this.state.inputWidth = this.reference.getBoundingClientRect().width;
-    addResizeListener(this.refs.root, this.resetInputWidth);
   };
 
   Select.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -196,8 +196,6 @@ var Select = function (_Component) {
         }
       }
 
-      // this.broadcast('select-dropdown', 'destroyPopper');
-
       if (this.refs.input) {
         this.refs.input.blur();
       }
@@ -242,8 +240,6 @@ var Select = function (_Component) {
           this.refs.input.focus();
         } else {
           this.refs.reference.focus();
-
-          // this.broadcast('input', 'inputSelect');
         }
       }
 
@@ -360,8 +356,6 @@ var Select = function (_Component) {
         form && form.onFieldChange();
       }
 
-      // this.dispatch('form-item', 'el.form.change', val);
-
       if (filterable) {
         query = '';
         hoverIndex = -1;
@@ -437,18 +431,16 @@ var Select = function (_Component) {
 
   Select.prototype.onEnter = function onEnter() {
     this.popperJS = new Popper(this.reference, this.popper, {
-      gpuAcceleration: false
+      modifiers: {
+        computeStyle: {
+          gpuAcceleration: false
+        }
+      }
     });
   };
 
   Select.prototype.onAfterLeave = function onAfterLeave() {
     this.popperJS.destroy();
-  };
-
-  Select.prototype.optionsAllDisabled = function optionsAllDisabled(options) {
-    return options.length === options.filter(function (item) {
-      return item.props.disabled === true;
-    }).length;
   };
 
   Select.prototype.iconClass = function iconClass() {
@@ -504,10 +496,6 @@ var Select = function (_Component) {
     }
 
     return null;
-  };
-
-  Select.prototype.doDestroy = function doDestroy() {
-    this.refs.popper.doDestroy();
   };
 
   Select.prototype.handleClose = function handleClose() {
@@ -951,19 +939,23 @@ var Select = function (_Component) {
 
             switch (e.keyCode) {
               case 27:
-                _this10.setState({ visible: false });e.preventDefault();
+                _this10.setState({ visible: false });
+                e.preventDefault();
                 break;
               case 8:
                 _this10.deletePrevTag(e);
                 break;
               case 13:
-                _this10.selectOption();e.preventDefault();
+                _this10.selectOption();
+                e.preventDefault();
                 break;
               case 38:
-                _this10.navigateOptions('prev');e.preventDefault();
+                _this10.navigateOptions('prev');
+                e.preventDefault();
                 break;
               case 40:
-                _this10.navigateOptions('next');e.preventDefault();
+                _this10.navigateOptions('next');
+                e.preventDefault();
                 break;
               default:
                 break;
@@ -1004,16 +996,20 @@ var Select = function (_Component) {
           switch (e.keyCode) {
             case 9:
             case 27:
-              _this10.setState({ visible: false });e.preventDefault();
+              _this10.setState({ visible: false });
+              e.preventDefault();
               break;
             case 13:
-              _this10.selectOption();e.preventDefault();
+              _this10.selectOption();
+              e.preventDefault();
               break;
             case 38:
-              _this10.navigateOptions('prev');e.preventDefault();
+              _this10.navigateOptions('prev');
+              e.preventDefault();
               break;
             case 40:
-              _this10.navigateOptions('next');e.preventDefault();
+              _this10.navigateOptions('next');
+              e.preventDefault();
               break;
             default:
               break;
@@ -1028,11 +1024,11 @@ var Select = function (_Component) {
           { show: visible && this.emptyText() !== false },
           React.createElement(
             'div',
-            { ref: 'popper', className: this.classNames('el-select-dropdown', {
-                'is-multiple': multiple
-              }), style: {
-                minWidth: inputWidth
-              } },
+            {
+              ref: 'popper',
+              className: this.classNames('el-select-dropdown', { 'is-multiple': multiple }),
+              style: { minWidth: inputWidth }
+            },
             React.createElement(
               View,
               { show: options.length > 0 && filteredOptionsCount > 0 && !loading },

@@ -28,6 +28,11 @@ var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Tabs = function (_Component) {
   (0, _inherits3.default)(Tabs, _Component);
 
@@ -323,8 +328,9 @@ var Tabs = function (_Component) {
       ) : null;
       var scrollBtn = scrollable ? [_react2.default.createElement(
         'span',
-        { key: 'el-tabs__nav-prev',
-          className: scrollable.prev ? 'el-tabs__nav-prev' : 'el-tabs__nav-prev is-disabled',
+        {
+          key: 'el-tabs__nav-prev',
+          className: scrollPrev ? 'el-tabs__nav-prev' : 'el-tabs__nav-prev is-disabled',
           onClick: function onClick() {
             return _this5.scrollPrev();
           }
@@ -332,8 +338,9 @@ var Tabs = function (_Component) {
         _react2.default.createElement('i', { className: 'el-icon-arrow-left' })
       ), _react2.default.createElement(
         'span',
-        { key: 'el-tabs__nav-next',
-          className: scrollable.next ? 'el-tabs__nav-next' : 'el-tabs__nav-next is-disabled',
+        {
+          key: 'el-tabs__nav-next',
+          className: scrollNext ? 'el-tabs__nav-next' : 'el-tabs__nav-next is-disabled',
           onClick: function onClick() {
             return _this5.scrollNext();
           }
@@ -374,11 +381,15 @@ var Tabs = function (_Component) {
 
                   return _react2.default.createElement(
                     'div',
-                    { key: 'el-tabs__item-' + index, ref: function ref(tab) {
+                    {
+                      key: 'el-tabs__item-' + index, ref: function ref(tab) {
                         return tab && _this5.tabs.push(tab);
-                      }, name: name, className: tabCls, onClick: function onClick(e) {
+                      },
+                      name: name,
+                      className: tabCls, onClick: function onClick(e) {
                         return _this5.handleTabClick(item, e);
-                      } },
+                      }
+                    },
                     label,
                     _react2.default.createElement(
                       _libs.View,
@@ -419,6 +430,13 @@ var Tabs = function (_Component) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Tabs;
 }(_libs.Component);
@@ -447,14 +465,20 @@ Tabs.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Tabs, 'Tabs', 'src/tabs/Tabs.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/tabs/Tabs.jsx');
-}();
+  reactHotLoader.register(Tabs, 'Tabs', 'src/tabs/Tabs.jsx');
+  reactHotLoader.register(_default, 'default', 'src/tabs/Tabs.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

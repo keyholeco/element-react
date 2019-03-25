@@ -43,7 +43,7 @@ var Tree = function (_Component) {
   }
 
   Tree.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-    if (nextProps.data instanceof Array) {
+    if (nextProps.data instanceof Array && this.props.data !== nextProps.data) {
       this.root.setData(nextProps.data);
       this.setState({}); //force update
     }

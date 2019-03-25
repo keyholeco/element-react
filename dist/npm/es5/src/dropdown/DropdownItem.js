@@ -28,6 +28,11 @@ var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var DropdownItem = function (_Component) {
   (0, _inherits3.default)(DropdownItem, _Component);
 
@@ -61,6 +66,13 @@ var DropdownItem = function (_Component) {
         this.props.children
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return DropdownItem;
 }(_libs.Component);
@@ -80,14 +92,20 @@ DropdownItem.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(DropdownItem, 'DropdownItem', 'src/dropdown/DropdownItem.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/dropdown/DropdownItem.jsx');
-}();
+  reactHotLoader.register(DropdownItem, 'DropdownItem', 'src/dropdown/DropdownItem.jsx');
+  reactHotLoader.register(_default, 'default', 'src/dropdown/DropdownItem.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

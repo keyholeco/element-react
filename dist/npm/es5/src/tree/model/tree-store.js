@@ -24,6 +24,11 @@ var _util = require('./util');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var TreeStore = function () {
   function TreeStore(options) {
     var _this = this;
@@ -367,6 +372,13 @@ var TreeStore = function () {
         this.currentNode = node;
       }
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return TreeStore;
 }();
@@ -375,14 +387,20 @@ var _default = TreeStore;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(TreeStore, 'TreeStore', 'src/tree/model/tree-store.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/tree/model/tree-store.js');
-}();
+  reactHotLoader.register(TreeStore, 'TreeStore', 'src/tree/model/tree-store.js');
+  reactHotLoader.register(_default, 'default', 'src/tree/model/tree-store.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

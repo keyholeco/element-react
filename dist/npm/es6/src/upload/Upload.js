@@ -192,7 +192,11 @@ var Upload = function (_Component) {
         data = _props.data,
         accept = _props.accept,
         listType = _props.listType,
-        className = _props.className;
+        className = _props.className,
+        limit = _props.limit,
+        disabled = _props.disabled,
+        onExceed = _props.onExceed,
+        httpRequest = _props.httpRequest;
 
     var uploadList = void 0;
     if (showFileList && fileList.length) {
@@ -210,6 +214,11 @@ var Upload = function (_Component) {
       data: data,
       accept: accept,
       listType: listType,
+      fileList: fileList,
+      limit: limit,
+      disabled: disabled,
+      onExceed: onExceed,
+      httpRequest: httpRequest,
       onStart: this.handleStart.bind(this),
       onProgress: this.handleProgress.bind(this),
       onSuccess: this.handleSuccess.bind(this),
@@ -250,6 +259,7 @@ Upload.defaultProps = {
   fileList: [],
   showFileList: true,
   autoUpload: true,
+  disabled: false,
   onRemove: function onRemove() {},
   onPreview: function onPreview() {},
   onProgress: function onProgress() {},
@@ -287,5 +297,9 @@ Upload.propTypes = {
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
   onChange: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  limit: PropTypes.number,
+  onExceed: PropTypes.func,
+  httpRequest: PropTypes.func
 };

@@ -40,12 +40,3 @@ describe('Card test', function () {
     expect(w.find('.el-card__body').at(0).prop('style')).toEqual(bodyStyle);
   });
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

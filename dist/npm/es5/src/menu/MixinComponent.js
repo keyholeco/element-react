@@ -24,6 +24,11 @@ var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var MixinComponent = function (_Component) {
   (0, _inherits3.default)(MixinComponent, _Component);
 
@@ -64,6 +69,13 @@ var MixinComponent = function (_Component) {
 
       return parent;
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return MixinComponent;
 }(_libs.Component);
@@ -77,14 +89,20 @@ MixinComponent.contextTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(MixinComponent, 'MixinComponent', 'src/menu/MixinComponent.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/menu/MixinComponent.jsx');
-}();
+  reactHotLoader.register(MixinComponent, 'MixinComponent', 'src/menu/MixinComponent.jsx');
+  reactHotLoader.register(_default, 'default', 'src/menu/MixinComponent.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

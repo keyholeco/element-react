@@ -42,6 +42,11 @@ var _treeStore2 = _interopRequireDefault(_treeStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Tree = function (_Component) {
   (0, _inherits3.default)(Tree, _Component);
 
@@ -78,7 +83,7 @@ var Tree = function (_Component) {
   (0, _createClass3.default)(Tree, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.data instanceof Array) {
+      if (nextProps.data instanceof Array && this.props.data !== nextProps.data) {
         this.root.setData(nextProps.data);
         this.setState({}); //force update
       }
@@ -226,6 +231,13 @@ var Tree = function (_Component) {
       );
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'root',
     get: function get() {
       return this.state.store.root;
@@ -297,14 +309,20 @@ Tree.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Tree, 'Tree', 'src/tree/Tree.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/tree/Tree.jsx');
-}();
+  reactHotLoader.register(Tree, 'Tree', 'src/tree/Tree.jsx');
+  reactHotLoader.register(_default, 'default', 'src/tree/Tree.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

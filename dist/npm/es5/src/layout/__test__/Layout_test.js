@@ -511,12 +511,3 @@ describe('Layout test', function () {
     expect(w.find('.el-col-12').hasClass('el-col-pull-12')).toBeTruthy();
   });
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

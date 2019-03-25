@@ -28,6 +28,11 @@ var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Cover = function (_Component) {
   (0, _inherits3.default)(Cover, _Component);
 
@@ -46,7 +51,9 @@ var Cover = function (_Component) {
     key: 'handleDragover',
     value: function handleDragover(e) {
       e.preventDefault();
-      this.setState({ dragOver: true });
+      if (!this.props.disabled) {
+        this.setState({ dragOver: true });
+      }
     }
   }, {
     key: 'handleDragleave',
@@ -57,6 +64,7 @@ var Cover = function (_Component) {
   }, {
     key: 'onDrop',
     value: function onDrop(e) {
+      if (this.props.disabled) return;
       e.preventDefault();
       this.setState({ dragOver: false });
       this.props.onFile(e.dataTransfer.files);
@@ -88,6 +96,13 @@ var Cover = function (_Component) {
         this.props.children
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Cover;
 }(_libs.Component);
@@ -100,18 +115,25 @@ exports.default = _default;
 
 
 Cover.propTypes = {
-  onFile: _libs.PropTypes.func
+  onFile: _libs.PropTypes.func,
+  disabled: _libs.PropTypes.bool
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Cover, 'Cover', 'src/upload/Cover.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/upload/Cover.jsx');
-}();
+  reactHotLoader.register(Cover, 'Cover', 'src/upload/Cover.jsx');
+  reactHotLoader.register(_default, 'default', 'src/upload/Cover.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

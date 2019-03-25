@@ -40,6 +40,11 @@ var _color2 = _interopRequireDefault(_color);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var ColorPicker = function (_Component) {
   (0, _inherits3.default)(ColorPicker, _Component);
 
@@ -207,6 +212,13 @@ var ColorPicker = function (_Component) {
         })
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return ColorPicker;
 }(_libs.Component);
@@ -232,14 +244,20 @@ var _default = (0, _reactClickOutside2.default)(ColorPicker);
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(ColorPicker, 'ColorPicker', 'src/color-picker/ColorPicker.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/color-picker/ColorPicker.jsx');
-}();
+  reactHotLoader.register(ColorPicker, 'ColorPicker', 'src/color-picker/ColorPicker.jsx');
+  reactHotLoader.register(_default, 'default', 'src/color-picker/ColorPicker.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

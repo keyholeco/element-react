@@ -32,6 +32,11 @@ var _MixinComponent3 = _interopRequireDefault(_MixinComponent2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var MenuItemGroup = function (_MixinComponent) {
   (0, _inherits3.default)(MenuItemGroup, _MixinComponent);
 
@@ -93,6 +98,13 @@ var MenuItemGroup = function (_MixinComponent) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return MenuItemGroup;
 }(_MixinComponent3.default);
@@ -106,14 +118,20 @@ MenuItemGroup.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(MenuItemGroup, 'MenuItemGroup', 'src/menu/MenuItemGroup.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/menu/MenuItemGroup.jsx');
-}();
+  reactHotLoader.register(MenuItemGroup, 'MenuItemGroup', 'src/menu/MenuItemGroup.jsx');
+  reactHotLoader.register(_default, 'default', 'src/menu/MenuItemGroup.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

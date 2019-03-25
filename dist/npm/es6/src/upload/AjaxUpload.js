@@ -33,8 +33,16 @@ var AjaxUpload = function (_Component) {
   AjaxUpload.prototype.uploadFiles = function uploadFiles(files) {
     var _this2 = this;
 
-    var multiple = this.props.multiple;
+    var _props = this.props,
+        multiple = _props.multiple,
+        limit = _props.limit,
+        onExceed = _props.onExceed,
+        fileList = _props.fileList;
 
+    if (limit && fileList.length + files.length > limit) {
+      onExceed && onExceed(files, fileList);
+      return;
+    }
     var postFiles = Array.prototype.slice.call(files);
     if (postFiles.length === 0) {
       return;
@@ -75,17 +83,19 @@ var AjaxUpload = function (_Component) {
   };
 
   AjaxUpload.prototype.post = function post(file) {
-    var _props = this.props,
-        filename = _props.name,
-        headers = _props.headers,
-        withCredentials = _props.withCredentials,
-        data = _props.data,
-        action = _props.action,
-        _onProgress = _props.onProgress,
-        _onSuccess = _props.onSuccess,
-        _onError = _props.onError;
+    var _props2 = this.props,
+        filename = _props2.name,
+        headers = _props2.headers,
+        withCredentials = _props2.withCredentials,
+        data = _props2.data,
+        action = _props2.action,
+        _onProgress = _props2.onProgress,
+        _onSuccess = _props2.onSuccess,
+        _onError = _props2.onError;
+    var _props$httpRequest = this.props.httpRequest,
+        httpRequest = _props$httpRequest === undefined ? ajax : _props$httpRequest;
 
-    ajax({
+    var req = httpRequest({
       headers: headers,
       withCredentials: withCredentials,
       file: file,
@@ -102,21 +112,27 @@ var AjaxUpload = function (_Component) {
         return _onError(err, file);
       }
     });
+    if (req && req.then) {
+      req.then(_onSuccess, _onError);
+    }
   };
 
   AjaxUpload.prototype.handleClick = function handleClick() {
-    this.refs.input.click();
+    if (!this.props.disabled) {
+      this.refs.input.click();
+    }
   };
 
   AjaxUpload.prototype.render = function render() {
     var _classNames,
         _this4 = this;
 
-    var _props2 = this.props,
-        drag = _props2.drag,
-        multiple = _props2.multiple,
-        accept = _props2.accept,
-        listType = _props2.listType;
+    var _props3 = this.props,
+        drag = _props3.drag,
+        multiple = _props3.multiple,
+        accept = _props3.accept,
+        listType = _props3.listType,
+        disabled = _props3.disabled;
 
     return React.createElement(
       'div',
@@ -130,7 +146,7 @@ var AjaxUpload = function (_Component) {
       },
       drag ? React.createElement(
         Cover,
-        { onFile: function onFile(file) {
+        { disabled: disabled, onFile: function onFile(file) {
             return _this4.uploadFiles(file);
           } },
         this.props.children
@@ -173,5 +189,9 @@ AjaxUpload.propTypes = {
   beforeUpload: PropTypes.func,
   autoUpload: PropTypes.bool,
   listType: PropTypes.string,
-  fileList: PropTypes.array
+  fileList: PropTypes.array,
+  disabled: PropTypes.bool,
+  limit: PropTypes.number,
+  onExceed: PropTypes.func,
+  httpRequest: PropTypes.func
 };

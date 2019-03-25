@@ -13,7 +13,13 @@ export var Bar = function (_Component) {
   function Bar(props) {
     _classCallCheck(this, Bar);
 
-    return _possibleConstructorReturn(this, _Component.call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+
+    _this.clickTrackHandler = _this.clickTrackHandler.bind(_this);
+    _this.clickThumbHandler = _this.clickThumbHandler.bind(_this);
+    _this.mouseMoveDocumentHandler = _this.mouseMoveDocumentHandler.bind(_this);
+    _this.mouseUpDocumentHandler = _this.mouseUpDocumentHandler.bind(_this);
+    return _this;
   }
 
   Bar.prototype.clickThumbHandler = function clickThumbHandler(e) {
@@ -23,14 +29,14 @@ export var Bar = function (_Component) {
 
   Bar.prototype.clickTrackHandler = function clickTrackHandler(e) {
     var offset = Math.abs(e.target.getBoundingClientRect()[this.bar.direction] - e[this.bar.client]);
-    var thumbHalf = this.refs.thumb[this.bar.offset] / 2;
-    var thumbPositionPercentage = (offset - thumbHalf) * 100 / this.root[this.bar.offset];
+    var thumbHalf = this.thumbRef[this.bar.offset] / 2;
+    var thumbPositionPercentage = (offset - thumbHalf) * 100 / this.rootRef[this.bar.offset];
 
     this.wrap[this.bar.scroll] = thumbPositionPercentage * this.wrap[this.bar.scrollSize] / 100;
   };
 
   Bar.prototype.startDrag = function startDrag(e) {
-    e.stopImmediatePropagation();
+    e.nativeEvent.stopImmediatePropagation;
     this.cursorDown = true;
 
     on(document, 'mousemove', this.mouseMoveDocumentHandler);
@@ -46,9 +52,9 @@ export var Bar = function (_Component) {
 
     if (!prevPage) return;
 
-    var offset = e[this.bar.client] - this.root.getBoundingClientRect()[this.bar.direction];
-    var thumbClickPosition = this.refs.thumb[this.bar.offset] - prevPage;
-    var thumbPositionPercentage = (offset - thumbClickPosition) * 100 / this.root[this.bar.offset];
+    var offset = e[this.bar.client] - this.rootRef.getBoundingClientRect()[this.bar.direction];
+    var thumbClickPosition = this.thumbRef[this.bar.offset] - prevPage;
+    var thumbPositionPercentage = (offset - thumbClickPosition) * 100 / this.rootRef[this.bar.offset];
 
     this.wrap[this.bar.scroll] = thumbPositionPercentage * this.wrap[this.bar.scrollSize] / 100;
   };
@@ -61,6 +67,8 @@ export var Bar = function (_Component) {
   };
 
   Bar.prototype.render = function render() {
+    var _this2 = this;
+
     var _props = this.props,
         size = _props.size,
         move = _props.move;
@@ -69,13 +77,17 @@ export var Bar = function (_Component) {
     return React.createElement(
       'div',
       {
-        ref: 'root',
+        ref: function ref(root) {
+          return _this2.rootRef = root;
+        },
         className: this.classNames('el-scrollbar__bar', 'is-' + this.bar.key),
-        onMouseDown: this.clickTrackHandler.bind(this) },
+        onMouseDown: this.clickTrackHandler },
       React.createElement('div', {
-        ref: 'thumb',
+        ref: function ref(thumb) {
+          return _this2.thumbRef = thumb;
+        },
         className: 'el-scrollbar__thumb',
-        onMouseDown: this.clickThumbHandler.bind(this),
+        onMouseDown: this.clickThumbHandler,
         style: renderThumbStyle({ size: size, move: move, bar: this.bar }) })
     );
   };
@@ -100,5 +112,4 @@ Bar.propTypes = {
   size: PropTypes.string,
   move: PropTypes.number,
   getParentWrap: PropTypes.func.isRequired
-
 };

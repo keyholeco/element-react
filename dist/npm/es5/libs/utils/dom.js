@@ -4,6 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.scrollIntoView = scrollIntoView;
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var loadStyleString = exports.loadStyleString = function loadStyleString(css) {
   var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
@@ -76,20 +82,23 @@ function scrollIntoView(container, selected) {
 }
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(loadStyleString, 'loadStyleString', 'libs/utils/dom.js');
-
-  __REACT_HOT_LOADER__.register(isServer, 'isServer', 'libs/utils/dom.js');
-
-  __REACT_HOT_LOADER__.register(on, 'on', 'libs/utils/dom.js');
-
-  __REACT_HOT_LOADER__.register(off, 'off', 'libs/utils/dom.js');
-
-  __REACT_HOT_LOADER__.register(scrollIntoView, 'scrollIntoView', 'libs/utils/dom.js');
-}();
+  reactHotLoader.register(loadStyleString, 'loadStyleString', 'libs/utils/dom.js');
+  reactHotLoader.register(isServer, 'isServer', 'libs/utils/dom.js');
+  reactHotLoader.register(on, 'on', 'libs/utils/dom.js');
+  reactHotLoader.register(off, 'off', 'libs/utils/dom.js');
+  reactHotLoader.register(scrollIntoView, 'scrollIntoView', 'libs/utils/dom.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

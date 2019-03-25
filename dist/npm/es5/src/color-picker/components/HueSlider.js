@@ -32,6 +32,11 @@ var _draggable2 = _interopRequireDefault(_draggable);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var HueSlider = function (_Component) {
   (0, _inherits3.default)(HueSlider, _Component);
 
@@ -178,6 +183,13 @@ var HueSlider = function (_Component) {
         })
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return HueSlider;
 }(_libs.Component);
@@ -196,14 +208,20 @@ HueSlider.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(HueSlider, 'HueSlider', 'src/color-picker/components/HueSlider.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/color-picker/components/HueSlider.jsx');
-}();
+  reactHotLoader.register(HueSlider, 'HueSlider', 'src/color-picker/components/HueSlider.jsx');
+  reactHotLoader.register(_default, 'default', 'src/color-picker/components/HueSlider.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

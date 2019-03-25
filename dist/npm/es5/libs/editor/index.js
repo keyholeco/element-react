@@ -44,6 +44,11 @@ require('./style.scss');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Editor = function (_Component) {
   (0, _inherits3.default)(Editor, _Component);
 
@@ -92,6 +97,13 @@ var Editor = function (_Component) {
           return _this3.editor = _ref;
         } });
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Editor;
 }(_react.Component);
@@ -106,14 +118,20 @@ Editor.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Editor, 'Editor', 'libs/editor/index.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'libs/editor/index.jsx');
-}();
+  reactHotLoader.register(Editor, 'Editor', 'libs/editor/index.jsx');
+  reactHotLoader.register(_default, 'default', 'libs/editor/index.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

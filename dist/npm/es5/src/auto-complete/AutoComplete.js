@@ -44,6 +44,11 @@ var _Suggestions2 = _interopRequireDefault(_Suggestions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var AutoComplete = function (_Component) {
   (0, _inherits3.default)(AutoComplete, _Component);
 
@@ -264,6 +269,13 @@ var AutoComplete = function (_Component) {
         })
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return AutoComplete;
 }(_libs.Component);
@@ -282,14 +294,20 @@ var _default = (0, _reactClickOutside2.default)(AutoComplete);
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(AutoComplete, 'AutoComplete', 'src/auto-complete/AutoComplete.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/auto-complete/AutoComplete.jsx');
-}();
+  reactHotLoader.register(AutoComplete, 'AutoComplete', 'src/auto-complete/AutoComplete.jsx');
+  reactHotLoader.register(_default, 'default', 'src/auto-complete/AutoComplete.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

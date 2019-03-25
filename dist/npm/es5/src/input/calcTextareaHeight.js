@@ -4,6 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = calcTextareaHeight;
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var hiddenTextarea = void 0;
 
 var HIDDEN_STYLE = '\n  height:0 !important;\n  visibility:hidden !important;\n  overflow:hidden !important;\n  position:absolute !important;\n  z-index:-1000 !important;\n  top:0 !important;\n  right:0 !important\n';
@@ -74,20 +80,23 @@ function calcTextareaHeight(targetNode) {
 }
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(hiddenTextarea, 'hiddenTextarea', 'src/input/calcTextareaHeight.js');
-
-  __REACT_HOT_LOADER__.register(HIDDEN_STYLE, 'HIDDEN_STYLE', 'src/input/calcTextareaHeight.js');
-
-  __REACT_HOT_LOADER__.register(CONTEXT_STYLE, 'CONTEXT_STYLE', 'src/input/calcTextareaHeight.js');
-
-  __REACT_HOT_LOADER__.register(calculateNodeStyling, 'calculateNodeStyling', 'src/input/calcTextareaHeight.js');
-
-  __REACT_HOT_LOADER__.register(calcTextareaHeight, 'calcTextareaHeight', 'src/input/calcTextareaHeight.js');
-}();
+  reactHotLoader.register(hiddenTextarea, 'hiddenTextarea', 'src/input/calcTextareaHeight.js');
+  reactHotLoader.register(HIDDEN_STYLE, 'HIDDEN_STYLE', 'src/input/calcTextareaHeight.js');
+  reactHotLoader.register(CONTEXT_STYLE, 'CONTEXT_STYLE', 'src/input/calcTextareaHeight.js');
+  reactHotLoader.register(calculateNodeStyling, 'calculateNodeStyling', 'src/input/calcTextareaHeight.js');
+  reactHotLoader.register(calcTextareaHeight, 'calcTextareaHeight', 'src/input/calcTextareaHeight.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

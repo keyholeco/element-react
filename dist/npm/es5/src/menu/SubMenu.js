@@ -36,6 +36,11 @@ var _MixinComponent3 = _interopRequireDefault(_MixinComponent2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var SubMenu = function (_MixinComponent) {
   (0, _inherits3.default)(SubMenu, _MixinComponent);
 
@@ -159,6 +164,13 @@ var SubMenu = function (_MixinComponent) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return SubMenu;
 }(_MixinComponent3.default);
@@ -176,14 +188,20 @@ SubMenu.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(SubMenu, 'SubMenu', 'src/menu/SubMenu.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/menu/SubMenu.jsx');
-}();
+  reactHotLoader.register(SubMenu, 'SubMenu', 'src/menu/SubMenu.jsx');
+  reactHotLoader.register(_default, 'default', 'src/menu/SubMenu.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

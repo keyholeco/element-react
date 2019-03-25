@@ -3,7 +3,7 @@ import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructo
 import _createClass from 'babel-runtime/helpers/createClass';
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
-import debounce from 'throttle-debounce/debounce';
+import { debounce } from 'throttle-debounce';
 
 import { PropTypes, Component } from '../../../libs';
 import { getRangeHours } from '../utils';
@@ -165,7 +165,7 @@ var TimeSpinner = function (_Component) {
     if (minutes != null) {
       this.refs.minutes.refs.wrap.scrollTop = calcScrollTop(minutes);
     }
-    if (seconds != null) {
+    if (this.refs.seconds && seconds != null) {
       this.refs.seconds.refs.wrap.scrollTop = calcScrollTop(seconds);
     }
   };

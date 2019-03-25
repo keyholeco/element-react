@@ -1,6 +1,6 @@
 import _extends from 'babel-runtime/helpers/extends';
 import _objectWithoutProperties from 'babel-runtime/helpers/objectWithoutProperties';
-import PopperJS from './popper';
+import PopperJS from 'popper.js';
 import { require_condition } from './assert';
 
 var mixinPrototype = {
@@ -46,14 +46,14 @@ var mixinPrototype = {
       popperOptions.offset = offset;
     }
 
-    this._poperJS = new PopperJS(reference, popper, popperOptions);
-
-    this._poperJS.onCreate(function () {
+    popperOptions.onCreate = function () {
       _this._resetTransformOrigin();
       _this._popper_state.isCreated = true;
-      _this._poperJS._popper.style.zIndex = zIndex;
-      _this._poperJS._popper.style.width = width !== null ? width + 'px' : reference.getBoundingClientRect().width + 'px';
-    });
+      _this._poperJS.popper.style.zIndex = zIndex;
+      _this._poperJS.popper.style.width = width !== null ? width + 'px' : reference.getBoundingClientRect().width + 'px';
+    };
+
+    this._poperJS = new PopperJS(reference, popper, popperOptions);
   },
   destroyPopper: function destroyPopper() {
     if (this._poperJS && this._popper_state.isCreated) {
@@ -73,9 +73,9 @@ var mixinPrototype = {
 
   _resetTransformOrigin: function _resetTransformOrigin() {
     var placementMap = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' };
-    var placement = this._poperJS._popper.getAttribute('x-placement').split('-')[0];
+    var placement = this._poperJS.popper.getAttribute('x-placement').split('-')[0];
     var origin = placementMap[placement];
-    this._poperJS._popper.style.transformOrigin = ['top', 'bottom'].indexOf(placement) > -1 ? 'center ' + origin : origin + ' center';
+    this._poperJS.popper.style.transformOrigin = ['top', 'bottom'].indexOf(placement) > -1 ? 'center ' + origin : origin + ' center';
   },
   _appendArrow: function _appendArrow(element) {
     if (this._popper_state.appended) {
@@ -151,9 +151,9 @@ var PopperReactMixinMethods = {
 
 /**
  * this Mixin provide utility method to hook reactjs component lifecycle
- * 
+ *
  * @param getPopperRootDom: ()=>HTMLElement, return your popper root HTMLElement when componentDidMount is called
- * @param getRefDom: ()=>HTMLElement, ref node, the node that popper aligns its pop-up to, see the popperjs doc for more information 
+ * @param getRefDom: ()=>HTMLElement, ref node, the node that popper aligns its pop-up to, see the popperjs doc for more information
  */
 export function PopperReactMixin(getPopperRootDom, getRefDom, config) {
   var _this2 = this;

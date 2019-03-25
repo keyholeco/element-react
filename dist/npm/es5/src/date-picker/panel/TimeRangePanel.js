@@ -44,6 +44,11 @@ var _PopperBase2 = require('./PopperBase');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var MIN_TIME = (0, _utils.parseDate)('00:00:00', 'HH:mm:ss');
 var MAX_TIME = (0, _utils.parseDate)('23:59:59', 'HH:mm:ss');
 
@@ -156,16 +161,6 @@ var TimeRangePanel = function (_PopperBase) {
 
       var state = (0, _defineProperty3.default)({}, field, ndate);
 
-      var _state2 = this.state,
-          minTime = _state2.minTime,
-          maxTime = _state2.maxTime;
-
-      state.minSelectableRange = [[MIN_TIME, maxTime]];
-      state.maxSelectableRange = [[minTime, MAX_TIME]];
-
-      state.minTime = (0, _utils.limitRange)(minTime, state.minSelectableRange);
-      state.maxTime = (0, _utils.limitRange)(maxTime, state.maxSelectableRange);
-
       this.setState(state);
       this.handleConfirm(true);
     }
@@ -173,9 +168,9 @@ var TimeRangePanel = function (_PopperBase) {
     key: 'handleConfirm',
     value: function handleConfirm() {
       var isKeepPannelOpen = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-      var _state3 = this.state,
-          minTime = _state3.minTime,
-          maxTime = _state3.maxTime;
+      var _state2 = this.state,
+          minTime = _state2.minTime,
+          maxTime = _state2.maxTime;
       var onPicked = this.props.onPicked;
 
 
@@ -186,13 +181,13 @@ var TimeRangePanel = function (_PopperBase) {
     value: function render() {
       var _this2 = this;
 
-      var _state4 = this.state,
-          isShowSeconds = _state4.isShowSeconds,
-          minTime = _state4.minTime,
-          maxTime = _state4.maxTime,
-          btnDisabled = _state4.btnDisabled,
-          minSelectableRange = _state4.minSelectableRange,
-          maxSelectableRange = _state4.maxSelectableRange;
+      var _state3 = this.state,
+          isShowSeconds = _state3.isShowSeconds,
+          minTime = _state3.minTime,
+          maxTime = _state3.maxTime,
+          btnDisabled = _state3.btnDisabled,
+          minSelectableRange = _state3.minSelectableRange,
+          maxSelectableRange = _state3.maxSelectableRange;
       var _onSelectRangeChange = this.props.onSelectRangeChange;
 
       var $t = _locale2.default.t;
@@ -299,6 +294,13 @@ var TimeRangePanel = function (_PopperBase) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return TimeRangePanel;
 }(_PopperBase2.PopperBase);
@@ -307,24 +309,25 @@ var _default = TimeRangePanel;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(MIN_TIME, 'MIN_TIME', 'src/date-picker/panel/TimeRangePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(MAX_TIME, 'MAX_TIME', 'src/date-picker/panel/TimeRangePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(isDisabled, 'isDisabled', 'src/date-picker/panel/TimeRangePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(calcTime, 'calcTime', 'src/date-picker/panel/TimeRangePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(mapPropsToState, 'mapPropsToState', 'src/date-picker/panel/TimeRangePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(TimeRangePanel, 'TimeRangePanel', 'src/date-picker/panel/TimeRangePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/date-picker/panel/TimeRangePanel.jsx');
-}();
+  reactHotLoader.register(MIN_TIME, 'MIN_TIME', 'src/date-picker/panel/TimeRangePanel.jsx');
+  reactHotLoader.register(MAX_TIME, 'MAX_TIME', 'src/date-picker/panel/TimeRangePanel.jsx');
+  reactHotLoader.register(isDisabled, 'isDisabled', 'src/date-picker/panel/TimeRangePanel.jsx');
+  reactHotLoader.register(calcTime, 'calcTime', 'src/date-picker/panel/TimeRangePanel.jsx');
+  reactHotLoader.register(mapPropsToState, 'mapPropsToState', 'src/date-picker/panel/TimeRangePanel.jsx');
+  reactHotLoader.register(TimeRangePanel, 'TimeRangePanel', 'src/date-picker/panel/TimeRangePanel.jsx');
+  reactHotLoader.register(_default, 'default', 'src/date-picker/panel/TimeRangePanel.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

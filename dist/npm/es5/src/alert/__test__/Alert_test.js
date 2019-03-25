@@ -69,12 +69,3 @@ describe('Alert test', function () {
     expect(w.find('p.el-alert__description').text()).toBe('testDescription');
   });
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

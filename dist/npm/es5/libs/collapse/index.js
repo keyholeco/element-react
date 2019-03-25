@@ -26,6 +26,11 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var ANIMATION_DURATION = 300;
 
 var CollapseTransition = function (_Component) {
@@ -170,6 +175,13 @@ var CollapseTransition = function (_Component) {
         this.props.children
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return CollapseTransition;
 }(_react.Component);
@@ -178,16 +190,21 @@ var _default = CollapseTransition;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(ANIMATION_DURATION, 'ANIMATION_DURATION', 'libs/collapse/index.jsx');
-
-  __REACT_HOT_LOADER__.register(CollapseTransition, 'CollapseTransition', 'libs/collapse/index.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'libs/collapse/index.jsx');
-}();
+  reactHotLoader.register(ANIMATION_DURATION, 'ANIMATION_DURATION', 'libs/collapse/index.jsx');
+  reactHotLoader.register(CollapseTransition, 'CollapseTransition', 'libs/collapse/index.jsx');
+  reactHotLoader.register(_default, 'default', 'libs/collapse/index.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

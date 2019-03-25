@@ -18,6 +18,11 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var hsv2hsl = function hsv2hsl(hue, sat, val) {
   var sl = void 0,
       l = void 0;
@@ -381,6 +386,13 @@ var Color = function () {
         }
       }
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Color;
 }();
@@ -389,36 +401,31 @@ var _default = Color;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(hsv2hsl, 'hsv2hsl', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(isOnePointZero, 'isOnePointZero', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(isPercentage, 'isPercentage', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(bound01, 'bound01', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(INT_HEX_MAP, 'INT_HEX_MAP', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(toHex, 'toHex', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(HEX_INT_MAP, 'HEX_INT_MAP', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(parseHexChannel, 'parseHexChannel', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(hsl2hsv, 'hsl2hsv', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(rgb2hsv, 'rgb2hsv', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(hsv2rgb, 'hsv2rgb', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(Color, 'Color', 'src/color-picker/color.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/color-picker/color.js');
-}();
+  reactHotLoader.register(hsv2hsl, 'hsv2hsl', 'src/color-picker/color.js');
+  reactHotLoader.register(isOnePointZero, 'isOnePointZero', 'src/color-picker/color.js');
+  reactHotLoader.register(isPercentage, 'isPercentage', 'src/color-picker/color.js');
+  reactHotLoader.register(bound01, 'bound01', 'src/color-picker/color.js');
+  reactHotLoader.register(INT_HEX_MAP, 'INT_HEX_MAP', 'src/color-picker/color.js');
+  reactHotLoader.register(toHex, 'toHex', 'src/color-picker/color.js');
+  reactHotLoader.register(HEX_INT_MAP, 'HEX_INT_MAP', 'src/color-picker/color.js');
+  reactHotLoader.register(parseHexChannel, 'parseHexChannel', 'src/color-picker/color.js');
+  reactHotLoader.register(hsl2hsv, 'hsl2hsv', 'src/color-picker/color.js');
+  reactHotLoader.register(rgb2hsv, 'rgb2hsv', 'src/color-picker/color.js');
+  reactHotLoader.register(hsv2rgb, 'hsv2rgb', 'src/color-picker/color.js');
+  reactHotLoader.register(Color, 'Color', 'src/color-picker/color.js');
+  reactHotLoader.register(_default, 'default', 'src/color-picker/color.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

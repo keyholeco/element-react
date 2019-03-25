@@ -62,6 +62,11 @@ var _constants = require('../constants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var _prevYear = function _prevYear(date) {
   var d = (0, _utils.toDate)(date);
   d.setFullYear(date.getFullYear() - 1);
@@ -620,6 +625,13 @@ var DateRangePanel = function (_PopperBase) {
       );
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'rightDate',
     get: function get() {
       return (0, _utils.nextMonth)(this.state.date);
@@ -679,20 +691,23 @@ exports.default = _default;
 DateRangePanel.defaultProps = {};
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_prevYear, 'prevYear', 'src/date-picker/panel/DateRangePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(_nextYear, 'nextYear', 'src/date-picker/panel/DateRangePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(mapPropsToState, 'mapPropsToState', 'src/date-picker/panel/DateRangePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(DateRangePanel, 'DateRangePanel', 'src/date-picker/panel/DateRangePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/date-picker/panel/DateRangePanel.jsx');
-}();
+  reactHotLoader.register(_prevYear, 'prevYear', 'src/date-picker/panel/DateRangePanel.jsx');
+  reactHotLoader.register(_nextYear, 'nextYear', 'src/date-picker/panel/DateRangePanel.jsx');
+  reactHotLoader.register(mapPropsToState, 'mapPropsToState', 'src/date-picker/panel/DateRangePanel.jsx');
+  reactHotLoader.register(DateRangePanel, 'DateRangePanel', 'src/date-picker/panel/DateRangePanel.jsx');
+  reactHotLoader.register(_default, 'default', 'src/date-picker/panel/DateRangePanel.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

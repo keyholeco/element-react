@@ -3,8 +3,8 @@ import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructo
 import _inherits from 'babel-runtime/helpers/inherits';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
+import Popper from 'popper.js';
 import { Component, Transition, View } from '../../libs';
-import Popper from '../../libs/utils/popper';
 import Checkbox from '../checkbox';
 
 import { FilterProps, FilterState } from './Types';

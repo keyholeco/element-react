@@ -3,6 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var NODE_KEY = exports.NODE_KEY = '$treeNodeId';
 
 var markNodeData = exports.markNodeData = function markNodeData(node, data) {
@@ -21,16 +27,21 @@ var getNodeKey = exports.getNodeKey = function getNodeKey(key, data) {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(NODE_KEY, 'NODE_KEY', 'src/tree/model/util.js');
-
-  __REACT_HOT_LOADER__.register(markNodeData, 'markNodeData', 'src/tree/model/util.js');
-
-  __REACT_HOT_LOADER__.register(getNodeKey, 'getNodeKey', 'src/tree/model/util.js');
-}();
+  reactHotLoader.register(NODE_KEY, 'NODE_KEY', 'src/tree/model/util.js');
+  reactHotLoader.register(markNodeData, 'markNodeData', 'src/tree/model/util.js');
+  reactHotLoader.register(getNodeKey, 'getNodeKey', 'src/tree/model/util.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

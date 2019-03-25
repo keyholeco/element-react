@@ -51,6 +51,11 @@ var _Bar = require('./Bar');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Scrollbar = exports.Scrollbar = function (_Component) {
   (0, _inherits3.default)(Scrollbar, _Component);
 
@@ -86,6 +91,7 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
 
       this.resizeDom = _reactDom2.default.findDOMNode(this.refs.resize);
       if (!this.props.noresize) {
+        this.cleanResize && this.cleanResize();
         (0, _resizeEvent.addResizeListener)(this.resizeDom, this.update);
         this.cleanResize = function () {
           (0, _resizeEvent.removeResizeListener)(_this2.resizeDom, _this2.update);
@@ -197,6 +203,13 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
       return _react2.default.createElement('div', { className: this.classNames('el-scrollbar', className) }, nodes);
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'wrap',
     get: function get() {
       return this.refs.wrap;
@@ -221,12 +234,19 @@ Scrollbar.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Scrollbar, 'Scrollbar', 'src/scrollbar/Scrollbar.jsx');
-}();
+  reactHotLoader.register(Scrollbar, 'Scrollbar', 'src/scrollbar/Scrollbar.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

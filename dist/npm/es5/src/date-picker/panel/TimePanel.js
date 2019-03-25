@@ -40,6 +40,11 @@ var _PopperBase2 = require('./PopperBase');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var mapPropsToState = function mapPropsToState(props) {
   var state = {
     format: props.format || 'HH:mm:ss',
@@ -195,6 +200,13 @@ var TimePanel = function (_PopperBase) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return TimePanel;
 }(_PopperBase2.PopperBase);
@@ -203,16 +215,21 @@ var _default = TimePanel;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(mapPropsToState, 'mapPropsToState', 'src/date-picker/panel/TimePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(TimePanel, 'TimePanel', 'src/date-picker/panel/TimePanel.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/date-picker/panel/TimePanel.jsx');
-}();
+  reactHotLoader.register(mapPropsToState, 'mapPropsToState', 'src/date-picker/panel/TimePanel.jsx');
+  reactHotLoader.register(TimePanel, 'TimePanel', 'src/date-picker/panel/TimePanel.jsx');
+  reactHotLoader.register(_default, 'default', 'src/date-picker/panel/TimePanel.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

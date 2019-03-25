@@ -34,6 +34,11 @@ var _PopperBase2 = require('./PopperBase');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var TimeSelectPanel = function (_PopperBase) {
   (0, _inherits3.default)(TimeSelectPanel, _PopperBase);
   (0, _createClass3.default)(TimeSelectPanel, null, [{
@@ -132,6 +137,13 @@ var TimeSelectPanel = function (_PopperBase) {
           })
         )
       );
+    }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
     }
   }]);
   return TimeSelectPanel;
@@ -240,22 +252,24 @@ var nextTime = function nextTime(time, step) {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(TimeSelectPanel, 'TimeSelectPanel', 'src/date-picker/panel/TimeSelectPanel.jsx');
-
-  __REACT_HOT_LOADER__.register(parseTime, 'parseTime', 'src/date-picker/panel/TimeSelectPanel.jsx');
-
-  __REACT_HOT_LOADER__.register(compareTime, 'compareTime', 'src/date-picker/panel/TimeSelectPanel.jsx');
-
-  __REACT_HOT_LOADER__.register(formatTime, 'formatTime', 'src/date-picker/panel/TimeSelectPanel.jsx');
-
-  __REACT_HOT_LOADER__.register(nextTime, 'nextTime', 'src/date-picker/panel/TimeSelectPanel.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/date-picker/panel/TimeSelectPanel.jsx');
-}();
+  reactHotLoader.register(TimeSelectPanel, 'TimeSelectPanel', 'src/date-picker/panel/TimeSelectPanel.jsx');
+  reactHotLoader.register(parseTime, 'parseTime', 'src/date-picker/panel/TimeSelectPanel.jsx');
+  reactHotLoader.register(compareTime, 'compareTime', 'src/date-picker/panel/TimeSelectPanel.jsx');
+  reactHotLoader.register(formatTime, 'formatTime', 'src/date-picker/panel/TimeSelectPanel.jsx');
+  reactHotLoader.register(nextTime, 'nextTime', 'src/date-picker/panel/TimeSelectPanel.jsx');
+  reactHotLoader.register(_default, 'default', 'src/date-picker/panel/TimeSelectPanel.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

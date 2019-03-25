@@ -40,6 +40,11 @@ var _locale2 = _interopRequireDefault(_locale);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Transfer = function (_Component) {
   (0, _inherits3.default)(Transfer, _Component);
 
@@ -48,20 +53,43 @@ var Transfer = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Transfer.__proto__ || Object.getPrototypeOf(Transfer)).call(this, props));
 
-    _this.onSourceCheckedChange = function () {
-      return _this.__onSourceCheckedChange__REACT_HOT_LOADER__.apply(_this, arguments);
+    _this.onSourceCheckedChange = function (val) {
+      _this.setState({ leftChecked: val });
     };
 
-    _this.onTargetCheckedChange = function () {
-      return _this.__onTargetCheckedChange__REACT_HOT_LOADER__.apply(_this, arguments);
+    _this.onTargetCheckedChange = function (val) {
+      _this.setState({ rightChecked: val });
     };
 
     _this.addToLeft = function () {
-      return _this.__addToLeft__REACT_HOT_LOADER__.apply(_this, arguments);
+      var value = _this.props.value;
+      var rightChecked = _this.state.rightChecked;
+
+      var currentValue = value.slice();
+      rightChecked.forEach(function (item) {
+        var index = currentValue.indexOf(item);
+        if (index > -1) {
+          currentValue.splice(index, 1);
+        }
+      });
+      _this.setState({ rightChecked: [] }, function () {
+        return _this.props.onChange(currentValue, 'left', rightChecked);
+      });
     };
 
     _this.addToRight = function () {
-      return _this.__addToRight__REACT_HOT_LOADER__.apply(_this, arguments);
+      var value = _this.props.value;
+      var leftChecked = _this.state.leftChecked;
+
+      var currentValue = value.slice();
+      leftChecked.forEach(function (item) {
+        if (!value.includes(item)) {
+          currentValue = currentValue.concat(item);
+        }
+      });
+      _this.setState({ leftChecked: [] }, function () {
+        return _this.props.onChange(currentValue, 'right', leftChecked);
+      });
     };
 
     _this.state = {
@@ -72,26 +100,6 @@ var Transfer = function (_Component) {
   }
 
   (0, _createClass3.default)(Transfer, [{
-    key: '__addToRight__REACT_HOT_LOADER__',
-    value: function __addToRight__REACT_HOT_LOADER__() {
-      return this.__addToRight__REACT_HOT_LOADER__.apply(this, arguments);
-    }
-  }, {
-    key: '__addToLeft__REACT_HOT_LOADER__',
-    value: function __addToLeft__REACT_HOT_LOADER__() {
-      return this.__addToLeft__REACT_HOT_LOADER__.apply(this, arguments);
-    }
-  }, {
-    key: '__onTargetCheckedChange__REACT_HOT_LOADER__',
-    value: function __onTargetCheckedChange__REACT_HOT_LOADER__() {
-      return this.__onTargetCheckedChange__REACT_HOT_LOADER__.apply(this, arguments);
-    }
-  }, {
-    key: '__onSourceCheckedChange__REACT_HOT_LOADER__',
-    value: function __onSourceCheckedChange__REACT_HOT_LOADER__() {
-      return this.__onSourceCheckedChange__REACT_HOT_LOADER__.apply(this, arguments);
-    }
-  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
       var _props = this.props,
@@ -104,53 +112,6 @@ var Transfer = function (_Component) {
       if (rightDefaultChecked.length) {
         this.setState({ rightChecked: rightDefaultChecked });
       }
-    }
-  }, {
-    key: '__onSourceCheckedChange__REACT_HOT_LOADER__',
-    value: function __onSourceCheckedChange__REACT_HOT_LOADER__(val) {
-      this.setState({ leftChecked: val });
-    }
-  }, {
-    key: '__onTargetCheckedChange__REACT_HOT_LOADER__',
-    value: function __onTargetCheckedChange__REACT_HOT_LOADER__(val) {
-      this.setState({ rightChecked: val });
-    }
-  }, {
-    key: '__addToLeft__REACT_HOT_LOADER__',
-    value: function __addToLeft__REACT_HOT_LOADER__() {
-      var _this2 = this;
-
-      var value = this.props.value;
-      var rightChecked = this.state.rightChecked;
-
-      var currentValue = value.slice();
-      rightChecked.forEach(function (item) {
-        var index = currentValue.indexOf(item);
-        if (index > -1) {
-          currentValue.splice(index, 1);
-        }
-      });
-      this.setState({ rightChecked: [] }, function () {
-        return _this2.props.onChange(currentValue, 'left', rightChecked);
-      });
-    }
-  }, {
-    key: '__addToRight__REACT_HOT_LOADER__',
-    value: function __addToRight__REACT_HOT_LOADER__() {
-      var _this3 = this;
-
-      var value = this.props.value;
-      var leftChecked = this.state.leftChecked;
-
-      var currentValue = value.slice();
-      leftChecked.forEach(function (item) {
-        if (!value.includes(item)) {
-          currentValue = currentValue.concat(item);
-        }
-      });
-      this.setState({ leftChecked: [] }, function () {
-        return _this3.props.onChange(currentValue, 'right', leftChecked);
-      });
     }
   }, {
     key: 'render',
@@ -243,6 +204,13 @@ var Transfer = function (_Component) {
       );
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'sourceData',
     get: function get() {
       var _props3 = this.props,
@@ -307,14 +275,20 @@ var _default = Transfer;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Transfer, 'Transfer', 'src/transfer/Transfer.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/transfer/Transfer.jsx');
-}();
+  reactHotLoader.register(Transfer, 'Transfer', 'src/transfer/Transfer.jsx');
+  reactHotLoader.register(_default, 'default', 'src/transfer/Transfer.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

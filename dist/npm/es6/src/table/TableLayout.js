@@ -3,7 +3,7 @@ import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _inherits from 'babel-runtime/helpers/inherits';
 import * as React from 'react';
-import throttle from 'throttle-debounce/throttle';
+import { throttle } from 'throttle-debounce';
 import { Component, PropTypes } from '../../libs';
 import { addResizeListener, removeResizeListener } from '../../libs/utils/resize-event';
 

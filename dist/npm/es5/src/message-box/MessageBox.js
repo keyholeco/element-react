@@ -40,6 +40,11 @@ var _locale2 = _interopRequireDefault(_locale);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var typeMap = {
   success: 'circle-check',
   info: 'information',
@@ -182,6 +187,7 @@ var MessageBox = function (_Component) {
           cancelButtonClass = _props3.cancelButtonClass,
           showConfirmButton = _props3.showConfirmButton,
           confirmButtonClass = _props3.confirmButtonClass,
+          customClass = _props3.customClass,
           inputType = _props3.inputType;
       var _state = this.state,
           visible = _state.visible,
@@ -207,7 +213,7 @@ var MessageBox = function (_Component) {
               { show: visible },
               _react2.default.createElement(
                 'div',
-                { className: 'el-message-box__wrapper' },
+                { className: this.classNames('el-message-box__wrapper', customClass) },
                 _react2.default.createElement(
                   'div',
                   { className: 'el-message-box' },
@@ -233,7 +239,7 @@ var MessageBox = function (_Component) {
                       'div',
                       { className: 'el-message-box__message', style: { marginLeft: this.typeClass() ? '50px' : '0' } },
                       _react2.default.createElement(
-                        'p',
+                        'div',
                         null,
                         message
                       )
@@ -301,6 +307,13 @@ var MessageBox = function (_Component) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return MessageBox;
 }(_libs.Component);
@@ -322,6 +335,7 @@ MessageBox.propTypes = {
   cancelButtonText: _libs.PropTypes.string,
   cancelButtonClass: _libs.PropTypes.string,
   confirmButtonClass: _libs.PropTypes.string,
+  customClass: _libs.PropTypes.string,
   inputPlaceholder: _libs.PropTypes.string,
   inputPattern: _libs.PropTypes.regex,
   inputValidator: _libs.PropTypes.func,
@@ -334,21 +348,28 @@ MessageBox.propTypes = {
 
 MessageBox.defaultProps = {
   title: '提示',
+  showInput: false,
   showClose: true,
+  showCancelButton: false,
   showConfirmButton: true
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(typeMap, 'typeMap', 'src/message-box/MessageBox.jsx');
-
-  __REACT_HOT_LOADER__.register(MessageBox, 'MessageBox', 'src/message-box/MessageBox.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/message-box/MessageBox.jsx');
-}();
+  reactHotLoader.register(typeMap, 'typeMap', 'src/message-box/MessageBox.jsx');
+  reactHotLoader.register(MessageBox, 'MessageBox', 'src/message-box/MessageBox.jsx');
+  reactHotLoader.register(_default, 'default', 'src/message-box/MessageBox.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

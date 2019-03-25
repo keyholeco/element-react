@@ -3,6 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 /* Modified from https://github.com/sdecima/javascript-detect-element-resize
  * version: 0.5.3
  *
@@ -182,55 +188,47 @@ var removeResizeListener = exports.removeResizeListener = function removeResizeL
   if (attachEvent) {
     element.detachEvent('onresize', fn);
   } else {
-    element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
-    if (!element.__resizeListeners__.length) {
-      element.removeEventListener('scroll', scrollListener);
-      element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__);
+    if (element.__resizeListeners__) {
+      element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
+      if (!element.__resizeListeners__.length) {
+        element.removeEventListener('scroll', scrollListener);
+        element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__);
+      }
     }
   }
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(isServer, 'isServer', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(requestFrame, 'requestFrame', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(cancelFrame, 'cancelFrame', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(resetTrigger, 'resetTrigger', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(checkTriggers, 'checkTriggers', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(scrollListener, 'scrollListener', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(attachEvent, 'attachEvent', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(DOM_PREFIXES, 'DOM_PREFIXES', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(START_EVENTS, 'START_EVENTS', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(RESIZE_ANIMATION_NAME, 'RESIZE_ANIMATION_NAME', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(animation, 'animation', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(keyFramePrefix, 'keyFramePrefix', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(animationStartEvent, 'animationStartEvent', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(i, 'i', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(stylesCreated, 'stylesCreated', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(createStyles, 'createStyles', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(addResizeListener, 'addResizeListener', 'libs/utils/resize-event.js');
-
-  __REACT_HOT_LOADER__.register(removeResizeListener, 'removeResizeListener', 'libs/utils/resize-event.js');
-}();
+  reactHotLoader.register(isServer, 'isServer', 'libs/utils/resize-event.js');
+  reactHotLoader.register(requestFrame, 'requestFrame', 'libs/utils/resize-event.js');
+  reactHotLoader.register(cancelFrame, 'cancelFrame', 'libs/utils/resize-event.js');
+  reactHotLoader.register(resetTrigger, 'resetTrigger', 'libs/utils/resize-event.js');
+  reactHotLoader.register(checkTriggers, 'checkTriggers', 'libs/utils/resize-event.js');
+  reactHotLoader.register(scrollListener, 'scrollListener', 'libs/utils/resize-event.js');
+  reactHotLoader.register(attachEvent, 'attachEvent', 'libs/utils/resize-event.js');
+  reactHotLoader.register(DOM_PREFIXES, 'DOM_PREFIXES', 'libs/utils/resize-event.js');
+  reactHotLoader.register(START_EVENTS, 'START_EVENTS', 'libs/utils/resize-event.js');
+  reactHotLoader.register(RESIZE_ANIMATION_NAME, 'RESIZE_ANIMATION_NAME', 'libs/utils/resize-event.js');
+  reactHotLoader.register(animation, 'animation', 'libs/utils/resize-event.js');
+  reactHotLoader.register(keyFramePrefix, 'keyFramePrefix', 'libs/utils/resize-event.js');
+  reactHotLoader.register(animationStartEvent, 'animationStartEvent', 'libs/utils/resize-event.js');
+  reactHotLoader.register(i, 'i', 'libs/utils/resize-event.js');
+  reactHotLoader.register(stylesCreated, 'stylesCreated', 'libs/utils/resize-event.js');
+  reactHotLoader.register(createStyles, 'createStyles', 'libs/utils/resize-event.js');
+  reactHotLoader.register(addResizeListener, 'addResizeListener', 'libs/utils/resize-event.js');
+  reactHotLoader.register(removeResizeListener, 'removeResizeListener', 'libs/utils/resize-event.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

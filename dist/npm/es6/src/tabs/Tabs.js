@@ -284,8 +284,9 @@ var Tabs = function (_Component) {
     ) : null;
     var scrollBtn = scrollable ? [React.createElement(
       'span',
-      { key: 'el-tabs__nav-prev',
-        className: scrollable.prev ? 'el-tabs__nav-prev' : 'el-tabs__nav-prev is-disabled',
+      {
+        key: 'el-tabs__nav-prev',
+        className: scrollPrev ? 'el-tabs__nav-prev' : 'el-tabs__nav-prev is-disabled',
         onClick: function onClick() {
           return _this5.scrollPrev();
         }
@@ -293,8 +294,9 @@ var Tabs = function (_Component) {
       React.createElement('i', { className: 'el-icon-arrow-left' })
     ), React.createElement(
       'span',
-      { key: 'el-tabs__nav-next',
-        className: scrollable.next ? 'el-tabs__nav-next' : 'el-tabs__nav-next is-disabled',
+      {
+        key: 'el-tabs__nav-next',
+        className: scrollNext ? 'el-tabs__nav-next' : 'el-tabs__nav-next is-disabled',
         onClick: function onClick() {
           return _this5.scrollNext();
         }
@@ -335,11 +337,15 @@ var Tabs = function (_Component) {
 
                 return React.createElement(
                   'div',
-                  { key: 'el-tabs__item-' + index, ref: function ref(tab) {
+                  {
+                    key: 'el-tabs__item-' + index, ref: function ref(tab) {
                       return tab && _this5.tabs.push(tab);
-                    }, name: name, className: tabCls, onClick: function onClick(e) {
+                    },
+                    name: name,
+                    className: tabCls, onClick: function onClick(e) {
                       return _this5.handleTabClick(item, e);
-                    } },
+                    }
+                  },
                   label,
                   React.createElement(
                     View,

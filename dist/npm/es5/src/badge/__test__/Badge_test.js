@@ -139,12 +139,3 @@ describe('Badge Test', function () {
     expect(w1.find('.el-badge sup.el-badge__content').hasClass('is-dot')).toBeTruthy();
   });
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

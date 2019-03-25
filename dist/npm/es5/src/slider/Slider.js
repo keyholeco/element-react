@@ -36,6 +36,11 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Slider = function (_Component) {
   (0, _inherits3.default)(Slider, _Component);
 
@@ -153,6 +158,8 @@ var Slider = function (_Component) {
   }, {
     key: 'setValues',
     value: function setValues() {
+      var _this2 = this;
+
       var _props2 = this.props,
           range = _props2.range,
           value = _props2.value,
@@ -192,15 +199,16 @@ var Slider = function (_Component) {
         } else {
           inputValue = firstValue;
 
-          if (this.valueChanged()) {
-            this.onValueChanged(firstValue);
-
-            oldValue = firstValue;
-          }
+          this.setState({ firstValue: firstValue }, function () {
+            if (_this2.valueChanged()) {
+              _this2.onValueChanged(firstValue);
+              _this2.setState({ oldValue: firstValue });
+            }
+          });
         }
       }
 
-      this.forceUpdate();
+      this.setState({ firstValue: firstValue, secondValue: secondValue, inputValue: inputValue });
     }
   }, {
     key: 'setPosition',
@@ -217,7 +225,8 @@ var Slider = function (_Component) {
       var targetValue = min + percent * (max - min) / 100;
 
       if (!range) {
-        this.refs.button1.setPosition(percent);return;
+        this.refs.button1.setPosition(percent);
+        return;
       }
 
       var button = void 0;
@@ -258,13 +267,13 @@ var Slider = function (_Component) {
   }, {
     key: 'onInputValueChanged',
     value: function onInputValueChanged(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.setState({
         inputValue: e || 0,
         firstValue: e || 0
       }, function () {
-        _this2.setValues();
+        _this3.setValues();
       });
     }
   }, {
@@ -296,7 +305,7 @@ var Slider = function (_Component) {
   }, {
     key: 'stops',
     value: function stops() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _props4 = this.props,
           range = _props4.range,
@@ -316,7 +325,7 @@ var Slider = function (_Component) {
 
       if (range) {
         return result.filter(function (step) {
-          return step < 100 * (_this3.minValue() - min) / (max - min) || step > 100 * (_this3.maxValue() - min) / (max - min);
+          return step < 100 * (_this4.minValue() - min) / (max - min) || step > 100 * (_this4.maxValue() - min) / (max - min);
         });
       } else {
         return result.filter(function (step) {
@@ -400,20 +409,44 @@ var Slider = function (_Component) {
         }),
         _react2.default.createElement(
           'div',
-          { ref: 'slider', style: this.runwayStyle(), className: this.classNames('el-slider__runway', {
+          {
+            ref: 'slider',
+            style: this.runwayStyle(),
+            className: this.classNames('el-slider__runway', {
               'show-input': showInput,
               'disabled': disabled
-            }), onClick: this.onSliderClick.bind(this) },
+            }),
+            onClick: this.onSliderClick.bind(this)
+          },
           _react2.default.createElement('div', {
             className: 'el-slider__bar',
             style: this.barStyle() }),
-          _react2.default.createElement(_Button2.default, { ref: 'button1', vertical: vertical, value: firstValue, onChange: this.onFirstValueChange.bind(this) }),
-          range && _react2.default.createElement(_Button2.default, { ref: 'button2', vertical: vertical, value: secondValue, onChange: this.onSecondValueChange.bind(this) }),
+          _react2.default.createElement(_Button2.default, {
+            ref: 'button1',
+            vertical: vertical, value: firstValue,
+            onChange: this.onFirstValueChange.bind(this)
+          }),
+          range && _react2.default.createElement(_Button2.default, {
+            ref: 'button2',
+            vertical: vertical, value: secondValue,
+            onChange: this.onSecondValueChange.bind(this)
+          }),
           showStops && this.stops().map(function (item, index) {
-            return _react2.default.createElement('div', { key: index, className: 'el-slider__stop', style: vertical ? { 'bottom': item + '%' } : { 'left': item + '%' } });
+            return _react2.default.createElement('div', {
+              key: index,
+              className: 'el-slider__stop',
+              style: vertical ? { 'bottom': item + '%' } : { 'left': item + '%' }
+            });
           })
         )
       );
+    }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
     }
   }]);
   return Slider;
@@ -454,14 +487,20 @@ Slider.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Slider, 'Slider', 'src/slider/Slider.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/slider/Slider.jsx');
-}();
+  reactHotLoader.register(Slider, 'Slider', 'src/slider/Slider.jsx');
+  reactHotLoader.register(_default, 'default', 'src/slider/Slider.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

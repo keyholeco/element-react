@@ -177,10 +177,12 @@ export var removeResizeListener = function removeResizeListener(element, fn) {
   if (attachEvent) {
     element.detachEvent('onresize', fn);
   } else {
-    element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
-    if (!element.__resizeListeners__.length) {
-      element.removeEventListener('scroll', scrollListener);
-      element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__);
+    if (element.__resizeListeners__) {
+      element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
+      if (!element.__resizeListeners__.length) {
+        element.removeEventListener('scroll', scrollListener);
+        element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__);
+      }
     }
   }
 };

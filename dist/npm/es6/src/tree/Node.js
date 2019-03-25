@@ -3,7 +3,7 @@ import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
-import debounce from 'throttle-debounce/debounce';
+import { debounce } from 'throttle-debounce';
 
 import { PropTypes, Component, CollapseTransition } from '../../libs';
 import { watchPropertyChange, IDGenerator } from '../../libs/utils';

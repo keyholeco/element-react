@@ -34,6 +34,11 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Component = function (_React$Component) {
   (0, _inherits3.default)(Component, _React$Component);
 
@@ -54,16 +59,27 @@ var Component = function (_React$Component) {
   }, {
     key: 'className',
     value: function className() {
+      var className = this.props.className;
+
       for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
         args[_key2] = arguments[_key2];
       }
 
-      return this.classNames.apply(this, args.concat([this.props.className]));
+      return this.classNames.apply(this, args.concat([className]));
     }
   }, {
     key: 'style',
     value: function style(args) {
-      return Object.assign({}, args, this.props.style);
+      var style = this.props.style;
+
+      return Object.assign({}, args, style);
+    }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
     }
   }]);
   return Component;
@@ -79,14 +95,20 @@ Component.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Component, 'Component', 'libs/component/index.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'libs/component/index.js');
-}();
+  reactHotLoader.register(Component, 'Component', 'libs/component/index.js');
+  reactHotLoader.register(_default, 'default', 'libs/component/index.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

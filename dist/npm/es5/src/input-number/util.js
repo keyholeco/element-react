@@ -5,6 +5,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.accSub = accSub;
 exports.accAdd = accAdd;
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 function accSub(arg1, arg2) {
   var r1, r2, m, n;
   try {
@@ -53,14 +59,20 @@ function accAdd(arg1, arg2) {
 }
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(accSub, 'accSub', 'src/input-number/util.js');
-
-  __REACT_HOT_LOADER__.register(accAdd, 'accAdd', 'src/input-number/util.js');
-}();
+  reactHotLoader.register(accSub, 'accSub', 'src/input-number/util.js');
+  reactHotLoader.register(accAdd, 'accAdd', 'src/input-number/util.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

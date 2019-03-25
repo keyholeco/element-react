@@ -63,12 +63,3 @@ describe('Input test', function () {
     expect(w.find('.el-textarea__inner').first().prop('style').resize).toBe('both');
   });
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

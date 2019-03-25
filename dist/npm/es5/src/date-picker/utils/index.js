@@ -17,6 +17,11 @@ var _locale2 = _interopRequireDefault(_locale);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var t = _locale2.default.t;
 var weeks = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
@@ -254,56 +259,41 @@ function deconstructDate(date) {
 }
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(t, 't', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(weeks, 'weeks', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(months, 'months', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(newArray, 'newArray', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(equalDate, 'equalDate', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(toDate, 'toDate', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(isDate, 'isDate', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(formatDate, 'formatDate', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(parseDate, 'parseDate', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(getDayCountOfMonth, 'getDayCountOfMonth', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(getFirstDayOfMonth, 'getFirstDayOfMonth', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(DAY_DURATION, 'DAY_DURATION', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(getStartDateOfMonth, 'getStartDateOfMonth', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(getOffsetToWeekOrigin, 'getOffsetToWeekOrigin', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(getWeekNumber, 'getWeekNumber', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(getDateOfISOWeek, 'getDateOfISOWeek', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(prevMonth, 'prevMonth', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(nextMonth, 'nextMonth', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(getRangeHours, 'getRangeHours', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(limitRange, 'limitRange', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(hasClass, 'hasClass', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(SELECTION_MODES, 'SELECTION_MODES', 'src/date-picker/utils/index.js');
-
-  __REACT_HOT_LOADER__.register(deconstructDate, 'deconstructDate', 'src/date-picker/utils/index.js');
-}();
+  reactHotLoader.register(t, 't', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(weeks, 'weeks', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(months, 'months', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(newArray, 'newArray', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(equalDate, 'equalDate', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(toDate, 'toDate', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(isDate, 'isDate', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(formatDate, 'formatDate', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(parseDate, 'parseDate', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(getDayCountOfMonth, 'getDayCountOfMonth', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(getFirstDayOfMonth, 'getFirstDayOfMonth', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(DAY_DURATION, 'DAY_DURATION', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(getStartDateOfMonth, 'getStartDateOfMonth', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(getOffsetToWeekOrigin, 'getOffsetToWeekOrigin', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(getWeekNumber, 'getWeekNumber', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(getDateOfISOWeek, 'getDateOfISOWeek', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(prevMonth, 'prevMonth', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(nextMonth, 'nextMonth', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(getRangeHours, 'getRangeHours', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(limitRange, 'limitRange', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(hasClass, 'hasClass', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(SELECTION_MODES, 'SELECTION_MODES', 'src/date-picker/utils/index.js');
+  reactHotLoader.register(deconstructDate, 'deconstructDate', 'src/date-picker/utils/index.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

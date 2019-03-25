@@ -4,6 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getScrollBarWidth = getScrollBarWidth;
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var scrollBarWidth = void 0;
 
 function getScrollBarWidth() {
@@ -32,14 +38,20 @@ function getScrollBarWidth() {
 }
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(scrollBarWidth, 'scrollBarWidth', 'src/scrollbar/scrollbar-width.js');
-
-  __REACT_HOT_LOADER__.register(getScrollBarWidth, 'getScrollBarWidth', 'src/scrollbar/scrollbar-width.js');
-}();
+  reactHotLoader.register(scrollBarWidth, 'scrollBarWidth', 'src/scrollbar/scrollbar-width.js');
+  reactHotLoader.register(getScrollBarWidth, 'getScrollBarWidth', 'src/scrollbar/scrollbar-width.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

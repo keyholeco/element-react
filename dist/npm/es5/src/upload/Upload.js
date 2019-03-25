@@ -44,6 +44,11 @@ var _AjaxUpload2 = _interopRequireDefault(_AjaxUpload);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Upload = function (_Component) {
   (0, _inherits3.default)(Upload, _Component);
 
@@ -243,7 +248,11 @@ var Upload = function (_Component) {
           data = _props.data,
           accept = _props.accept,
           listType = _props.listType,
-          className = _props.className;
+          className = _props.className,
+          limit = _props.limit,
+          disabled = _props.disabled,
+          onExceed = _props.onExceed,
+          httpRequest = _props.httpRequest;
 
       var uploadList = void 0;
       if (showFileList && fileList.length) {
@@ -261,6 +270,11 @@ var Upload = function (_Component) {
         data: data,
         accept: accept,
         listType: listType,
+        fileList: fileList,
+        limit: limit,
+        disabled: disabled,
+        onExceed: onExceed,
+        httpRequest: httpRequest,
         onStart: this.handleStart.bind(this),
         onProgress: this.handleProgress.bind(this),
         onSuccess: this.handleSuccess.bind(this),
@@ -289,6 +303,13 @@ var Upload = function (_Component) {
         listType !== 'picture-card' ? uploadList : ''
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Upload;
 }(_libs.Component);
@@ -301,6 +322,7 @@ Upload.defaultProps = {
   fileList: [],
   showFileList: true,
   autoUpload: true,
+  disabled: false,
   onRemove: function onRemove() {},
   onPreview: function onPreview() {},
   onProgress: function onProgress() {},
@@ -339,18 +361,28 @@ Upload.propTypes = {
   onSuccess: _libs.PropTypes.func,
   onError: _libs.PropTypes.func,
   onChange: _libs.PropTypes.func,
-  className: _libs.PropTypes.string
+  className: _libs.PropTypes.string,
+  disabled: _libs.PropTypes.bool,
+  limit: _libs.PropTypes.number,
+  onExceed: _libs.PropTypes.func,
+  httpRequest: _libs.PropTypes.func
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Upload, 'Upload', 'src/upload/Upload.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/upload/Upload.jsx');
-}();
+  reactHotLoader.register(Upload, 'Upload', 'src/upload/Upload.jsx');
+  reactHotLoader.register(_default, 'default', 'src/upload/Upload.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

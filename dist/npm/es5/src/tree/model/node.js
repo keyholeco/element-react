@@ -16,6 +16,11 @@ var _util = require('./util');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var reInitChecked = function reInitChecked(node) {
   var siblings = node.childNodes;
 
@@ -400,6 +405,13 @@ var Node = function () {
       }
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'label',
     get: function get() {
       return getPropertyFromData(this, 'label');
@@ -424,20 +436,23 @@ var _default = Node;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(reInitChecked, 'reInitChecked', 'src/tree/model/node.js');
-
-  __REACT_HOT_LOADER__.register(getPropertyFromData, 'getPropertyFromData', 'src/tree/model/node.js');
-
-  __REACT_HOT_LOADER__.register(nodeIdSeed, 'nodeIdSeed', 'src/tree/model/node.js');
-
-  __REACT_HOT_LOADER__.register(Node, 'Node', 'src/tree/model/node.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/tree/model/node.js');
-}();
+  reactHotLoader.register(reInitChecked, 'reInitChecked', 'src/tree/model/node.js');
+  reactHotLoader.register(getPropertyFromData, 'getPropertyFromData', 'src/tree/model/node.js');
+  reactHotLoader.register(nodeIdSeed, 'nodeIdSeed', 'src/tree/model/node.js');
+  reactHotLoader.register(Node, 'Node', 'src/tree/model/node.js');
+  reactHotLoader.register(_default, 'default', 'src/tree/model/node.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

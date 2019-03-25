@@ -4,6 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.renderThumbStyle = renderThumbStyle;
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var BAR_MAP = exports.BAR_MAP = {
   vertical: {
     offset: 'offsetHeight',
@@ -44,14 +50,20 @@ function renderThumbStyle(_ref) {
 }
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(BAR_MAP, 'BAR_MAP', 'src/scrollbar/util.js');
-
-  __REACT_HOT_LOADER__.register(renderThumbStyle, 'renderThumbStyle', 'src/scrollbar/util.js');
-}();
+  reactHotLoader.register(BAR_MAP, 'BAR_MAP', 'src/scrollbar/util.js');
+  reactHotLoader.register(renderThumbStyle, 'renderThumbStyle', 'src/scrollbar/util.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

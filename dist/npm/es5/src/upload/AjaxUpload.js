@@ -40,6 +40,11 @@ var _Cover2 = _interopRequireDefault(_Cover);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var AjaxUpload = function (_Component) {
   (0, _inherits3.default)(AjaxUpload, _Component);
 
@@ -70,8 +75,16 @@ var AjaxUpload = function (_Component) {
     value: function uploadFiles(files) {
       var _this2 = this;
 
-      var multiple = this.props.multiple;
+      var _props = this.props,
+          multiple = _props.multiple,
+          limit = _props.limit,
+          onExceed = _props.onExceed,
+          fileList = _props.fileList;
 
+      if (limit && fileList.length + files.length > limit) {
+        onExceed && onExceed(files, fileList);
+        return;
+      }
       var postFiles = Array.prototype.slice.call(files);
       if (postFiles.length === 0) {
         return;
@@ -114,17 +127,19 @@ var AjaxUpload = function (_Component) {
   }, {
     key: 'post',
     value: function post(file) {
-      var _props = this.props,
-          filename = _props.name,
-          headers = _props.headers,
-          withCredentials = _props.withCredentials,
-          data = _props.data,
-          action = _props.action,
-          _onProgress = _props.onProgress,
-          _onSuccess = _props.onSuccess,
-          _onError = _props.onError;
+      var _props2 = this.props,
+          filename = _props2.name,
+          headers = _props2.headers,
+          withCredentials = _props2.withCredentials,
+          data = _props2.data,
+          action = _props2.action,
+          _onProgress = _props2.onProgress,
+          _onSuccess = _props2.onSuccess,
+          _onError = _props2.onError;
+      var _props$httpRequest = this.props.httpRequest,
+          httpRequest = _props$httpRequest === undefined ? _ajax2.default : _props$httpRequest;
 
-      (0, _ajax2.default)({
+      var req = httpRequest({
         headers: headers,
         withCredentials: withCredentials,
         file: file,
@@ -141,22 +156,28 @@ var AjaxUpload = function (_Component) {
           return _onError(err, file);
         }
       });
+      if (req && req.then) {
+        req.then(_onSuccess, _onError);
+      }
     }
   }, {
     key: 'handleClick',
     value: function handleClick() {
-      this.refs.input.click();
+      if (!this.props.disabled) {
+        this.refs.input.click();
+      }
     }
   }, {
     key: 'render',
     value: function render() {
       var _this4 = this;
 
-      var _props2 = this.props,
-          drag = _props2.drag,
-          multiple = _props2.multiple,
-          accept = _props2.accept,
-          listType = _props2.listType;
+      var _props3 = this.props,
+          drag = _props3.drag,
+          multiple = _props3.multiple,
+          accept = _props3.accept,
+          listType = _props3.listType,
+          disabled = _props3.disabled;
 
       return _react2.default.createElement(
         'div',
@@ -170,7 +191,7 @@ var AjaxUpload = function (_Component) {
         },
         drag ? _react2.default.createElement(
           _Cover2.default,
-          { onFile: function onFile(file) {
+          { disabled: disabled, onFile: function onFile(file) {
               return _this4.uploadFiles(file);
             } },
           this.props.children
@@ -186,6 +207,13 @@ var AjaxUpload = function (_Component) {
           accept: accept
         })
       );
+    }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
     }
   }]);
   return AjaxUpload;
@@ -214,18 +242,28 @@ AjaxUpload.propTypes = {
   beforeUpload: _libs.PropTypes.func,
   autoUpload: _libs.PropTypes.bool,
   listType: _libs.PropTypes.string,
-  fileList: _libs.PropTypes.array
+  fileList: _libs.PropTypes.array,
+  disabled: _libs.PropTypes.bool,
+  limit: _libs.PropTypes.number,
+  onExceed: _libs.PropTypes.func,
+  httpRequest: _libs.PropTypes.func
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(AjaxUpload, 'AjaxUpload', 'src/upload/AjaxUpload.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/upload/AjaxUpload.jsx');
-}();
+  reactHotLoader.register(AjaxUpload, 'AjaxUpload', 'src/upload/AjaxUpload.jsx');
+  reactHotLoader.register(_default, 'default', 'src/upload/AjaxUpload.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

@@ -36,6 +36,11 @@ var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var FormItem = function (_Component) {
   (0, _inherits3.default)(FormItem, _Component);
 
@@ -266,7 +271,7 @@ var FormItem = function (_Component) {
         label && _react2.default.createElement(
           'label',
           { className: 'el-form-item__label', style: this.labelStyle() },
-          label + this.parent().props.labelSuffix
+          typeof label === 'string' ? label + this.parent().props.labelSuffix : label
         ),
         _react2.default.createElement(
           'div',
@@ -283,6 +288,13 @@ var FormItem = function (_Component) {
           )
         )
       );
+    }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
     }
   }]);
   return FormItem;
@@ -301,7 +313,7 @@ FormItem.childContextTypes = {
 };
 
 FormItem.propTypes = {
-  label: _libs.PropTypes.string,
+  label: _libs.PropTypes.oneOfType([_libs.PropTypes.string, _libs.PropTypes.node]),
   labelWidth: _libs.PropTypes.oneOfType([_libs.PropTypes.string, _libs.PropTypes.number]),
   prop: _libs.PropTypes.string,
   required: _libs.PropTypes.bool,
@@ -309,14 +321,20 @@ FormItem.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(FormItem, 'FormItem', 'src/form/FormItem.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/form/FormItem.jsx');
-}();
+  reactHotLoader.register(FormItem, 'FormItem', 'src/form/FormItem.jsx');
+  reactHotLoader.register(_default, 'default', 'src/form/FormItem.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

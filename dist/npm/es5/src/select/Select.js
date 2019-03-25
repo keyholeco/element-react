@@ -32,17 +32,15 @@ var _reactClickOutside = require('react-click-outside');
 
 var _reactClickOutside2 = _interopRequireDefault(_reactClickOutside);
 
-var _debounce = require('throttle-debounce/debounce');
+var _throttleDebounce = require('throttle-debounce');
 
-var _debounce2 = _interopRequireDefault(_debounce);
+var _popper = require('popper.js');
+
+var _popper2 = _interopRequireDefault(_popper);
 
 var _style = require('../../libs/utils/style');
 
 var _style2 = _interopRequireDefault(_style);
-
-var _popper = require('../../libs/utils/popper');
-
-var _popper2 = _interopRequireDefault(_popper);
 
 var _libs = require('../../libs');
 
@@ -63,6 +61,11 @@ var _locale = require('../locale');
 var _locale2 = _interopRequireDefault(_locale);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
 _style2.default.reset('\n  .el-select-dropdown {\n    position: absolute !important;\n  }\n');
 
@@ -111,7 +114,7 @@ var Select = function (_Component) {
       _this.state.voidRemoteQuery = true;
     }
 
-    _this.debouncedOnInputChange = (0, _debounce2.default)(_this.debounce(), function () {
+    _this.debouncedOnInputChange = (0, _throttleDebounce.debounce)(_this.debounce(), function () {
       _this.onInputChange();
     });
 
@@ -133,6 +136,7 @@ var Select = function (_Component) {
       this.popper = _reactDom2.default.findDOMNode(this.refs.popper);
 
       this.handleValueChange();
+      (0, _resizeEvent.addResizeListener)(this.refs.root, this.resetInputWidth);
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -182,7 +186,6 @@ var Select = function (_Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       this.state.inputWidth = this.reference.getBoundingClientRect().width;
-      (0, _resizeEvent.addResizeListener)(this.refs.root, this.resetInputWidth);
     }
   }, {
     key: 'componentWillUnmount',
@@ -255,8 +258,6 @@ var Select = function (_Component) {
           }
         }
 
-        // this.broadcast('select-dropdown', 'destroyPopper');
-
         if (this.refs.input) {
           this.refs.input.blur();
         }
@@ -301,8 +302,6 @@ var Select = function (_Component) {
             this.refs.input.focus();
           } else {
             this.refs.reference.focus();
-
-            // this.broadcast('input', 'inputSelect');
           }
         }
 
@@ -421,8 +420,6 @@ var Select = function (_Component) {
           form && form.onFieldChange();
         }
 
-        // this.dispatch('form-item', 'el.form.change', val);
-
         if (filterable) {
           query = '';
           hoverIndex = -1;
@@ -500,20 +497,17 @@ var Select = function (_Component) {
     key: 'onEnter',
     value: function onEnter() {
       this.popperJS = new _popper2.default(this.reference, this.popper, {
-        gpuAcceleration: false
+        modifiers: {
+          computeStyle: {
+            gpuAcceleration: false
+          }
+        }
       });
     }
   }, {
     key: 'onAfterLeave',
     value: function onAfterLeave() {
       this.popperJS.destroy();
-    }
-  }, {
-    key: 'optionsAllDisabled',
-    value: function optionsAllDisabled(options) {
-      return options.length === options.filter(function (item) {
-        return item.props.disabled === true;
-      }).length;
     }
   }, {
     key: 'iconClass',
@@ -572,11 +566,6 @@ var Select = function (_Component) {
       }
 
       return null;
-    }
-  }, {
-    key: 'doDestroy',
-    value: function doDestroy() {
-      this.refs.popper.doDestroy();
     }
   }, {
     key: 'handleClose',
@@ -1044,19 +1033,23 @@ var Select = function (_Component) {
 
               switch (e.keyCode) {
                 case 27:
-                  _this10.setState({ visible: false });e.preventDefault();
+                  _this10.setState({ visible: false });
+                  e.preventDefault();
                   break;
                 case 8:
                   _this10.deletePrevTag(e);
                   break;
                 case 13:
-                  _this10.selectOption();e.preventDefault();
+                  _this10.selectOption();
+                  e.preventDefault();
                   break;
                 case 38:
-                  _this10.navigateOptions('prev');e.preventDefault();
+                  _this10.navigateOptions('prev');
+                  e.preventDefault();
                   break;
                 case 40:
-                  _this10.navigateOptions('next');e.preventDefault();
+                  _this10.navigateOptions('next');
+                  e.preventDefault();
                   break;
                 default:
                   break;
@@ -1097,16 +1090,20 @@ var Select = function (_Component) {
             switch (e.keyCode) {
               case 9:
               case 27:
-                _this10.setState({ visible: false });e.preventDefault();
+                _this10.setState({ visible: false });
+                e.preventDefault();
                 break;
               case 13:
-                _this10.selectOption();e.preventDefault();
+                _this10.selectOption();
+                e.preventDefault();
                 break;
               case 38:
-                _this10.navigateOptions('prev');e.preventDefault();
+                _this10.navigateOptions('prev');
+                e.preventDefault();
                 break;
               case 40:
-                _this10.navigateOptions('next');e.preventDefault();
+                _this10.navigateOptions('next');
+                e.preventDefault();
                 break;
               default:
                 break;
@@ -1121,11 +1118,11 @@ var Select = function (_Component) {
             { show: visible && this.emptyText() !== false },
             _react2.default.createElement(
               'div',
-              { ref: 'popper', className: this.classNames('el-select-dropdown', {
-                  'is-multiple': multiple
-                }), style: {
-                  minWidth: inputWidth
-                } },
+              {
+                ref: 'popper',
+                className: this.classNames('el-select-dropdown', { 'is-multiple': multiple }),
+                style: { minWidth: inputWidth }
+              },
               _react2.default.createElement(
                 _libs.View,
                 { show: options.length > 0 && filteredOptionsCount > 0 && !loading },
@@ -1148,6 +1145,13 @@ var Select = function (_Component) {
           )
         )
       );
+    }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
     }
   }]);
   return Select;
@@ -1184,16 +1188,21 @@ var _default = (0, _reactClickOutside2.default)(Select);
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(sizeMap, 'sizeMap', 'src/select/Select.jsx');
-
-  __REACT_HOT_LOADER__.register(Select, 'Select', 'src/select/Select.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/select/Select.jsx');
-}();
+  reactHotLoader.register(sizeMap, 'sizeMap', 'src/select/Select.jsx');
+  reactHotLoader.register(Select, 'Select', 'src/select/Select.jsx');
+  reactHotLoader.register(_default, 'default', 'src/select/Select.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

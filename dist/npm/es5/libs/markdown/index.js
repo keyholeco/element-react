@@ -46,6 +46,11 @@ var _canvas2 = _interopRequireDefault(_canvas);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Markdown = function (_React$Component) {
   (0, _inherits3.default)(Markdown, _React$Component);
 
@@ -82,9 +87,12 @@ var Markdown = function (_React$Component) {
 
       try {
         for (var _iterator = this.components[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var _step$value = (0, _slicedToArray3.default)(_step.value, 2),
-              id = _step$value[0],
-              component = _step$value[1];
+          var _ref = _step.value;
+
+          var _ref2 = (0, _slicedToArray3.default)(_ref, 2);
+
+          var id = _ref2[0];
+          var component = _ref2[1];
 
           var div = document.getElementById(id);
 
@@ -136,6 +144,13 @@ var Markdown = function (_React$Component) {
         return _react2.default.createElement('span', null);
       }
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Markdown;
 }(_react2.default.Component);
@@ -144,14 +159,20 @@ var _default = Markdown;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Markdown, 'Markdown', 'libs/markdown/index.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'libs/markdown/index.jsx');
-}();
+  reactHotLoader.register(Markdown, 'Markdown', 'libs/markdown/index.jsx');
+  reactHotLoader.register(_default, 'default', 'libs/markdown/index.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

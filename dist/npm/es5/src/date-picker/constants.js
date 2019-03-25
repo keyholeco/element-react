@@ -7,6 +7,11 @@ exports.PLACEMENT_MAP = exports.TYPE_VALUE_RESOLVER_MAP = exports.RANGE_PARSER =
 
 var _utils = require('./utils');
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var RANGE_SEPARATOR = exports.RANGE_SEPARATOR = ' - ';
 var DEFAULT_FORMATS = exports.DEFAULT_FORMATS = {
   date: 'yyyy-MM-dd',
@@ -178,28 +183,27 @@ var PLACEMENT_MAP = exports.PLACEMENT_MAP = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(RANGE_SEPARATOR, 'RANGE_SEPARATOR', 'src/date-picker/constants.js');
-
-  __REACT_HOT_LOADER__.register(DEFAULT_FORMATS, 'DEFAULT_FORMATS', 'src/date-picker/constants.js');
-
-  __REACT_HOT_LOADER__.register(HAVE_TRIGGER_TYPES, 'HAVE_TRIGGER_TYPES', 'src/date-picker/constants.js');
-
-  __REACT_HOT_LOADER__.register(DATE_FORMATTER, 'DATE_FORMATTER', 'src/date-picker/constants.js');
-
-  __REACT_HOT_LOADER__.register(DATE_PARSER, 'DATE_PARSER', 'src/date-picker/constants.js');
-
-  __REACT_HOT_LOADER__.register(RANGE_FORMATTER, 'RANGE_FORMATTER', 'src/date-picker/constants.js');
-
-  __REACT_HOT_LOADER__.register(RANGE_PARSER, 'RANGE_PARSER', 'src/date-picker/constants.js');
-
-  __REACT_HOT_LOADER__.register(TYPE_VALUE_RESOLVER_MAP, 'TYPE_VALUE_RESOLVER_MAP', 'src/date-picker/constants.js');
-
-  __REACT_HOT_LOADER__.register(PLACEMENT_MAP, 'PLACEMENT_MAP', 'src/date-picker/constants.js');
-}();
+  reactHotLoader.register(RANGE_SEPARATOR, 'RANGE_SEPARATOR', 'src/date-picker/constants.js');
+  reactHotLoader.register(DEFAULT_FORMATS, 'DEFAULT_FORMATS', 'src/date-picker/constants.js');
+  reactHotLoader.register(HAVE_TRIGGER_TYPES, 'HAVE_TRIGGER_TYPES', 'src/date-picker/constants.js');
+  reactHotLoader.register(DATE_FORMATTER, 'DATE_FORMATTER', 'src/date-picker/constants.js');
+  reactHotLoader.register(DATE_PARSER, 'DATE_PARSER', 'src/date-picker/constants.js');
+  reactHotLoader.register(RANGE_FORMATTER, 'RANGE_FORMATTER', 'src/date-picker/constants.js');
+  reactHotLoader.register(RANGE_PARSER, 'RANGE_PARSER', 'src/date-picker/constants.js');
+  reactHotLoader.register(TYPE_VALUE_RESOLVER_MAP, 'TYPE_VALUE_RESOLVER_MAP', 'src/date-picker/constants.js');
+  reactHotLoader.register(PLACEMENT_MAP, 'PLACEMENT_MAP', 'src/date-picker/constants.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

@@ -67,12 +67,3 @@ test('Read-only', function () {
   rate.simulate('click');
   expect(rate.find('i').at(0).prop('style').color).toEqual('#EFF2F7'); // 点击后颜色不变
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

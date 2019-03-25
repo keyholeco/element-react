@@ -220,7 +220,7 @@ var FormItem = function (_Component) {
       label && React.createElement(
         'label',
         { className: 'el-form-item__label', style: this.labelStyle() },
-        label + this.parent().props.labelSuffix
+        typeof label === 'string' ? label + this.parent().props.labelSuffix : label
       ),
       React.createElement(
         'div',
@@ -254,7 +254,7 @@ FormItem.childContextTypes = {
 };
 
 FormItem.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   labelWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   prop: PropTypes.string,
   required: PropTypes.bool,

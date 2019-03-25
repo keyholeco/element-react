@@ -32,11 +32,9 @@ var _reactClickOutside = require('react-click-outside');
 
 var _reactClickOutside2 = _interopRequireDefault(_reactClickOutside);
 
-var _debounce = require('throttle-debounce/debounce');
+var _throttleDebounce = require('throttle-debounce');
 
-var _debounce2 = _interopRequireDefault(_debounce);
-
-var _popper = require('../../libs/utils/popper');
+var _popper = require('popper.js');
 
 var _popper2 = _interopRequireDefault(_popper);
 
@@ -56,6 +54,11 @@ var _locale2 = _interopRequireDefault(_locale);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Cascader = function (_Component) {
   (0, _inherits3.default)(Cascader, _Component);
 
@@ -73,7 +76,7 @@ var Cascader = function (_Component) {
       flatOptions: _this.flattenOptions(props.options)
     };
 
-    _this.debouncedInputChange = (0, _debounce2.default)(props.debounce, function () {
+    _this.debouncedInputChange = (0, _throttleDebounce.debounce)(props.debounce, function () {
       var value = _this.state.inputValue;
       var before = _this.props.beforeFilter(value);
 
@@ -127,15 +130,20 @@ var Cascader = function (_Component) {
       var menuVisible = this.state.menuVisible;
 
 
-      if (menuVisible != state.menuVisible) {
+      if (menuVisible !== state.menuVisible) {
         if (menuVisible) {
           this.showMenu();
 
           if (this.popperJS) {
             this.popperJS.update();
           } else {
-            this.popperJS = new _popper2.default(this.input, this.refs.menu, {
-              gpuAcceleration: false
+            this.popperJS = new _popper2.default(this.input, _reactDom2.default.findDOMNode(this.refs.menu), {
+              placement: 'bottom-start',
+              modifiers: {
+                computeStyle: {
+                  gpuAcceleration: false
+                }
+              }
             });
           }
         } else {
@@ -458,6 +466,13 @@ var Cascader = function (_Component) {
         _react2.default.createElement(_Menu2.default, { ref: 'menu' })
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Cascader;
 }(_libs.Component);
@@ -467,7 +482,9 @@ Cascader.childContextTypes = {
 };
 
 Cascader.propTypes = {
-  options: _libs.PropTypes.array.isRequired,
+  options: _libs.PropTypes.arrayOf(_libs.PropTypes.shape({
+    value: _libs.PropTypes.string
+  })).isRequired,
   props: _libs.PropTypes.object,
   value: _libs.PropTypes.array,
   placeholder: _libs.PropTypes.string,
@@ -507,14 +524,20 @@ var _default = (0, _reactClickOutside2.default)(Cascader);
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Cascader, 'Cascader', 'src/cascader/Cascader.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/cascader/Cascader.jsx');
-}();
+  reactHotLoader.register(Cascader, 'Cascader', 'src/cascader/Cascader.jsx');
+  reactHotLoader.register(_default, 'default', 'src/cascader/Cascader.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

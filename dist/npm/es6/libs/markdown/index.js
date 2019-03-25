@@ -35,20 +35,20 @@ var Markdown = function (_React$Component) {
 
   Markdown.prototype.renderDOM = function renderDOM() {
     for (var _iterator = this.components, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-      var _ref;
+      var _ref2;
 
       if (_isArray) {
         if (_i >= _iterator.length) break;
-        _ref = _iterator[_i++];
+        _ref2 = _iterator[_i++];
       } else {
         _i = _iterator.next();
         if (_i.done) break;
-        _ref = _i.value;
+        _ref2 = _i.value;
       }
 
-      var _ref2 = _ref,
-          id = _ref2[0],
-          component = _ref2[1];
+      var _ref = _ref2;
+      var id = _ref[0];
+      var component = _ref[1];
 
       var div = document.getElementById(id);
 

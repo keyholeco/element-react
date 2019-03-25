@@ -46,6 +46,7 @@ export var Scrollbar = function (_Component) {
 
     this.resizeDom = ReactDOM.findDOMNode(this.refs.resize);
     if (!this.props.noresize) {
+      this.cleanResize && this.cleanResize();
       addResizeListener(this.resizeDom, this.update);
       this.cleanResize = function () {
         removeResizeListener(_this2.resizeDom, _this2.update);

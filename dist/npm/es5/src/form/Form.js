@@ -28,6 +28,11 @@ var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Form = function (_Component) {
   (0, _inherits3.default)(Form, _Component);
 
@@ -43,6 +48,27 @@ var Form = function (_Component) {
   }
 
   (0, _createClass3.default)(Form, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(newProps) {
+      var model = newProps.model;
+
+      var oldModel = this.props.model;
+      if (!model) return;
+      var diff = Object.keys(model).filter(function (key) {
+        return model[key] !== oldModel[key];
+      });
+      if (diff.length) {
+        this.state.fields.filter(function (_ref) {
+          var props = _ref.props;
+          return props.prop.match(diff);
+        }).map(function (field) {
+          return field.validate('', function () {
+            return undefined;
+          });
+        });
+      }
+    }
+  }, {
     key: 'getChildContext',
     value: function getChildContext() {
       return {
@@ -116,6 +142,13 @@ var Form = function (_Component) {
         this.props.children
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Form;
 }(_libs.Component);
@@ -144,14 +177,20 @@ Form.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Form, 'Form', 'src/form/Form.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/form/Form.jsx');
-}();
+  reactHotLoader.register(Form, 'Form', 'src/form/Form.jsx');
+  reactHotLoader.register(_default, 'default', 'src/form/Form.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

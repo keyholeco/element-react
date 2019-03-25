@@ -3,7 +3,7 @@ import _createClass from 'babel-runtime/helpers/createClass';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
-import throttle from 'throttle-debounce/throttle';
+import { throttle } from 'throttle-debounce';
 import { Component, PropTypes, Transition, View } from '../../libs';
 import { addResizeListener, removeResizeListener } from '../../libs/utils/resize-event';
 
@@ -66,6 +66,7 @@ var Carousel = function (_Component) {
 
   Carousel.prototype.componentWillUnmount = function componentWillUnmount() {
     removeResizeListener(this.refs.root, this.resetItemPosition);
+    this.pauseTimer();
   };
 
   Carousel.prototype.handleMouseEnter = function handleMouseEnter() {

@@ -30,6 +30,11 @@ var _utils = require('../utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var windowKey = Symbol.for("er_register_map");
 var registerMap = window[windowKey] = window[windowKey] || {
   ids: {}
@@ -106,6 +111,13 @@ var EventRegister = function (_Component) {
     value: function render() {
       return null;
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return EventRegister;
 }(_react.Component);
@@ -123,26 +135,26 @@ EventRegister.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(windowKey, 'windowKey', 'libs/internal/EventRegister.jsx');
-
-  __REACT_HOT_LOADER__.register(registerMap, 'registerMap', 'libs/internal/EventRegister.jsx');
-
-  __REACT_HOT_LOADER__.register(not_null, 'not_null', 'libs/internal/EventRegister.jsx');
-
-  __REACT_HOT_LOADER__.register(hasRegistered, 'hasRegistered', 'libs/internal/EventRegister.jsx');
-
-  __REACT_HOT_LOADER__.register(cleanRegister, 'cleanRegister', 'libs/internal/EventRegister.jsx');
-
-  __REACT_HOT_LOADER__.register(doRegister, 'doRegister', 'libs/internal/EventRegister.jsx');
-
-  __REACT_HOT_LOADER__.register(EventRegister, 'EventRegister', 'libs/internal/EventRegister.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'libs/internal/EventRegister.jsx');
-}();
+  reactHotLoader.register(windowKey, 'windowKey', 'libs/internal/EventRegister.jsx');
+  reactHotLoader.register(registerMap, 'registerMap', 'libs/internal/EventRegister.jsx');
+  reactHotLoader.register(not_null, 'not_null', 'libs/internal/EventRegister.jsx');
+  reactHotLoader.register(hasRegistered, 'hasRegistered', 'libs/internal/EventRegister.jsx');
+  reactHotLoader.register(cleanRegister, 'cleanRegister', 'libs/internal/EventRegister.jsx');
+  reactHotLoader.register(doRegister, 'doRegister', 'libs/internal/EventRegister.jsx');
+  reactHotLoader.register(EventRegister, 'EventRegister', 'libs/internal/EventRegister.jsx');
+  reactHotLoader.register(_default, 'default', 'libs/internal/EventRegister.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

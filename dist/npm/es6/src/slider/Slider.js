@@ -118,6 +118,8 @@ var Slider = function (_Component) {
   };
 
   Slider.prototype.setValues = function setValues() {
+    var _this2 = this;
+
     var _props2 = this.props,
         range = _props2.range,
         value = _props2.value,
@@ -157,15 +159,16 @@ var Slider = function (_Component) {
       } else {
         inputValue = firstValue;
 
-        if (this.valueChanged()) {
-          this.onValueChanged(firstValue);
-
-          oldValue = firstValue;
-        }
+        this.setState({ firstValue: firstValue }, function () {
+          if (_this2.valueChanged()) {
+            _this2.onValueChanged(firstValue);
+            _this2.setState({ oldValue: firstValue });
+          }
+        });
       }
     }
 
-    this.forceUpdate();
+    this.setState({ firstValue: firstValue, secondValue: secondValue, inputValue: inputValue });
   };
 
   Slider.prototype.setPosition = function setPosition(percent) {
@@ -181,7 +184,8 @@ var Slider = function (_Component) {
     var targetValue = min + percent * (max - min) / 100;
 
     if (!range) {
-      this.refs.button1.setPosition(percent);return;
+      this.refs.button1.setPosition(percent);
+      return;
     }
 
     var button = void 0;
@@ -219,13 +223,13 @@ var Slider = function (_Component) {
   };
 
   Slider.prototype.onInputValueChanged = function onInputValueChanged(e) {
-    var _this2 = this;
+    var _this3 = this;
 
     this.setState({
       inputValue: e || 0,
       firstValue: e || 0
     }, function () {
-      _this2.setValues();
+      _this3.setValues();
     });
   };
 
@@ -252,7 +256,7 @@ var Slider = function (_Component) {
   };
 
   Slider.prototype.stops = function stops() {
-    var _this3 = this;
+    var _this4 = this;
 
     var _props4 = this.props,
         range = _props4.range,
@@ -272,7 +276,7 @@ var Slider = function (_Component) {
 
     if (range) {
       return result.filter(function (step) {
-        return step < 100 * (_this3.minValue() - min) / (max - min) || step > 100 * (_this3.maxValue() - min) / (max - min);
+        return step < 100 * (_this4.minValue() - min) / (max - min) || step > 100 * (_this4.maxValue() - min) / (max - min);
       });
     } else {
       return result.filter(function (step) {
@@ -349,17 +353,34 @@ var Slider = function (_Component) {
       }),
       React.createElement(
         'div',
-        { ref: 'slider', style: this.runwayStyle(), className: this.classNames('el-slider__runway', {
+        {
+          ref: 'slider',
+          style: this.runwayStyle(),
+          className: this.classNames('el-slider__runway', {
             'show-input': showInput,
             'disabled': disabled
-          }), onClick: this.onSliderClick.bind(this) },
+          }),
+          onClick: this.onSliderClick.bind(this)
+        },
         React.createElement('div', {
           className: 'el-slider__bar',
           style: this.barStyle() }),
-        React.createElement(SliderButton, { ref: 'button1', vertical: vertical, value: firstValue, onChange: this.onFirstValueChange.bind(this) }),
-        range && React.createElement(SliderButton, { ref: 'button2', vertical: vertical, value: secondValue, onChange: this.onSecondValueChange.bind(this) }),
+        React.createElement(SliderButton, {
+          ref: 'button1',
+          vertical: vertical, value: firstValue,
+          onChange: this.onFirstValueChange.bind(this)
+        }),
+        range && React.createElement(SliderButton, {
+          ref: 'button2',
+          vertical: vertical, value: secondValue,
+          onChange: this.onSecondValueChange.bind(this)
+        }),
         showStops && this.stops().map(function (item, index) {
-          return React.createElement('div', { key: index, className: 'el-slider__stop', style: vertical ? { 'bottom': item + '%' } : { 'left': item + '%' } });
+          return React.createElement('div', {
+            key: index,
+            className: 'el-slider__stop',
+            style: vertical ? { 'bottom': item + '%' } : { 'left': item + '%' }
+          });
         })
       )
     );

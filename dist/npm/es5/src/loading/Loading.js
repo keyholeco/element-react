@@ -28,6 +28,11 @@ var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Loading = function (_Component) {
   (0, _inherits3.default)(Loading, _Component);
 
@@ -58,9 +63,12 @@ var Loading = function (_Component) {
       } else {
         this.enableScroll();
 
-        return {
-          position: 'relative'
-        };
+        if (this.props.loading) {
+          return {
+            position: 'relative'
+          };
+        }
+        return {};
       }
     }
   }, {
@@ -134,6 +142,13 @@ var Loading = function (_Component) {
         this.props.children
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Loading;
 }(_libs.Component);
@@ -153,14 +168,20 @@ Loading.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Loading, 'Loading', 'src/loading/Loading.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/loading/Loading.jsx');
-}();
+  reactHotLoader.register(Loading, 'Loading', 'src/loading/Loading.jsx');
+  reactHotLoader.register(_default, 'default', 'src/loading/Loading.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

@@ -3,7 +3,7 @@ import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructo
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Popper from '../../libs/utils/popper';
+import Popper from 'popper.js';
 import { Component, PropTypes, Transition, View } from '../../libs';
 
 import { Scrollbar } from '../scrollbar';
@@ -42,8 +42,11 @@ var Suggestions = function (_Component) {
     var reference = ReactDOM.findDOMNode(this.parent().inputNode);
 
     this.popperJS = new Popper(reference, this.refs.popper, {
-      gpuAcceleration: false,
-      forceAbsolute: true
+      modifiers: {
+        computeStyle: {
+          gpuAcceleration: false
+        }
+      }
     });
   };
 

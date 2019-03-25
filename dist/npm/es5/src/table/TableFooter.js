@@ -40,6 +40,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 // import {toDate} from "../date-picker/utils/index";
 
 var TableFooter = function (_Component) {
@@ -142,6 +147,13 @@ var TableFooter = function (_Component) {
       );
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'columnsCount',
     get: function get() {
       return this.props.store.columns.length;
@@ -164,14 +176,20 @@ var _default = TableFooter;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(TableFooter, 'TableFooter', 'src/table/TableFooter.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/table/TableFooter.jsx');
-}();
+  reactHotLoader.register(TableFooter, 'TableFooter', 'src/table/TableFooter.jsx');
+  reactHotLoader.register(_default, 'default', 'src/table/TableFooter.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

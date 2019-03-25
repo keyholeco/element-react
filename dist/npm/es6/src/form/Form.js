@@ -18,6 +18,26 @@ var Form = function (_Component) {
     return _this;
   }
 
+  Form.prototype.componentDidUpdate = function componentDidUpdate(newProps) {
+    var model = newProps.model;
+
+    var oldModel = this.props.model;
+    if (!model) return;
+    var diff = Object.keys(model).filter(function (key) {
+      return model[key] !== oldModel[key];
+    });
+    if (diff.length) {
+      this.state.fields.filter(function (_ref) {
+        var props = _ref.props;
+        return props.prop.match(diff);
+      }).map(function (field) {
+        return field.validate('', function () {
+          return undefined;
+        });
+      });
+    }
+  };
+
   Form.prototype.getChildContext = function getChildContext() {
     return {
       component: this

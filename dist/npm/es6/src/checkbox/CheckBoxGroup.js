@@ -1,8 +1,8 @@
-import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
-import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
-import _inherits from 'babel-runtime/helpers/inherits';
-import React from 'react';
-import { Component, PropTypes } from '../../libs';
+import _classCallCheck from "babel-runtime/helpers/classCallCheck";
+import _possibleConstructorReturn from "babel-runtime/helpers/possibleConstructorReturn";
+import _inherits from "babel-runtime/helpers/inherits";
+import React from "react";
+import { Component, PropTypes } from "../../libs";
 
 var CheckboxGroup = function (_Component) {
   _inherits(CheckboxGroup, _Component);
@@ -64,20 +64,20 @@ var CheckboxGroup = function (_Component) {
       var elementType = child.type.elementType;
       // 过滤非Checkbox和CheckboxButton的子组件
 
-      if (elementType !== 'Checkbox' && elementType !== 'CheckboxButton') {
+      if (elementType !== "Checkbox" && elementType !== "CheckboxButton") {
         return null;
       }
 
       return React.cloneElement(child, Object.assign({}, child.props, {
         key: index,
         checked: child.props.checked || options.indexOf(child.props.value) >= 0 || options.indexOf(child.props.label) >= 0,
-        onChange: _this2.onChange.bind(_this2, child.props.value || child.props.label)
+        onChange: _this2.onChange.bind(_this2, child.props.value ? child.props.value : child.props.value === 0 ? 0 : child.props.label)
       }));
     });
 
     return React.createElement(
-      'div',
-      { style: this.style(), className: this.className('el-checkbox-group') },
+      "div",
+      { style: this.style(), className: this.className("el-checkbox-group") },
       children
     );
   };

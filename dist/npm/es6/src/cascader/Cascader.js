@@ -4,8 +4,8 @@ import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ClickOutside from 'react-click-outside';
-import debounce from 'throttle-debounce/debounce';
-import Popper from '../../libs/utils/popper';
+import { debounce } from 'throttle-debounce';
+import Popper from 'popper.js';
 import { Component, PropTypes, View } from '../../libs';
 
 import CascaderMenu from './Menu';
@@ -78,15 +78,20 @@ var Cascader = function (_Component) {
     var menuVisible = this.state.menuVisible;
 
 
-    if (menuVisible != state.menuVisible) {
+    if (menuVisible !== state.menuVisible) {
       if (menuVisible) {
         this.showMenu();
 
         if (this.popperJS) {
           this.popperJS.update();
         } else {
-          this.popperJS = new Popper(this.input, this.refs.menu, {
-            gpuAcceleration: false
+          this.popperJS = new Popper(this.input, ReactDOM.findDOMNode(this.refs.menu), {
+            placement: 'bottom-start',
+            modifiers: {
+              computeStyle: {
+                gpuAcceleration: false
+              }
+            }
           });
         }
       } else {
@@ -397,7 +402,9 @@ Cascader.childContextTypes = {
 };
 
 Cascader.propTypes = {
-  options: PropTypes.array.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string
+  })).isRequired,
   props: PropTypes.object,
   value: PropTypes.array,
   placeholder: PropTypes.string,

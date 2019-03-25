@@ -3,10 +3,16 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var _default = {
   el: {
     colorpicker: {
-      confirm: 'OK',
+      confirm: 'Tamam',
       clear: 'Temizle'
     },
     datepicker: {
@@ -14,14 +20,14 @@ var _default = {
       today: 'Bugün',
       cancel: 'İptal',
       clear: 'Temizle',
-      confirm: 'OK',
+      confirm: 'Tamam',
       selectDate: 'Tarih seç',
       selectTime: 'Saat seç',
       startDate: 'Başlangıç Tarihi',
       startTime: 'Başlangıç Saati',
       endDate: 'Bitiş Tarihi',
       endTime: 'Bitiş Saati',
-      year: '',
+      year: 'Yıl',
       month1: 'Ocak',
       month2: 'Şubat',
       month3: 'Mart',
@@ -34,7 +40,7 @@ var _default = {
       month10: 'Ekim',
       month11: 'Kasım',
       month12: 'Aralık',
-      // week: 'week',
+      week: 'Hafta',
       weeks: {
         sun: 'Paz',
         mon: 'Pzt',
@@ -72,13 +78,13 @@ var _default = {
     },
     pagination: {
       goto: 'Git',
-      pagesize: '/page',
+      pagesize: '/Sayfa',
       total: 'Toplam {total}',
       pageClassifier: ''
     },
     messagebox: {
       title: 'Mesaj',
-      confirm: 'OK',
+      confirm: 'Tamam',
       cancel: 'İptal',
       error: 'İllegal giriş'
     },
@@ -90,9 +96,9 @@ var _default = {
     table: {
       emptyText: 'Veri yok',
       confirmFilter: 'Onayla',
-      resetFilter: 'Reset',
+      resetFilter: 'Sıfırla',
       clearFilter: 'Hepsi',
-      sumText: 'Sum' // to be translated
+      sumText: 'Topla'
     },
     tree: {
       emptyText: 'Veri yok'
@@ -100,22 +106,29 @@ var _default = {
     transfer: {
       noMatch: 'Eşleşen veri bulunamadı',
       noData: 'Veri yok',
-      titles: ['List 1', 'List 2'], // to be translated
-      filterPlaceholder: 'Enter keyword', // to be translated
-      noCheckedFormat: '{total} items', // to be translated
-      hasCheckedFormat: '{checked}/{total} checked' // to be translated
+      titles: ['Liste 1', 'Liste 2'],
+      filterPlaceholder: 'Kelimeyi Girin',
+      noCheckedFormat: '{total} eleman',
+      hasCheckedFormat: '{checked}/{total} seçildi'
     }
   }
 };
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/locale/lang/tr-TR.js');
-}();
+  reactHotLoader.register(_default, 'default', 'src/locale/lang/tr-TR.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

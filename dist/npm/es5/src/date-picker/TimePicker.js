@@ -28,9 +28,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _debounce = require('throttle-debounce/debounce');
-
-var _debounce2 = _interopRequireDefault(_debounce);
+var _throttleDebounce = require('throttle-debounce');
 
 var _libs = require('../../libs');
 
@@ -45,6 +43,11 @@ var _TimePanel2 = _interopRequireDefault(_TimePanel);
 var _constants = require('./constants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
 function converSelectRange(props) {
   var selectableRange = [];
@@ -89,7 +92,7 @@ var TimePicker = function (_BasePicker) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (TimePicker.__proto__ || Object.getPrototypeOf(TimePicker)).call(this, props, 'time', {}));
 
-    _this._onSelectionChange = (0, _debounce2.default)(200, _this.onSelectionChange.bind(_this));
+    _this._onSelectionChange = (0, _throttleDebounce.debounce)(200, _this.onSelectionChange.bind(_this));
     return _this;
   }
 
@@ -114,6 +117,13 @@ var TimePicker = function (_BasePicker) {
         selectableRange: converSelectRange(props)
       }));
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return TimePicker;
 }(_BasePicker3.default);
@@ -122,16 +132,21 @@ var _default = TimePicker;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(converSelectRange, 'converSelectRange', 'src/date-picker/TimePicker.jsx');
-
-  __REACT_HOT_LOADER__.register(TimePicker, 'TimePicker', 'src/date-picker/TimePicker.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/date-picker/TimePicker.jsx');
-}();
+  reactHotLoader.register(converSelectRange, 'converSelectRange', 'src/date-picker/TimePicker.jsx');
+  reactHotLoader.register(TimePicker, 'TimePicker', 'src/date-picker/TimePicker.jsx');
+  reactHotLoader.register(_default, 'default', 'src/date-picker/TimePicker.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

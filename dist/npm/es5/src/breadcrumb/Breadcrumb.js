@@ -28,6 +28,11 @@ var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Breadcrumb = function (_Component) {
   (0, _inherits3.default)(Breadcrumb, _Component);
 
@@ -52,6 +57,13 @@ var Breadcrumb = function (_Component) {
         this.props.children
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Breadcrumb;
 }(_libs.Component);
@@ -73,14 +85,20 @@ Breadcrumb.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Breadcrumb, 'Breadcrumb', 'src/breadcrumb/Breadcrumb.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/breadcrumb/Breadcrumb.jsx');
-}();
+  reactHotLoader.register(Breadcrumb, 'Breadcrumb', 'src/breadcrumb/Breadcrumb.jsx');
+  reactHotLoader.register(_default, 'default', 'src/breadcrumb/Breadcrumb.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

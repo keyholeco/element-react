@@ -166,7 +166,12 @@ var Pagination = function (_Component3) {
 
     if (nextProps.currentPage != currentPage || nextProps.pageSizes != pageSizes || nextProps.pageSize != pageSize || nextProps.total != total || nextProps.pageCount != pageCount) {
       var _internalPageSize = this.state.internalPageSize;
-      if (nextProps.layout.split(',').indexOf('sizes') > -1 && Array.isArray(nextProps.pageSizes)) {
+
+      var hasSizesLayout = nextProps.layout.split(',').map(function (item) {
+        return item.trim();
+      }).indexOf('sizes') > -1;
+
+      if (hasSizesLayout && Array.isArray(nextProps.pageSizes)) {
         _internalPageSize = nextProps.pageSizes.indexOf(nextProps.pageSize) > -1 ? nextProps.pageSize : nextProps.pageSizes[0];
       }
 

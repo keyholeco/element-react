@@ -3,7 +3,7 @@ import _createClass from 'babel-runtime/helpers/createClass';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _inherits from 'babel-runtime/helpers/inherits';
 import * as React from 'react';
-import throttle from 'throttle-debounce/throttle';
+import { throttle } from 'throttle-debounce';
 import { Component, PropTypes } from '../../libs';
 import Checkbox from '../checkbox';
 import FilterPannel from './FilterPannel';

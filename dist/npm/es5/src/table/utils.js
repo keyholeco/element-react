@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.isArray = exports.isObject = exports.deepCompare = undefined;
 
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
@@ -23,8 +24,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _document = document;
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
+var _document = document;
 
 var scrollBarWidth = void 0;
 
@@ -147,30 +152,60 @@ function convertToRows(columns) {
   });
   return rows;
 }
+
+var isObject = function isObject(obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]';
+};
+var isArray = function isArray(arr) {
+  return Object.prototype.toString.call(arr) === '[object Array]';
+};
+var deepCompare = function deepCompare(obj1, obj2) {
+  if (obj1 && obj2 && obj1.length !== obj2.length) {
+    return true;
+  } else if (isArray(obj1) && isArray(obj2)) {
+    return obj1.some(function (value, key) {
+      return deepCompare(value, obj2[key]);
+    });
+  } else if (isObject(obj1) && isObject(obj2)) {
+    for (var key in obj1) {
+      if (deepCompare(obj1[key], obj2[key])) {
+        return true;
+      }
+    }
+    return false;
+  }
+  return obj1 !== obj2;
+};
+
+exports.deepCompare = deepCompare;
+exports.isObject = isObject;
+exports.isArray = isArray;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_document, '_document', 'src/table/utils.js');
-
-  __REACT_HOT_LOADER__.register(scrollBarWidth, 'scrollBarWidth', 'src/table/utils.js');
-
-  __REACT_HOT_LOADER__.register(getScrollBarWidth, 'getScrollBarWidth', 'src/table/utils.js');
-
-  __REACT_HOT_LOADER__.register(getValueByPath, 'getValueByPath', 'src/table/utils.js');
-
-  __REACT_HOT_LOADER__.register(getRowIdentity, 'getRowIdentity', 'src/table/utils.js');
-
-  __REACT_HOT_LOADER__.register(getLeafColumns, 'getLeafColumns', 'src/table/utils.js');
-
-  __REACT_HOT_LOADER__.register(convertChildrenToColumns, 'convertChildrenToColumns', 'src/table/utils.js');
-
-  __REACT_HOT_LOADER__.register(getColumns, 'getColumns', 'src/table/utils.js');
-
-  __REACT_HOT_LOADER__.register(convertToRows, 'convertToRows', 'src/table/utils.js');
-}();
+  reactHotLoader.register(_document, '_document', 'src/table/utils.js');
+  reactHotLoader.register(scrollBarWidth, 'scrollBarWidth', 'src/table/utils.js');
+  reactHotLoader.register(getScrollBarWidth, 'getScrollBarWidth', 'src/table/utils.js');
+  reactHotLoader.register(getValueByPath, 'getValueByPath', 'src/table/utils.js');
+  reactHotLoader.register(getRowIdentity, 'getRowIdentity', 'src/table/utils.js');
+  reactHotLoader.register(getLeafColumns, 'getLeafColumns', 'src/table/utils.js');
+  reactHotLoader.register(convertChildrenToColumns, 'convertChildrenToColumns', 'src/table/utils.js');
+  reactHotLoader.register(getColumns, 'getColumns', 'src/table/utils.js');
+  reactHotLoader.register(convertToRows, 'convertToRows', 'src/table/utils.js');
+  reactHotLoader.register(isObject, 'isObject', 'src/table/utils.js');
+  reactHotLoader.register(isArray, 'isArray', 'src/table/utils.js');
+  reactHotLoader.register(deepCompare, 'deepCompare', 'src/table/utils.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

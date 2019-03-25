@@ -13,12 +13,3 @@ exports.reset = function (css) {
 
   (document.head || document.getElementsByTagName('head')[0]).appendChild(style);
 };
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

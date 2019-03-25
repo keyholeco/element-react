@@ -123,25 +123,15 @@ var TimeRangePanel = function (_PopperBase) {
 
     var state = (_state = {}, _state[field] = ndate, _state);
 
-    var _state2 = this.state,
-        minTime = _state2.minTime,
-        maxTime = _state2.maxTime;
-
-    state.minSelectableRange = [[MIN_TIME, maxTime]];
-    state.maxSelectableRange = [[minTime, MAX_TIME]];
-
-    state.minTime = limitRange(minTime, state.minSelectableRange);
-    state.maxTime = limitRange(maxTime, state.maxSelectableRange);
-
     this.setState(state);
     this.handleConfirm(true);
   };
 
   TimeRangePanel.prototype.handleConfirm = function handleConfirm() {
     var isKeepPannelOpen = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var _state3 = this.state,
-        minTime = _state3.minTime,
-        maxTime = _state3.maxTime;
+    var _state2 = this.state,
+        minTime = _state2.minTime,
+        maxTime = _state2.maxTime;
     var onPicked = this.props.onPicked;
 
 
@@ -151,13 +141,13 @@ var TimeRangePanel = function (_PopperBase) {
   TimeRangePanel.prototype.render = function render() {
     var _this2 = this;
 
-    var _state4 = this.state,
-        isShowSeconds = _state4.isShowSeconds,
-        minTime = _state4.minTime,
-        maxTime = _state4.maxTime,
-        btnDisabled = _state4.btnDisabled,
-        minSelectableRange = _state4.minSelectableRange,
-        maxSelectableRange = _state4.maxSelectableRange;
+    var _state3 = this.state,
+        isShowSeconds = _state3.isShowSeconds,
+        minTime = _state3.minTime,
+        maxTime = _state3.maxTime,
+        btnDisabled = _state3.btnDisabled,
+        minSelectableRange = _state3.minSelectableRange,
+        maxSelectableRange = _state3.maxSelectableRange;
     var _onSelectRangeChange = this.props.onSelectRangeChange;
 
     var $t = Locale.t;

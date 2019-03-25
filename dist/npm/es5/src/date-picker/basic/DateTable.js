@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -33,6 +37,11 @@ var _locale = require('../../locale');
 var _locale2 = _interopRequireDefault(_locale);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
 function isFunction(func) {
   return typeof func === 'function';
@@ -65,7 +74,7 @@ var DateTable = function (_Component) {
     value: function WEEKS() {
       // 0-6
       var week = this.getOffsetWeek();
-      return _WEEKS.slice(week).concat(_WEEKS.slice(0, week));
+      return [].concat((0, _toConsumableArray3.default)(_WEEKS.slice(week)), (0, _toConsumableArray3.default)(_WEEKS.slice(0, week)));
     }
   }, {
     key: 'getOffsetWeek',
@@ -133,7 +142,14 @@ var DateTable = function (_Component) {
           // columns
           var cell = row[showWeekNumber ? j + 1 : j];
           if (!cell) {
-            row[showWeekNumber ? j + 1 : j] = { row: i, column: j, type: 'normal', inRange: false, start: false, end: false };
+            row[showWeekNumber ? j + 1 : j] = {
+              row: i,
+              column: j,
+              type: 'normal',
+              inRange: false,
+              start: false,
+              end: false
+            };
             cell = row[showWeekNumber ? j + 1 : j];
           }
 
@@ -455,6 +471,13 @@ var DateTable = function (_Component) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return DateTable;
 }(_libs.Component);
@@ -512,20 +535,23 @@ DateTable.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(isFunction, 'isFunction', 'src/date-picker/basic/DateTable.jsx');
-
-  __REACT_HOT_LOADER__.register(clearHours, 'clearHours', 'src/date-picker/basic/DateTable.jsx');
-
-  __REACT_HOT_LOADER__.register(_WEEKS, 'WEEKS', 'src/date-picker/basic/DateTable.jsx');
-
-  __REACT_HOT_LOADER__.register(DateTable, 'DateTable', 'src/date-picker/basic/DateTable.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/date-picker/basic/DateTable.jsx');
-}();
+  reactHotLoader.register(isFunction, 'isFunction', 'src/date-picker/basic/DateTable.jsx');
+  reactHotLoader.register(clearHours, 'clearHours', 'src/date-picker/basic/DateTable.jsx');
+  reactHotLoader.register(_WEEKS, 'WEEKS', 'src/date-picker/basic/DateTable.jsx');
+  reactHotLoader.register(DateTable, 'DateTable', 'src/date-picker/basic/DateTable.jsx');
+  reactHotLoader.register(_default, 'default', 'src/date-picker/basic/DateTable.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

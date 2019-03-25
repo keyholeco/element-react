@@ -28,9 +28,7 @@ var _react = require('react');
 
 var React = _interopRequireWildcard(_react);
 
-var _throttle = require('throttle-debounce/throttle');
-
-var _throttle2 = _interopRequireDefault(_throttle);
+var _throttleDebounce = require('throttle-debounce');
 
 var _libs = require('../../libs');
 
@@ -45,6 +43,11 @@ var _utils = require('./utils');
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
 var TableLayout = function (_Component) {
   (0, _inherits3.default)(TableLayout, _Component);
@@ -67,7 +70,7 @@ var TableLayout = function (_Component) {
       scrollY: null // has y scroll bar
     };
 
-    _this.resizeListener = (0, _throttle2.default)(50, function () {
+    _this.resizeListener = (0, _throttleDebounce.throttle)(50, function () {
       _this.scheduleLayout();
     });
     return _this;
@@ -295,6 +298,13 @@ var TableLayout = function (_Component) {
         layout: this.state
       }));
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return TableLayout;
 }(_libs.Component);
@@ -306,14 +316,20 @@ var _default = TableLayout;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(TableLayout, 'TableLayout', 'src/table/TableLayout.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/table/TableLayout.jsx');
-}();
+  reactHotLoader.register(TableLayout, 'TableLayout', 'src/table/TableLayout.jsx');
+  reactHotLoader.register(_default, 'default', 'src/table/TableLayout.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

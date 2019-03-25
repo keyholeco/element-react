@@ -76,7 +76,7 @@ test('should limited to max and min value', function () {
   ));
 
   //test checked length
-  expect(wrapper.find('.el-checkbox__input .is-checked').length).toBe(2);
+  expect(wrapper.find('.el-checkbox .el-checkbox__input.is-checked').length).toBe(2);
 
   var Input = document.createElement('input');
 
@@ -85,7 +85,7 @@ test('should limited to max and min value', function () {
   wrapper.find('input[type="checkbox"]').forEach(function (e) {
     if (!e.prop('checked')) {
       e.simulate('change', { target: Input });
-      expect(wrapper.find('.el-checkbox__input .is-checked').length).toBe(2);
+      expect(wrapper.find('.el-checkbox__input.is-checked').length).toBe(2);
     }
   });
 
@@ -94,7 +94,7 @@ test('should limited to max and min value', function () {
   wrapper.find('input[type="checkbox"]').forEach(function (e) {
     if (e.prop('checked')) {
       e.simulate('change', { target: Input });
-      expect(wrapper.find('.el-checkbox__input .is-checked').length).toBe(1);
+      expect(wrapper.find('.el-checkbox__input.is-checked').length).toBe(1);
     }
   });
 });

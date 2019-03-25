@@ -2,10 +2,15 @@ import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
 import _createClass from 'babel-runtime/helpers/createClass';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _inherits from 'babel-runtime/helpers/inherits';
+/* eslint-disable */
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import requestAnimationFrame from 'raf';
+
+/**
+ * @deprecated
+ */
 
 var Transition = function (_Component) {
   _inherits(Transition, _Component);

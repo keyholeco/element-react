@@ -49,14 +49,13 @@ Object.defineProperty(exports, 'View', {
   }
 });
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _animate = require('./animate');
 
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
+Object.defineProperty(exports, 'Animate', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_animate).default;
   }
-}();
+});
 
-;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

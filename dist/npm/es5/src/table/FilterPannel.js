@@ -28,11 +28,11 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _libs = require('../../libs');
-
-var _popper = require('../../libs/utils/popper');
+var _popper = require('popper.js');
 
 var _popper2 = _interopRequireDefault(_popper);
+
+var _libs = require('../../libs');
 
 var _checkbox = require('../checkbox');
 
@@ -47,6 +47,11 @@ var _locale2 = _interopRequireDefault(_locale);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
 function getPopupContainer() {
   var container = document.createElement('div');
@@ -244,6 +249,13 @@ var FilterPannel = function (_Component) {
         }
       });
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return FilterPannel;
 }(_libs.Component);
@@ -252,16 +264,21 @@ var _default = FilterPannel;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(getPopupContainer, 'getPopupContainer', 'src/table/FilterPannel.jsx');
-
-  __REACT_HOT_LOADER__.register(FilterPannel, 'FilterPannel', 'src/table/FilterPannel.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/table/FilterPannel.jsx');
-}();
+  reactHotLoader.register(getPopupContainer, 'getPopupContainer', 'src/table/FilterPannel.jsx');
+  reactHotLoader.register(FilterPannel, 'FilterPannel', 'src/table/FilterPannel.jsx');
+  reactHotLoader.register(_default, 'default', 'src/table/FilterPannel.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

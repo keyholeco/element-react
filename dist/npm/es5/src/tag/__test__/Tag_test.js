@@ -65,12 +65,3 @@ describe('Tag test', function () {
     expect(onClose.calledOnce).toBe(true);
   });
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

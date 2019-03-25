@@ -87,12 +87,3 @@ describe('Breadcrumb test', function () {
     expect(w.find('.el-breadcrumb__separator').at(0).text()).toBe('/');
   });
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

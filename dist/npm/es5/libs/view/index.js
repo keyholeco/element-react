@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -30,6 +34,11 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var View = function (_Component) {
   (0, _inherits3.default)(View, _Component);
 
@@ -41,13 +50,28 @@ var View = function (_Component) {
   (0, _createClass3.default)(View, [{
     key: 'render',
     value: function render() {
-      var style = this.props.hasOwnProperty('show') && !this.props.show && {
-        display: 'none'
-      };
+      var classNames = [];
+      var _props = this.props,
+          _props$show = _props.show,
+          show = _props$show === undefined ? true : _props$show,
+          _props$className = _props.className,
+          className = _props$className === undefined ? '' : _props$className,
+          children = _props.children;
 
-      return _react2.default.cloneElement(_react2.default.Children.only(this.props.children), {
-        style: Object.assign({}, this.props.children.props.style, style)
-      });
+      var mixed = { style: (0, _extends3.default)({}, children.props.style) };
+      if (!show) mixed.style.display = 'none';
+      if (children.props.className) classNames.push(children.props.className);
+      if (className) classNames.push(className);
+      mixed.className = classNames.join(' ');
+
+      return _react2.default.cloneElement(_react2.default.Children.only(children), mixed);
+    }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
     }
   }]);
   return View;
@@ -66,14 +90,20 @@ View.propTypes = {
 View._typeName = 'View';
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(View, 'View', 'libs/view/index.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'libs/view/index.js');
-}();
+  reactHotLoader.register(View, 'View', 'libs/view/index.js');
+  reactHotLoader.register(_default, 'default', 'libs/view/index.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

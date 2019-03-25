@@ -32,6 +32,11 @@ var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var CascaderMenu = function (_Component) {
   (0, _inherits3.default)(CascaderMenu, _Component);
 
@@ -67,34 +72,37 @@ var CascaderMenu = function (_Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(props, state) {
-      if (state.value != this.state.value || state.visible != this.state.visible) {
+      if (state.value !== this.state.value || state.visible !== this.state.visible) {
         this.setState({ activeValue: this.state.value });
       }
     }
   }, {
     key: 'select',
     value: function select(item, menuIndex) {
+      var activeValue = this.state.activeValue;
+
       if (item.__IS__FLAT__OPTIONS) {
-        this.state.activeValue = item.value;
+        activeValue = item.value;
       } else {
-        this.state.activeValue.splice(menuIndex, this.state.activeValue.length - 1, item.value);
+        if (!menuIndex) {
+          activeValue = [item.value];
+        } else {
+          activeValue.splice(menuIndex, activeValue.length - 1, item.value);
+        }
       }
 
       this.forceUpdate();
-      this.parent().handlePick(this.state.activeValue);
+      this.parent().handlePick(activeValue);
     }
   }, {
     key: 'handleMenuLeave',
-    value: function handleMenuLeave() {
-      // this.$emit('menuLeave');
-    }
+    value: function handleMenuLeave() {}
   }, {
     key: 'activeItem',
     value: function activeItem(item, menuIndex) {
       var activeOptions = this.activeOptions();
 
       this.state.activeValue.splice(menuIndex, activeOptions.length, item.value);
-      // this.activeOptions.splice(menuIndex + 1, len, item.children);
 
       this.forceUpdate();
 
@@ -228,6 +236,13 @@ var CascaderMenu = function (_Component) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return CascaderMenu;
 }(_libs.Component);
@@ -241,14 +256,20 @@ CascaderMenu.contextTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(CascaderMenu, 'CascaderMenu', 'src/cascader/Menu.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/cascader/Menu.jsx');
-}();
+  reactHotLoader.register(CascaderMenu, 'CascaderMenu', 'src/cascader/Menu.jsx');
+  reactHotLoader.register(_default, 'default', 'src/cascader/Menu.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

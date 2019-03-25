@@ -6,6 +6,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _utils = require('../utils');
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var _default = (0, _utils.createPropType)(function (props, propName, componentName) {
   var value = props[propName];
 
@@ -17,12 +22,19 @@ var _default = (0, _utils.createPropType)(function (props, propName, componentNa
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'libs/props/regex.js');
-}();
+  reactHotLoader.register(_default, 'default', 'libs/props/regex.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

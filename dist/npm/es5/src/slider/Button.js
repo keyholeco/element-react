@@ -32,6 +32,11 @@ var _tooltip2 = _interopRequireDefault(_tooltip);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var SliderButton = function (_Component) {
   (0, _inherits3.default)(SliderButton, _Component);
 
@@ -228,13 +233,21 @@ var SliderButton = function (_Component) {
               'span',
               null,
               this.formatValue()
-            ), disabled: !this.parent().props.showTooltip },
+            ),
+            disabled: !this.parent().props.showTooltip },
           _react2.default.createElement('div', { className: this.classNames('el-slider__button', {
               'hover': this.state.hovering,
               'dragging': this.state.dragging
             }) })
         )
       );
+    }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
     }
   }]);
   return SliderButton;
@@ -258,14 +271,20 @@ SliderButton.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(SliderButton, 'SliderButton', 'src/slider/Button.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/slider/Button.jsx');
-}();
+  reactHotLoader.register(SliderButton, 'SliderButton', 'src/slider/Button.jsx');
+  reactHotLoader.register(_default, 'default', 'src/slider/Button.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

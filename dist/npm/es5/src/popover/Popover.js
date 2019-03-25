@@ -28,13 +28,18 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _popper = require('../../libs/utils/popper');
+var _popper = require('popper.js');
 
 var _popper2 = _interopRequireDefault(_popper);
 
 var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
 var Popover = function (_Component) {
   (0, _inherits3.default)(Popover, _Component);
@@ -83,6 +88,8 @@ var Popover = function (_Component) {
 
         popper.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
         popper.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+      } else if (trigger === 'manual') {
+        this.setState({ showPopper: this.props.visible });
       } else {
         if (this.reference.nodeName === 'INPUT' || this.reference.nodeName === 'TEXTAREA') {
           this.reference.addEventListener('focus', function () {
@@ -104,7 +111,7 @@ var Popover = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(props) {
-      if (props.visible != this.props.visible) {
+      if (props.visible !== this.props.visible) {
         this.setState({
           showPopper: props.visible
         });
@@ -144,7 +151,11 @@ var Popover = function (_Component) {
 
       this.popperJS = new _popper2.default(this.reference, this.refs.popper, {
         placement: this.props.placement,
-        gpuAcceleration: false
+        modifiers: {
+          computeStyle: {
+            gpuAcceleration: false
+          }
+        }
       });
     }
   }, {
@@ -189,6 +200,13 @@ var Popover = function (_Component) {
         _react2.default.cloneElement(_react2.default.Children.only(this.props.children), { ref: 'reference' })
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Popover;
 }(_libs.Component);
@@ -207,7 +225,7 @@ exports.default = _default;
 Popover.propTypes = {
   width: _libs.PropTypes.oneOfType([_libs.PropTypes.number, _libs.PropTypes.string]),
   placement: _libs.PropTypes.oneOf(['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']),
-  trigger: _libs.PropTypes.oneOf(['click', 'focus', 'hover']),
+  trigger: _libs.PropTypes.oneOf(['click', 'focus', 'hover', 'manual']),
   title: _libs.PropTypes.string,
   content: _libs.PropTypes.oneOfType([_libs.PropTypes.node, _libs.PropTypes.string]),
   popperClass: _libs.PropTypes.string,
@@ -217,14 +235,20 @@ Popover.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Popover, 'Popover', 'src/popover/Popover.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/popover/Popover.jsx');
-}();
+  reactHotLoader.register(Popover, 'Popover', 'src/popover/Popover.jsx');
+  reactHotLoader.register(_default, 'default', 'src/popover/Popover.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

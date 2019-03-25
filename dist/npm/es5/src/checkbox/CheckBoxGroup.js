@@ -1,32 +1,37 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _createClass2 = require("babel-runtime/helpers/createClass");
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _react = require('react');
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _libs = require('../../libs');
+var _libs = require("../../libs");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
 var CheckboxGroup = function (_Component) {
   (0, _inherits3.default)(CheckboxGroup, _Component);
@@ -43,7 +48,7 @@ var CheckboxGroup = function (_Component) {
   }
 
   (0, _createClass3.default)(CheckboxGroup, [{
-    key: 'componentWillReceiveProps',
+    key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
       if (nextProps.value !== this.props.value) {
         this.setState({
@@ -52,14 +57,14 @@ var CheckboxGroup = function (_Component) {
       }
     }
   }, {
-    key: 'getChildContext',
+    key: "getChildContext",
     value: function getChildContext() {
       return {
         ElCheckboxGroup: this
       };
     }
   }, {
-    key: 'onChange',
+    key: "onChange",
     value: function onChange(value, checked) {
       var index = this.state.options.indexOf(value);
 
@@ -78,7 +83,7 @@ var CheckboxGroup = function (_Component) {
       }
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this2 = this;
 
@@ -93,22 +98,29 @@ var CheckboxGroup = function (_Component) {
         var elementType = child.type.elementType;
         // 过滤非Checkbox和CheckboxButton的子组件
 
-        if (elementType !== 'Checkbox' && elementType !== 'CheckboxButton') {
+        if (elementType !== "Checkbox" && elementType !== "CheckboxButton") {
           return null;
         }
 
         return _react2.default.cloneElement(child, Object.assign({}, child.props, {
           key: index,
           checked: child.props.checked || options.indexOf(child.props.value) >= 0 || options.indexOf(child.props.label) >= 0,
-          onChange: _this2.onChange.bind(_this2, child.props.value || child.props.label)
+          onChange: _this2.onChange.bind(_this2, child.props.value ? child.props.value : child.props.value === 0 ? 0 : child.props.label)
         }));
       });
 
       return _react2.default.createElement(
-        'div',
-        { style: this.style(), className: this.className('el-checkbox-group') },
+        "div",
+        { style: this.style(), className: this.className("el-checkbox-group") },
         children
       );
+    }
+  }, {
+    key: "__reactstandin__regenerateByEval",
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
     }
   }]);
   return CheckboxGroup;
@@ -133,14 +145,20 @@ CheckboxGroup.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(CheckboxGroup, 'CheckboxGroup', 'src/checkbox/CheckBoxGroup.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/checkbox/CheckBoxGroup.jsx');
-}();
+  reactHotLoader.register(CheckboxGroup, "CheckboxGroup", "src/checkbox/CheckBoxGroup.jsx");
+  reactHotLoader.register(_default, "default", "src/checkbox/CheckBoxGroup.jsx");
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

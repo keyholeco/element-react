@@ -4,7 +4,7 @@ import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructo
 import _createClass from 'babel-runtime/helpers/createClass';
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
-import debounce from 'throttle-debounce/debounce';
+import { debounce } from 'throttle-debounce';
 
 import { PropTypes } from '../../libs';
 

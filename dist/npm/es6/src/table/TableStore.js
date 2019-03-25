@@ -9,6 +9,8 @@ import local from '../locale';
 
 import TableLayout from './TableLayout';
 
+import { deepCompare } from './utils';
+
 import normalizeColumns from './normalizeColumns';
 import { getLeafColumns, getValueByPath, getColumns, convertToRows, getRowIdentity } from "./utils";
 
@@ -82,17 +84,16 @@ var TableStore = function (_Component) {
   };
 
   TableStore.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-    // const { data } = this.props;
+    var data = this.props.data;
+
     var nextColumns = getColumns(nextProps);
 
     if (getColumns(this.props) !== nextColumns) {
       this.updateColumns(nextColumns);
     }
-
-    this.updateData(nextProps);
-    // if (data !== nextProps.data) {
-    //   this.updateData(nextProps);
-    // }
+    if (deepCompare(data, nextProps.data)) {
+      this.updateData(nextProps);
+    }
   };
 
   // shouldComponentUpdate(nextProps) {
@@ -160,8 +161,10 @@ var TableStore = function (_Component) {
 
     hoverRow = hoverRow && data.includes(hoverRow) ? hoverRow : null;
     currentRow = currentRow && data.includes(currentRow) ? currentRow : null;
+    var _columns$ = columns[0],
+        firstColumn = _columns$ === undefined ? {} : _columns$;
 
-    if (this._isMounted && data !== this.props.data && !columns[0].reserveSelection) {
+    if (this._isMounted && data !== this.props.data && !firstColumn.reserveSelection) {
       selectedRows = [];
     } else {
       selectedRows = selectedRows && selectedRows.filter(function (row) {
@@ -185,7 +188,6 @@ var TableStore = function (_Component) {
       expandingRows: expandingRows,
       selectedRows: selectedRows
     }));
-
     if ((!this._isMounted || data !== this.props.data) && defaultSort) {
       var prop = defaultSort.prop,
           _defaultSort$order = defaultSort.order,
@@ -276,17 +278,17 @@ var TableStore = function (_Component) {
 
     if (Array.isArray(currentRowKey)) {
       var toggledRowKey = getRowIdentity(row, rowKey);
-      var _rowIndex = currentRowKey.indexOf(toggledRowKey);
+      var rowIndex = currentRowKey.indexOf(toggledRowKey);
       var newCurrentRowKey = currentRowKey.slice();
 
       if (isSelected !== undefined) {
-        if (isSelected && _rowIndex === -1) {
+        if (isSelected && rowIndex === -1) {
           newCurrentRowKey.push(toggledRowKey);
-        } else if (!isSelected && _rowIndex !== -1) {
-          newCurrentRowKey.splice(_rowIndex, 1);
+        } else if (!isSelected && rowIndex !== -1) {
+          newCurrentRowKey.splice(rowIndex, 1);
         }
       } else {
-        _rowIndex === -1 ? newCurrentRowKey.push(toggledRowKey) : newCurrentRowKey.splice(_rowIndex, 1);
+        rowIndex === -1 ? newCurrentRowKey.push(toggledRowKey) : newCurrentRowKey.splice(rowIndex, 1);
       }
 
       this.dispatchEvent('onSelect', newCurrentRowKey, row);
@@ -294,24 +296,24 @@ var TableStore = function (_Component) {
       return;
     }
 
-    var selectedRows = this.state.selectedRows.slice();
-    var rowIndex = selectedRows.indexOf(row);
+    this.setState(function (state) {
+      var selectedRows = state.selectedRows.slice();
+      var rowIndex = selectedRows.indexOf(row);
 
-    if (isSelected !== undefined) {
-      if (isSelected) {
-        rowIndex === -1 && selectedRows.push(row);
+      if (isSelected !== undefined) {
+        if (isSelected) {
+          rowIndex === -1 && selectedRows.push(row);
+        } else {
+          rowIndex !== -1 && selectedRows.splice(rowIndex, 1);
+        }
       } else {
-        rowIndex !== -1 && selectedRows.splice(rowIndex, 1);
+        rowIndex === -1 ? selectedRows.push(row) : selectedRows.splice(rowIndex, 1);
       }
-    } else {
-      rowIndex === -1 ? selectedRows.push(row) : selectedRows.splice(rowIndex, 1);
-    }
 
-    this.setState({
-      selectedRows: selectedRows
+      return { selectedRows: selectedRows };
     }, function () {
-      _this4.dispatchEvent('onSelect', selectedRows, row);
-      _this4.dispatchEvent('onSelectChange', selectedRows);
+      _this4.dispatchEvent('onSelect', _this4.state.selectedRows, row);
+      _this4.dispatchEvent('onSelectChange', _this4.state.selectedRows);
     });
   };
 
@@ -372,7 +374,6 @@ var TableStore = function (_Component) {
     if (Array.isArray(currentRowKey)) {
       return currentRowKey.includes(rowKey);
     }
-
     return selectedRows.includes(row);
   };
 
@@ -380,7 +381,6 @@ var TableStore = function (_Component) {
     var _this6 = this;
 
     var shouldDispatchEvent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
     if (!column) {
       ;
 
@@ -388,7 +388,6 @@ var TableStore = function (_Component) {
       column = _state3.sortColumn;
       order = _state3.sortOrder;
     }var data = this.state.filteredData.slice();
-
     if (!column) {
       this.setState({
         data: data
@@ -398,12 +397,13 @@ var TableStore = function (_Component) {
 
     var _column = column,
         sortMethod = _column.sortMethod,
-        property = _column.property;
+        property = _column.property,
+        sortable = _column.sortable;
 
     var sortedData = void 0;
-    if (!order) {
+    if (!order || sortable === 'custom') {
       sortedData = data;
-    } else {
+    } else if (sortable && sortable !== 'custom') {
       var flag = order === 'ascending' ? 1 : -1;
       if (sortMethod) {
         sortedData = data.sort(function (a, b) {
@@ -417,14 +417,21 @@ var TableStore = function (_Component) {
         });
       }
     }
-
-    this.setState({
-      sortColumn: column,
-      sortOrder: order,
-      data: sortedData
-    }, function () {
+    var sortSet = function sortSet() {
       shouldDispatchEvent && _this6.dispatchEvent('onSortChange', column && order ? { column: column, prop: column.property, order: order } : { column: null, prop: null, order: null });
-    });
+    };
+    if (sortable && sortable !== 'custom') {
+      this.setState({
+        sortColumn: column,
+        sortOrder: order,
+        data: sortedData
+      }, sortSet());
+    } else if (sortable && sortable === 'custom') {
+      this.setState({
+        sortColumn: column,
+        sortOrder: order
+      }, sortSet());
+    }
   };
 
   TableStore.prototype.toggleFilterOpened = function toggleFilterOpened(column) {
@@ -510,10 +517,10 @@ TableStore.propTypes = {
   fit: PropTypes.bool,
   showHeader: PropTypes.bool,
   highlightCurrentRow: PropTypes.bool,
-  currentRowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  currentRowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.arrayOf(PropTypes.string)]),
   rowClassName: PropTypes.func,
   rowStyle: PropTypes.func,
-  rowKey: PropTypes.func,
+  rowKey: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   emptyText: PropTypes.string,
   defaultExpandAll: PropTypes.bool,
   expandRowKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),

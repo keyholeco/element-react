@@ -52,6 +52,11 @@ var _MountBody = require('./MountBody');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var idGen = new _utils.IDGenerator();
 var haveTriggerType = function haveTriggerType(type) {
   return _constants.HAVE_TRIGGER_TYPES.indexOf(type) !== -1;
@@ -91,6 +96,7 @@ var BasePicker = function (_Component) {
     get: function get() {
       return {
         align: _libs.PropTypes.oneOf(['left', 'center', 'right']),
+        className: _libs.PropTypes.string,
         format: _libs.PropTypes.string,
         isShowTrigger: _libs.PropTypes.bool,
         isReadOnly: _libs.PropTypes.bool,
@@ -344,7 +350,8 @@ var BasePicker = function (_Component) {
       var _props2 = this.props,
           isReadOnly = _props2.isReadOnly,
           placeholder = _props2.placeholder,
-          isDisabled = _props2.isDisabled;
+          isDisabled = _props2.isDisabled,
+          className = _props2.className;
       var _state2 = this.state,
           pickerVisible = _state2.pickerVisible,
           value = _state2.value,
@@ -406,7 +413,7 @@ var BasePicker = function (_Component) {
       return _react2.default.createElement(
         'span',
         {
-          className: this.classNames('el-date-editor', {
+          className: this.classNames('el-date-editor', className, {
             'is-have-trigger': this.calcIsShowTrigger(),
             'is-active': pickerVisible,
             'is-filled': !!value
@@ -450,6 +457,13 @@ var BasePicker = function (_Component) {
         createPickerPanel()
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return BasePicker;
 }(_libs.Component);
@@ -463,22 +477,24 @@ BasePicker.contextTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(idGen, 'idGen', 'src/date-picker/BasePicker.jsx');
-
-  __REACT_HOT_LOADER__.register(haveTriggerType, 'haveTriggerType', 'src/date-picker/BasePicker.jsx');
-
-  __REACT_HOT_LOADER__.register(isValidValue, 'isValidValue', 'src/date-picker/BasePicker.jsx');
-
-  __REACT_HOT_LOADER__.register(valueEquals, 'valueEquals', 'src/date-picker/BasePicker.jsx');
-
-  __REACT_HOT_LOADER__.register(BasePicker, 'BasePicker', 'src/date-picker/BasePicker.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/date-picker/BasePicker.jsx');
-}();
+  reactHotLoader.register(idGen, 'idGen', 'src/date-picker/BasePicker.jsx');
+  reactHotLoader.register(haveTriggerType, 'haveTriggerType', 'src/date-picker/BasePicker.jsx');
+  reactHotLoader.register(isValidValue, 'isValidValue', 'src/date-picker/BasePicker.jsx');
+  reactHotLoader.register(valueEquals, 'valueEquals', 'src/date-picker/BasePicker.jsx');
+  reactHotLoader.register(BasePicker, 'BasePicker', 'src/date-picker/BasePicker.jsx');
+  reactHotLoader.register(_default, 'default', 'src/date-picker/BasePicker.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

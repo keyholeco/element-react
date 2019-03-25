@@ -24,9 +24,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _debounce = require('throttle-debounce/debounce');
-
-var _debounce2 = _interopRequireDefault(_debounce);
+var _throttleDebounce = require('throttle-debounce');
 
 var _libs = require('../../../libs');
 
@@ -36,6 +34,11 @@ var _scrollbar = require('../../scrollbar');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 function range(end) {
   var r = [];
   for (var i = 0; i < end; i++) {
@@ -43,7 +46,6 @@ function range(end) {
   }
   return r;
 }
-
 
 var isNumber = function isNumber(value) {
   return typeof value === 'number';
@@ -131,7 +133,7 @@ var TimeSpinner = function (_Component) {
 
     Object.assign(_this.state, propsToState(props));
     _this.ajustScrollTop = _this._ajustScrollTop.bind(_this);
-    _this.handleScroll = (0, _debounce2.default)(20, _this._handleScroll.bind(_this));
+    _this.handleScroll = (0, _throttleDebounce.debounce)(20, _this._handleScroll.bind(_this));
     return _this;
   }
 
@@ -198,7 +200,7 @@ var TimeSpinner = function (_Component) {
       if (minutes != null) {
         this.refs.minutes.refs.wrap.scrollTop = calcScrollTop(minutes);
       }
-      if (seconds != null) {
+      if (this.refs.seconds && seconds != null) {
         this.refs.seconds.refs.wrap.scrollTop = calcScrollTop(seconds);
       }
     }
@@ -320,6 +322,13 @@ var TimeSpinner = function (_Component) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return TimeSpinner;
 }(_libs.Component);
@@ -328,28 +337,27 @@ var _default = TimeSpinner;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(range, 'range', 'src/date-picker/basic/TimeSpinner.jsx');
-
-  __REACT_HOT_LOADER__.register(isNumber, 'isNumber', 'src/date-picker/basic/TimeSpinner.jsx');
-
-  __REACT_HOT_LOADER__.register(validateHour, 'validateHour', 'src/date-picker/basic/TimeSpinner.jsx');
-
-  __REACT_HOT_LOADER__.register(validateMinOrSec, 'validateMinOrSec', 'src/date-picker/basic/TimeSpinner.jsx');
-
-  __REACT_HOT_LOADER__.register(propsToState, 'propsToState', 'src/date-picker/basic/TimeSpinner.jsx');
-
-  __REACT_HOT_LOADER__.register(SCROLL_AJUST_VALUE, 'SCROLL_AJUST_VALUE', 'src/date-picker/basic/TimeSpinner.jsx');
-
-  __REACT_HOT_LOADER__.register(calcScrollTop, 'calcScrollTop', 'src/date-picker/basic/TimeSpinner.jsx');
-
-  __REACT_HOT_LOADER__.register(TimeSpinner, 'TimeSpinner', 'src/date-picker/basic/TimeSpinner.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/date-picker/basic/TimeSpinner.jsx');
-}();
+  reactHotLoader.register(range, 'range', 'src/date-picker/basic/TimeSpinner.jsx');
+  reactHotLoader.register(isNumber, 'isNumber', 'src/date-picker/basic/TimeSpinner.jsx');
+  reactHotLoader.register(validateHour, 'validateHour', 'src/date-picker/basic/TimeSpinner.jsx');
+  reactHotLoader.register(validateMinOrSec, 'validateMinOrSec', 'src/date-picker/basic/TimeSpinner.jsx');
+  reactHotLoader.register(propsToState, 'propsToState', 'src/date-picker/basic/TimeSpinner.jsx');
+  reactHotLoader.register(SCROLL_AJUST_VALUE, 'SCROLL_AJUST_VALUE', 'src/date-picker/basic/TimeSpinner.jsx');
+  reactHotLoader.register(calcScrollTop, 'calcScrollTop', 'src/date-picker/basic/TimeSpinner.jsx');
+  reactHotLoader.register(TimeSpinner, 'TimeSpinner', 'src/date-picker/basic/TimeSpinner.jsx');
+  reactHotLoader.register(_default, 'default', 'src/date-picker/basic/TimeSpinner.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

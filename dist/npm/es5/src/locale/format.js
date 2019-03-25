@@ -10,6 +10,11 @@ var _typeof3 = _interopRequireDefault(_typeof2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 /**
  *  String format template
  *  - Inspired:
@@ -58,14 +63,20 @@ var _default = function _default(string) {
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(RE_NARGS, 'RE_NARGS', 'src/locale/format.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/locale/format.js');
-}();
+  reactHotLoader.register(RE_NARGS, 'RE_NARGS', 'src/locale/format.js');
+  reactHotLoader.register(_default, 'default', 'src/locale/format.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

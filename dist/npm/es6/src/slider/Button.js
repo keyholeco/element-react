@@ -183,7 +183,8 @@ var SliderButton = function (_Component) {
             'span',
             null,
             this.formatValue()
-          ), disabled: !this.parent().props.showTooltip },
+          ),
+          disabled: !this.parent().props.showTooltip },
         React.createElement('div', { className: this.classNames('el-slider__button', {
             'hover': this.state.hovering,
             'dragging': this.state.dragging

@@ -8,6 +8,10 @@ var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
 var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
@@ -22,6 +26,11 @@ var _errors = require('./errors');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var ErrorConditionFailed = function (_ExtendableError) {
   (0, _inherits3.default)(ErrorConditionFailed, _ExtendableError);
 
@@ -35,6 +44,14 @@ var ErrorConditionFailed = function (_ExtendableError) {
     return (0, _possibleConstructorReturn3.default)(this, (ErrorConditionFailed.__proto__ || Object.getPrototypeOf(ErrorConditionFailed)).call(this, args));
   }
 
+  (0, _createClass3.default)(ErrorConditionFailed, [{
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }]);
   return ErrorConditionFailed;
 }(_errors.ExtendableError);
 
@@ -47,14 +64,20 @@ function require_condition(condition) {
 }
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(ErrorConditionFailed, 'ErrorConditionFailed', 'libs/utils/assert.js');
-
-  __REACT_HOT_LOADER__.register(require_condition, 'require_condition', 'libs/utils/assert.js');
-}();
+  reactHotLoader.register(ErrorConditionFailed, 'ErrorConditionFailed', 'libs/utils/assert.js');
+  reactHotLoader.register(require_condition, 'require_condition', 'libs/utils/assert.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

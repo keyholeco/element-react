@@ -4,6 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = upload;
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 function getError(action, option, xhr) {
   var msg = void 0;
   if (xhr.response) {
@@ -91,16 +97,21 @@ function upload(option) {
 }
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(getError, 'getError', 'src/upload/ajax.js');
-
-  __REACT_HOT_LOADER__.register(getBody, 'getBody', 'src/upload/ajax.js');
-
-  __REACT_HOT_LOADER__.register(upload, 'upload', 'src/upload/ajax.js');
-}();
+  reactHotLoader.register(getError, 'getError', 'src/upload/ajax.js');
+  reactHotLoader.register(getBody, 'getBody', 'src/upload/ajax.js');
+  reactHotLoader.register(upload, 'upload', 'src/upload/ajax.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

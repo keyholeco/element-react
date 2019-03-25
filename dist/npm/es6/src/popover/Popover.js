@@ -3,7 +3,7 @@ import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructo
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Popper from '../../libs/utils/popper';
+import Popper from 'popper.js';
 import { Component, PropTypes, Transition, View } from '../../libs';
 
 var Popover = function (_Component) {
@@ -51,6 +51,8 @@ var Popover = function (_Component) {
 
       popper.addEventListener('mouseenter', this.handleMouseEnter.bind(this));
       popper.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+    } else if (trigger === 'manual') {
+      this.setState({ showPopper: this.props.visible });
     } else {
       if (this.reference.nodeName === 'INPUT' || this.reference.nodeName === 'TEXTAREA') {
         this.reference.addEventListener('focus', function () {
@@ -71,7 +73,7 @@ var Popover = function (_Component) {
   };
 
   Popover.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
-    if (props.visible != this.props.visible) {
+    if (props.visible !== this.props.visible) {
       this.setState({
         showPopper: props.visible
       });
@@ -107,7 +109,11 @@ var Popover = function (_Component) {
 
     this.popperJS = new Popper(this.reference, this.refs.popper, {
       placement: this.props.placement,
-      gpuAcceleration: false
+      modifiers: {
+        computeStyle: {
+          gpuAcceleration: false
+        }
+      }
     });
   };
 
@@ -167,7 +173,7 @@ export default Popover;
 Popover.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   placement: PropTypes.oneOf(['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']),
-  trigger: PropTypes.oneOf(['click', 'focus', 'hover']),
+  trigger: PropTypes.oneOf(['click', 'focus', 'hover', 'manual']),
   title: PropTypes.string,
   content: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   popperClass: PropTypes.string,

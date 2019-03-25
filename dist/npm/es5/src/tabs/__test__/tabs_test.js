@@ -318,12 +318,3 @@ test('Customized trigger button of new tab', function () {
   });
   expect(tabs.find('.el-tabs .el-tabs__item').length).toBe(2);
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

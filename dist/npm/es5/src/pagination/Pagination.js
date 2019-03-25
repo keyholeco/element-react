@@ -40,6 +40,11 @@ var _locale2 = _interopRequireDefault(_locale);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Pre = function Pre(props) {
   var disabled = props.internalCurrentPage <= 1 ? 'disabled' : '';
   return _react2.default.createElement(
@@ -95,6 +100,13 @@ var Sizes = function (_Component) {
           })
         )
       );
+    }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
     }
   }]);
   return Sizes;
@@ -154,6 +166,13 @@ var Jumper = function (_Component2) {
         _locale2.default.t('el.pagination.pageClassifier')
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Jumper;
 }(_libs.Component);
@@ -205,7 +224,12 @@ var Pagination = function (_Component3) {
 
       if (nextProps.currentPage != currentPage || nextProps.pageSizes != pageSizes || nextProps.pageSize != pageSize || nextProps.total != total || nextProps.pageCount != pageCount) {
         var _internalPageSize = this.state.internalPageSize;
-        if (nextProps.layout.split(',').indexOf('sizes') > -1 && Array.isArray(nextProps.pageSizes)) {
+
+        var hasSizesLayout = nextProps.layout.split(',').map(function (item) {
+          return item.trim();
+        }).indexOf('sizes') > -1;
+
+        if (hasSizesLayout && Array.isArray(nextProps.pageSizes)) {
           _internalPageSize = nextProps.pageSizes.indexOf(nextProps.pageSize) > -1 ? nextProps.pageSize : nextProps.pageSizes[0];
         }
 
@@ -412,6 +436,13 @@ var Pagination = function (_Component3) {
         children
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Pagination;
 }(_libs.Component);
@@ -443,24 +474,25 @@ Pagination.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Pre, 'Pre', 'src/pagination/Pagination.jsx');
-
-  __REACT_HOT_LOADER__.register(Next, 'Next', 'src/pagination/Pagination.jsx');
-
-  __REACT_HOT_LOADER__.register(Sizes, 'Sizes', 'src/pagination/Pagination.jsx');
-
-  __REACT_HOT_LOADER__.register(Total, 'Total', 'src/pagination/Pagination.jsx');
-
-  __REACT_HOT_LOADER__.register(Jumper, 'Jumper', 'src/pagination/Pagination.jsx');
-
-  __REACT_HOT_LOADER__.register(Pagination, 'Pagination', 'src/pagination/Pagination.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/pagination/Pagination.jsx');
-}();
+  reactHotLoader.register(Pre, 'Pre', 'src/pagination/Pagination.jsx');
+  reactHotLoader.register(Next, 'Next', 'src/pagination/Pagination.jsx');
+  reactHotLoader.register(Sizes, 'Sizes', 'src/pagination/Pagination.jsx');
+  reactHotLoader.register(Total, 'Total', 'src/pagination/Pagination.jsx');
+  reactHotLoader.register(Jumper, 'Jumper', 'src/pagination/Pagination.jsx');
+  reactHotLoader.register(Pagination, 'Pagination', 'src/pagination/Pagination.jsx');
+  reactHotLoader.register(_default, 'default', 'src/pagination/Pagination.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

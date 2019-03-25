@@ -72,12 +72,21 @@ var Input = function (_Component) {
   Input.prototype.handleBlur = function handleBlur(e) {
     var onBlur = this.props.onBlur;
 
+    if (this.props.trim) this.handleTrim();
     if (onBlur) onBlur(e);
   };
 
-  Input.prototype.handleIconClick = function handleIconClick() {
+  Input.prototype.handleTrim = function handleTrim() {
+    this.refs.input.value = this.refs.input.value.trim();
+    if (this.props.onChange) {
+      // this's for controlled components
+      this.props.onChange(this.refs.input.value.trim());
+    }
+  };
+
+  Input.prototype.handleIconClick = function handleIconClick(e) {
     if (this.props.onIconClick) {
-      this.props.onIconClick();
+      this.props.onIconClick(e);
     }
   };
 
@@ -112,7 +121,8 @@ var Input = function (_Component) {
         rows = _props2.rows,
         onMouseEnter = _props2.onMouseEnter,
         onMouseLeave = _props2.onMouseLeave,
-        otherProps = _objectWithoutProperties(_props2, ['type', 'size', 'prepend', 'append', 'icon', 'autoComplete', 'validating', 'rows', 'onMouseEnter', 'onMouseLeave']);
+        trim = _props2.trim,
+        otherProps = _objectWithoutProperties(_props2, ['type', 'size', 'prepend', 'append', 'icon', 'autoComplete', 'validating', 'rows', 'onMouseEnter', 'onMouseLeave', 'trim']);
 
     var classname = this.classNames(type === 'textarea' ? 'el-textarea' : 'el-input', size && 'el-input--' + size, {
       'is-disabled': this.props.disabled,
@@ -186,6 +196,7 @@ Input.defaultProps = {
   type: 'text',
   autosize: false,
   rows: 2,
+  trim: false,
   autoComplete: 'off'
 };
 export default Input;
@@ -204,6 +215,7 @@ Input.propTypes = {
   minLength: PropTypes.number,
   defaultValue: PropTypes.any,
   value: PropTypes.any,
+  trim: PropTypes.bool,
 
   // type !== 'textarea'
   size: PropTypes.oneOf(['large', 'small', 'mini']),

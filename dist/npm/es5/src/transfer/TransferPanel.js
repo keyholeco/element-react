@@ -40,6 +40,11 @@ var _locale2 = _interopRequireDefault(_locale);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var TransferPanel = function (_Component) {
   (0, _inherits3.default)(TransferPanel, _Component);
 
@@ -49,27 +54,32 @@ var TransferPanel = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (TransferPanel.__proto__ || Object.getPrototypeOf(TransferPanel)).call(this, props));
 
     _this.handleMouseEnter = function () {
-      return _this.__handleMouseEnter__REACT_HOT_LOADER__.apply(_this, arguments);
+      return _this.setState({ inputHover: true });
     };
 
     _this.handleMouseLeave = function () {
-      return _this.__handleMouseLeave__REACT_HOT_LOADER__.apply(_this, arguments);
+      return _this.setState({ inputHover: false });
     };
 
     _this.clearQuery = function () {
-      return _this.__clearQuery__REACT_HOT_LOADER__.apply(_this, arguments);
+      if (_this.inputIcon === 'circle-close') {
+        _this.setState({ query: '' });
+      }
     };
 
-    _this.handleAllCheckedChange = function () {
-      return _this.__handleAllCheckedChange__REACT_HOT_LOADER__.apply(_this, arguments);
+    _this.handleAllCheckedChange = function (ischecked) {
+      var checked = ischecked ? _this.checkableData.map(function (item) {
+        return item[_this.keyProp];
+      }) : [];
+      _this.props.onChange(checked);
     };
 
-    _this.handleCheckedChange = function () {
-      return _this.__handleCheckedChange__REACT_HOT_LOADER__.apply(_this, arguments);
+    _this.handleCheckedChange = function (value) {
+      _this.props.onChange(value);
     };
 
-    _this.handleInputChange = function () {
-      return _this.__handleInputChange__REACT_HOT_LOADER__.apply(_this, arguments);
+    _this.handleInputChange = function (value) {
+      _this.setState({ query: value });
     };
 
     _this.state = {
@@ -80,76 +90,9 @@ var TransferPanel = function (_Component) {
   }
 
   (0, _createClass3.default)(TransferPanel, [{
-    key: '__handleInputChange__REACT_HOT_LOADER__',
-    value: function __handleInputChange__REACT_HOT_LOADER__() {
-      return this.__handleInputChange__REACT_HOT_LOADER__.apply(this, arguments);
-    }
-  }, {
-    key: '__handleCheckedChange__REACT_HOT_LOADER__',
-    value: function __handleCheckedChange__REACT_HOT_LOADER__() {
-      return this.__handleCheckedChange__REACT_HOT_LOADER__.apply(this, arguments);
-    }
-  }, {
-    key: '__handleAllCheckedChange__REACT_HOT_LOADER__',
-    value: function __handleAllCheckedChange__REACT_HOT_LOADER__() {
-      return this.__handleAllCheckedChange__REACT_HOT_LOADER__.apply(this, arguments);
-    }
-  }, {
-    key: '__clearQuery__REACT_HOT_LOADER__',
-    value: function __clearQuery__REACT_HOT_LOADER__() {
-      return this.__clearQuery__REACT_HOT_LOADER__.apply(this, arguments);
-    }
-  }, {
-    key: '__handleMouseLeave__REACT_HOT_LOADER__',
-    value: function __handleMouseLeave__REACT_HOT_LOADER__() {
-      return this.__handleMouseLeave__REACT_HOT_LOADER__.apply(this, arguments);
-    }
-  }, {
-    key: '__handleMouseEnter__REACT_HOT_LOADER__',
-    value: function __handleMouseEnter__REACT_HOT_LOADER__() {
-      return this.__handleMouseEnter__REACT_HOT_LOADER__.apply(this, arguments);
-    }
-  }, {
-    key: '__handleMouseEnter__REACT_HOT_LOADER__',
-    value: function __handleMouseEnter__REACT_HOT_LOADER__() {
-      return this.setState({ inputHover: true });
-    }
-  }, {
-    key: '__handleMouseLeave__REACT_HOT_LOADER__',
-    value: function __handleMouseLeave__REACT_HOT_LOADER__() {
-      return this.setState({ inputHover: false });
-    }
-  }, {
-    key: '__clearQuery__REACT_HOT_LOADER__',
-    value: function __clearQuery__REACT_HOT_LOADER__() {
-      if (this.inputIcon === 'circle-close') {
-        this.setState({ query: '' });
-      }
-    }
-  }, {
-    key: '__handleAllCheckedChange__REACT_HOT_LOADER__',
-    value: function __handleAllCheckedChange__REACT_HOT_LOADER__(ischecked) {
-      var _this2 = this;
-
-      var checked = ischecked ? this.checkableData.map(function (item) {
-        return item[_this2.keyProp];
-      }) : [];
-      this.props.onChange(checked);
-    }
-  }, {
-    key: '__handleCheckedChange__REACT_HOT_LOADER__',
-    value: function __handleCheckedChange__REACT_HOT_LOADER__(value) {
-      this.props.onChange(value);
-    }
-  }, {
-    key: '__handleInputChange__REACT_HOT_LOADER__',
-    value: function __handleInputChange__REACT_HOT_LOADER__(value) {
-      this.setState({ query: value });
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var _props = this.props,
           filterable = _props.filterable,
@@ -201,16 +144,16 @@ var TransferPanel = function (_Component) {
                   _checkbox2.default,
                   {
                     className: 'el-transfer-panel__item',
-                    label: item[_this3.labelProp],
-                    disabled: item[_this3.disabledProp],
-                    value: item[_this3.keyProp],
+                    label: item[_this2.labelProp],
+                    disabled: item[_this2.disabledProp],
+                    value: item[_this2.keyProp],
                     key: index
                   },
                   _react2.default.createElement(OptionContent, {
                     option: item,
                     renderContent: renderContent,
-                    labelProp: _this3.labelProp,
-                    keyProp: _this3.keyProp
+                    labelProp: _this2.labelProp,
+                    keyProp: _this2.keyProp
                   })
                 );
               })
@@ -252,38 +195,45 @@ var TransferPanel = function (_Component) {
       );
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'allChecked',
     get: function get() {
-      var _this4 = this;
+      var _this3 = this;
 
       var checkableDataKeys = this.checkableData.map(function (item) {
-        return item[_this4.keyProp];
+        return item[_this3.keyProp];
       });
       return checkableDataKeys.length > 0 && checkableDataKeys.every(function (item) {
-        return _this4.props.checked.includes(item);
+        return _this3.props.checked.includes(item);
       });
     }
   }, {
     key: 'filteredData',
     get: function get() {
-      var _this5 = this;
+      var _this4 = this;
 
       return this.props.data.filter(function (item) {
-        if (typeof _this5.props.filterMethod === 'function') {
-          return _this5.props.filterMethod(_this5.state.query, item);
+        if (typeof _this4.props.filterMethod === 'function') {
+          return _this4.props.filterMethod(_this4.state.query, item);
         } else {
-          var label = item[_this5.labelProp] || item[_this5.keyProp].toString();
-          return label.toLowerCase().includes(_this5.state.query.toLowerCase());
+          var label = item[_this4.labelProp] || item[_this4.keyProp].toString();
+          return label.toLowerCase().includes(_this4.state.query.toLowerCase());
         }
       });
     }
   }, {
     key: 'checkableData',
     get: function get() {
-      var _this6 = this;
+      var _this5 = this;
 
       return this.filteredData.filter(function (item) {
-        return !item[_this6.disabledProp];
+        return !item[_this5.disabledProp];
       });
     }
   }, {
@@ -381,16 +331,21 @@ var OptionContent = function OptionContent(_ref) {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(TransferPanel, 'TransferPanel', 'src/transfer/TransferPanel.jsx');
-
-  __REACT_HOT_LOADER__.register(OptionContent, 'OptionContent', 'src/transfer/TransferPanel.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/transfer/TransferPanel.jsx');
-}();
+  reactHotLoader.register(TransferPanel, 'TransferPanel', 'src/transfer/TransferPanel.jsx');
+  reactHotLoader.register(OptionContent, 'OptionContent', 'src/transfer/TransferPanel.jsx');
+  reactHotLoader.register(_default, 'default', 'src/transfer/TransferPanel.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

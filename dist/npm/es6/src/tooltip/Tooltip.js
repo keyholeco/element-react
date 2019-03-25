@@ -2,7 +2,7 @@ import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
-import Popper from '../../libs/utils/popper';
+import Popper from 'popper.js';
 import { Component, PropTypes, Transition, View } from '../../libs';
 
 var Tooltip = function (_Component) {
@@ -20,7 +20,7 @@ var Tooltip = function (_Component) {
   }
 
   Tooltip.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
-    if (props.visible != this.props.visible) {
+    if (props.visible !== this.props.visible) {
       this.setState({
         showPopper: props.visible
       });
@@ -57,7 +57,11 @@ var Tooltip = function (_Component) {
 
     this.popperJS = new Popper(reference, popper, {
       placement: this.props.placement,
-      gpuAcceleration: false
+      modifiers: {
+        computeStyle: {
+          gpuAcceleration: false
+        }
+      }
     });
   };
 

@@ -23,15 +23,19 @@ var Component = function (_React$Component) {
   };
 
   Component.prototype.className = function className() {
+    var className = this.props.className;
+
     for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
       args[_key2] = arguments[_key2];
     }
 
-    return this.classNames.apply(this, args.concat([this.props.className]));
+    return this.classNames.apply(this, args.concat([className]));
   };
 
   Component.prototype.style = function style(args) {
-    return Object.assign({}, args, this.props.style);
+    var style = this.props.style;
+
+    return Object.assign({}, args, style);
   };
 
   return Component;

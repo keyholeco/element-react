@@ -24,13 +24,18 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _popper = require('../../libs/utils/popper');
+var _popper = require('popper.js');
 
 var _popper2 = _interopRequireDefault(_popper);
 
 var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
 var Tooltip = function (_Component) {
   (0, _inherits3.default)(Tooltip, _Component);
@@ -49,7 +54,7 @@ var Tooltip = function (_Component) {
   (0, _createClass3.default)(Tooltip, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(props) {
-      if (props.visible != this.props.visible) {
+      if (props.visible !== this.props.visible) {
         this.setState({
           showPopper: props.visible
         });
@@ -89,7 +94,11 @@ var Tooltip = function (_Component) {
 
       this.popperJS = new _popper2.default(reference, popper, {
         placement: this.props.placement,
-        gpuAcceleration: false
+        modifiers: {
+          computeStyle: {
+            gpuAcceleration: false
+          }
+        }
       });
     }
   }, {
@@ -140,6 +149,13 @@ var Tooltip = function (_Component) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Tooltip;
 }(_libs.Component);
@@ -179,14 +195,20 @@ Tooltip.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Tooltip, 'Tooltip', 'src/tooltip/Tooltip.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/tooltip/Tooltip.jsx');
-}();
+  reactHotLoader.register(Tooltip, 'Tooltip', 'src/tooltip/Tooltip.jsx');
+  reactHotLoader.register(_default, 'default', 'src/tooltip/Tooltip.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

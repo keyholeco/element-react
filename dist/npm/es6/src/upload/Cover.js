@@ -20,7 +20,9 @@ var Cover = function (_Component) {
 
   Cover.prototype.handleDragover = function handleDragover(e) {
     e.preventDefault();
-    this.setState({ dragOver: true });
+    if (!this.props.disabled) {
+      this.setState({ dragOver: true });
+    }
   };
 
   Cover.prototype.handleDragleave = function handleDragleave(e) {
@@ -29,6 +31,7 @@ var Cover = function (_Component) {
   };
 
   Cover.prototype.onDrop = function onDrop(e) {
+    if (this.props.disabled) return;
     e.preventDefault();
     this.setState({ dragOver: false });
     this.props.onFile(e.dataTransfer.files);
@@ -70,5 +73,6 @@ export default Cover;
 
 
 Cover.propTypes = {
-  onFile: PropTypes.func
+  onFile: PropTypes.func,
+  disabled: PropTypes.bool
 };

@@ -36,7 +36,7 @@ var DateTable = function (_Component) {
   DateTable.prototype.WEEKS = function WEEKS() {
     // 0-6
     var week = this.getOffsetWeek();
-    return _WEEKS.slice(week).concat(_WEEKS.slice(0, week));
+    return [].concat(_WEEKS.slice(week), _WEEKS.slice(0, week));
   };
 
   DateTable.prototype.getOffsetWeek = function getOffsetWeek() {
@@ -101,7 +101,14 @@ var DateTable = function (_Component) {
         // columns
         var cell = row[showWeekNumber ? j + 1 : j];
         if (!cell) {
-          row[showWeekNumber ? j + 1 : j] = { row: i, column: j, type: 'normal', inRange: false, start: false, end: false };
+          row[showWeekNumber ? j + 1 : j] = {
+            row: i,
+            column: j,
+            type: 'normal',
+            inRange: false,
+            start: false,
+            end: false
+          };
           cell = row[showWeekNumber ? j + 1 : j];
         }
 

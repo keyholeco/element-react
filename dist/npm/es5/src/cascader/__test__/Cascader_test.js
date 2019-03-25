@@ -16,6 +16,11 @@ var _2 = _interopRequireDefault(_);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var options = [{
   value: 'zhinan',
   label: '指南',
@@ -160,14 +165,20 @@ test('active item change', function () {
 });
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(options, 'options', 'src/cascader/__test__/Cascader_test.jsx');
-
-  __REACT_HOT_LOADER__.register(clickShowPopper, 'clickShowPopper', 'src/cascader/__test__/Cascader_test.jsx');
-}();
+  reactHotLoader.register(options, 'options', 'src/cascader/__test__/Cascader_test.jsx');
+  reactHotLoader.register(clickShowPopper, 'clickShowPopper', 'src/cascader/__test__/Cascader_test.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

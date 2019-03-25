@@ -128,10 +128,10 @@ var Dialog = function (_Component) {
                 ),
                 showClose && React.createElement(
                   'button',
-                  { type: 'button', className: 'el-dialog__headerbtn' },
-                  React.createElement('i', { className: 'el-dialog__close el-icon el-icon-close', onClick: function onClick(e) {
+                  { type: 'button', className: 'el-dialog__headerbtn', onClick: function onClick(e) {
                       return _this2.close(e);
-                    } })
+                    } },
+                  React.createElement('i', { className: 'el-dialog__close el-icon el-icon-close' })
                 )
               ),
               this.props.children

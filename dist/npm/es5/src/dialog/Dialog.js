@@ -28,6 +28,11 @@ var _libs = require('../../libs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var Dialog = function (_Component) {
   (0, _inherits3.default)(Dialog, _Component);
 
@@ -162,10 +167,10 @@ var Dialog = function (_Component) {
                   ),
                   showClose && _react2.default.createElement(
                     'button',
-                    { type: 'button', className: 'el-dialog__headerbtn' },
-                    _react2.default.createElement('i', { className: 'el-dialog__close el-icon el-icon-close', onClick: function onClick(e) {
+                    { type: 'button', className: 'el-dialog__headerbtn', onClick: function onClick(e) {
                         return _this2.close(e);
-                      } })
+                      } },
+                    _react2.default.createElement('i', { className: 'el-dialog__close el-icon el-icon-close' })
                   )
                 ),
                 this.props.children
@@ -179,6 +184,13 @@ var Dialog = function (_Component) {
           _react2.default.createElement('div', { className: 'v-modal', style: { zIndex: 1012 } })
         )
       );
+    }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
     }
   }]);
   return Dialog;
@@ -224,14 +236,20 @@ Dialog.propTypes = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(Dialog, 'Dialog', 'src/dialog/Dialog.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/dialog/Dialog.jsx');
-}();
+  reactHotLoader.register(Dialog, 'Dialog', 'src/dialog/Dialog.jsx');
+  reactHotLoader.register(_default, 'default', 'src/dialog/Dialog.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

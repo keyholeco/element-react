@@ -32,9 +32,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _debounce = require('throttle-debounce/debounce');
-
-var _debounce2 = _interopRequireDefault(_debounce);
+var _throttleDebounce = require('throttle-debounce');
 
 var _libs = require('../../libs');
 
@@ -45,6 +43,11 @@ var _checkbox = require('../checkbox');
 var _checkbox2 = _interopRequireDefault(_checkbox);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
 function NodeContent(_ref) {
   var context = _ref.context,
@@ -99,7 +102,7 @@ var Node = function (_Component) {
       var nodeModel = this.props.nodeModel;
       var childrenKey = this.props.options.children || 'children';
 
-      var triggerChange = (0, _debounce2.default)(20, function () {
+      var triggerChange = (0, _throttleDebounce.debounce)(20, function () {
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
           args[_key] = arguments[_key];
         }
@@ -333,6 +336,13 @@ var Node = function (_Component) {
         )
       );
     }
+  }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
   }]);
   return Node;
 }(_libs.Component);
@@ -356,16 +366,21 @@ Node.defaultProps = {
 };
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(NodeContent, 'NodeContent', 'src/tree/Node.jsx');
-
-  __REACT_HOT_LOADER__.register(Node, 'Node', 'src/tree/Node.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/tree/Node.jsx');
-}();
+  reactHotLoader.register(NodeContent, 'NodeContent', 'src/tree/Node.jsx');
+  reactHotLoader.register(Node, 'Node', 'src/tree/Node.jsx');
+  reactHotLoader.register(_default, 'default', 'src/tree/Node.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

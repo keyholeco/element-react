@@ -10,6 +10,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
+
 var fecha = {};
 var token = /d{1,4}|M{1,4}|yy(?:yy)?|S{1,3}|Do|ZZ|([HhMsDm])\1?|[aA]|"[^"]*"|'[^']*'/g;
 var twoDigits = /\d\d?/;
@@ -311,44 +317,35 @@ var _default = fecha;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(fecha, 'fecha', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(token, 'token', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(twoDigits, 'twoDigits', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(threeDigits, 'threeDigits', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(fourDigits, 'fourDigits', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(word, 'word', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(noop, 'noop', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(shorten, 'shorten', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(monthUpdate, 'monthUpdate', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(pad, 'pad', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(dayNames, 'dayNames', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(monthNames, 'monthNames', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(monthNamesShort, 'monthNamesShort', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(dayNamesShort, 'dayNamesShort', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(formatFlags, 'formatFlags', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(parseFlags, 'parseFlags', 'libs/utils/date.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'libs/utils/date.js');
-}();
+  reactHotLoader.register(fecha, 'fecha', 'libs/utils/date.js');
+  reactHotLoader.register(token, 'token', 'libs/utils/date.js');
+  reactHotLoader.register(twoDigits, 'twoDigits', 'libs/utils/date.js');
+  reactHotLoader.register(threeDigits, 'threeDigits', 'libs/utils/date.js');
+  reactHotLoader.register(fourDigits, 'fourDigits', 'libs/utils/date.js');
+  reactHotLoader.register(word, 'word', 'libs/utils/date.js');
+  reactHotLoader.register(noop, 'noop', 'libs/utils/date.js');
+  reactHotLoader.register(shorten, 'shorten', 'libs/utils/date.js');
+  reactHotLoader.register(monthUpdate, 'monthUpdate', 'libs/utils/date.js');
+  reactHotLoader.register(pad, 'pad', 'libs/utils/date.js');
+  reactHotLoader.register(dayNames, 'dayNames', 'libs/utils/date.js');
+  reactHotLoader.register(monthNames, 'monthNames', 'libs/utils/date.js');
+  reactHotLoader.register(monthNamesShort, 'monthNamesShort', 'libs/utils/date.js');
+  reactHotLoader.register(dayNamesShort, 'dayNamesShort', 'libs/utils/date.js');
+  reactHotLoader.register(formatFlags, 'formatFlags', 'libs/utils/date.js');
+  reactHotLoader.register(parseFlags, 'parseFlags', 'libs/utils/date.js');
+  reactHotLoader.register(_default, 'default', 'libs/utils/date.js');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();

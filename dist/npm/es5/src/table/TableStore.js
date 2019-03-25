@@ -12,6 +12,10 @@ var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
+var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -42,15 +46,20 @@ var _TableLayout = require('./TableLayout');
 
 var _TableLayout2 = _interopRequireDefault(_TableLayout);
 
+var _utils = require('./utils');
+
 var _normalizeColumns = require('./normalizeColumns');
 
 var _normalizeColumns2 = _interopRequireDefault(_normalizeColumns);
 
-var _utils = require('./utils');
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+  var enterModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).enterModule;
+  enterModule && enterModule(module);
+})();
 
 var tableIDSeed = 1;
 
@@ -127,17 +136,16 @@ var TableStore = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      // const { data } = this.props;
+      var data = this.props.data;
+
       var nextColumns = (0, _utils.getColumns)(nextProps);
 
       if ((0, _utils.getColumns)(this.props) !== nextColumns) {
         this.updateColumns(nextColumns);
       }
-
-      this.updateData(nextProps);
-      // if (data !== nextProps.data) {
-      //   this.updateData(nextProps);
-      // }
+      if ((0, _utils.deepCompare)(data, nextProps.data)) {
+        this.updateData(nextProps);
+      }
     }
   }, {
     key: 'updateColumns',
@@ -210,7 +218,11 @@ var TableStore = function (_Component) {
       hoverRow = hoverRow && data.includes(hoverRow) ? hoverRow : null;
       currentRow = currentRow && data.includes(currentRow) ? currentRow : null;
 
-      if (this._isMounted && data !== this.props.data && !columns[0].reserveSelection) {
+      var _columns2 = (0, _slicedToArray3.default)(columns, 1),
+          _columns2$ = _columns2[0],
+          firstColumn = _columns2$ === undefined ? {} : _columns2$;
+
+      if (this._isMounted && data !== this.props.data && !firstColumn.reserveSelection) {
         selectedRows = [];
       } else {
         selectedRows = selectedRows && selectedRows.filter(function (row) {
@@ -234,7 +246,6 @@ var TableStore = function (_Component) {
         expandingRows: expandingRows,
         selectedRows: selectedRows
       }));
-
       if ((!this._isMounted || data !== this.props.data) && defaultSort) {
         var prop = defaultSort.prop,
             _defaultSort$order = defaultSort.order,
@@ -330,17 +341,17 @@ var TableStore = function (_Component) {
 
       if (Array.isArray(currentRowKey)) {
         var toggledRowKey = (0, _utils.getRowIdentity)(row, rowKey);
-        var _rowIndex = currentRowKey.indexOf(toggledRowKey);
+        var rowIndex = currentRowKey.indexOf(toggledRowKey);
         var newCurrentRowKey = currentRowKey.slice();
 
         if (isSelected !== undefined) {
-          if (isSelected && _rowIndex === -1) {
+          if (isSelected && rowIndex === -1) {
             newCurrentRowKey.push(toggledRowKey);
-          } else if (!isSelected && _rowIndex !== -1) {
-            newCurrentRowKey.splice(_rowIndex, 1);
+          } else if (!isSelected && rowIndex !== -1) {
+            newCurrentRowKey.splice(rowIndex, 1);
           }
         } else {
-          _rowIndex === -1 ? newCurrentRowKey.push(toggledRowKey) : newCurrentRowKey.splice(_rowIndex, 1);
+          rowIndex === -1 ? newCurrentRowKey.push(toggledRowKey) : newCurrentRowKey.splice(rowIndex, 1);
         }
 
         this.dispatchEvent('onSelect', newCurrentRowKey, row);
@@ -348,24 +359,24 @@ var TableStore = function (_Component) {
         return;
       }
 
-      var selectedRows = this.state.selectedRows.slice();
-      var rowIndex = selectedRows.indexOf(row);
+      this.setState(function (state) {
+        var selectedRows = state.selectedRows.slice();
+        var rowIndex = selectedRows.indexOf(row);
 
-      if (isSelected !== undefined) {
-        if (isSelected) {
-          rowIndex === -1 && selectedRows.push(row);
+        if (isSelected !== undefined) {
+          if (isSelected) {
+            rowIndex === -1 && selectedRows.push(row);
+          } else {
+            rowIndex !== -1 && selectedRows.splice(rowIndex, 1);
+          }
         } else {
-          rowIndex !== -1 && selectedRows.splice(rowIndex, 1);
+          rowIndex === -1 ? selectedRows.push(row) : selectedRows.splice(rowIndex, 1);
         }
-      } else {
-        rowIndex === -1 ? selectedRows.push(row) : selectedRows.splice(rowIndex, 1);
-      }
 
-      this.setState({
-        selectedRows: selectedRows
+        return { selectedRows: selectedRows };
       }, function () {
-        _this4.dispatchEvent('onSelect', selectedRows, row);
-        _this4.dispatchEvent('onSelectChange', selectedRows);
+        _this4.dispatchEvent('onSelect', _this4.state.selectedRows, row);
+        _this4.dispatchEvent('onSelectChange', _this4.state.selectedRows);
       });
     }
   }, {
@@ -429,7 +440,6 @@ var TableStore = function (_Component) {
       if (Array.isArray(currentRowKey)) {
         return currentRowKey.includes(rowKey);
       }
-
       return selectedRows.includes(row);
     }
   }, {
@@ -438,7 +448,6 @@ var TableStore = function (_Component) {
       var _this6 = this;
 
       var shouldDispatchEvent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
       if (!column) {
         ;
 
@@ -446,7 +455,6 @@ var TableStore = function (_Component) {
         column = _state3.sortColumn;
         order = _state3.sortOrder;
       }var data = this.state.filteredData.slice();
-
       if (!column) {
         this.setState({
           data: data
@@ -456,12 +464,13 @@ var TableStore = function (_Component) {
 
       var _column = column,
           sortMethod = _column.sortMethod,
-          property = _column.property;
+          property = _column.property,
+          sortable = _column.sortable;
 
       var sortedData = void 0;
-      if (!order) {
+      if (!order || sortable === 'custom') {
         sortedData = data;
-      } else {
+      } else if (sortable && sortable !== 'custom') {
         var flag = order === 'ascending' ? 1 : -1;
         if (sortMethod) {
           sortedData = data.sort(function (a, b) {
@@ -475,14 +484,21 @@ var TableStore = function (_Component) {
           });
         }
       }
-
-      this.setState({
-        sortColumn: column,
-        sortOrder: order,
-        data: sortedData
-      }, function () {
+      var sortSet = function sortSet() {
         shouldDispatchEvent && _this6.dispatchEvent('onSortChange', column && order ? { column: column, prop: column.property, order: order } : { column: null, prop: null, order: null });
-      });
+      };
+      if (sortable && sortable !== 'custom') {
+        this.setState({
+          sortColumn: column,
+          sortOrder: order,
+          data: sortedData
+        }, sortSet());
+      } else if (sortable && sortable === 'custom') {
+        this.setState({
+          sortColumn: column,
+          sortOrder: order
+        }, sortSet());
+      }
     }
   }, {
     key: 'toggleFilterOpened',
@@ -527,6 +543,13 @@ var TableStore = function (_Component) {
       }));
     }
   }, {
+    key: '__reactstandin__regenerateByEval',
+    // @ts-ignore
+    value: function __reactstandin__regenerateByEval(key, code) {
+      // @ts-ignore
+      this[key] = eval(code);
+    }
+  }, {
     key: 'isAllSelected',
     get: function get() {
       var _props4 = this.props,
@@ -568,10 +591,10 @@ TableStore.propTypes = {
   fit: _libs.PropTypes.bool,
   showHeader: _libs.PropTypes.bool,
   highlightCurrentRow: _libs.PropTypes.bool,
-  currentRowKey: _libs.PropTypes.oneOfType([_libs.PropTypes.string, _libs.PropTypes.number]),
+  currentRowKey: _libs.PropTypes.oneOfType([_libs.PropTypes.string, _libs.PropTypes.number, _libs.PropTypes.arrayOf(_libs.PropTypes.string)]),
   rowClassName: _libs.PropTypes.func,
   rowStyle: _libs.PropTypes.func,
-  rowKey: _libs.PropTypes.func,
+  rowKey: _libs.PropTypes.oneOfType([_libs.PropTypes.func, _libs.PropTypes.string]),
   emptyText: _libs.PropTypes.string,
   defaultExpandAll: _libs.PropTypes.bool,
   expandRowKeys: _libs.PropTypes.arrayOf(_libs.PropTypes.oneOfType([_libs.PropTypes.string, _libs.PropTypes.number])),
@@ -602,18 +625,22 @@ var _default = TableStore;
 exports.default = _default;
 ;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+(function () {
+  var reactHotLoader = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).default;
+
+  if (!reactHotLoader) {
     return;
   }
 
-  __REACT_HOT_LOADER__.register(tableIDSeed, 'tableIDSeed', 'src/table/TableStore.jsx');
-
-  __REACT_HOT_LOADER__.register(filterData, 'filterData', 'src/table/TableStore.jsx');
-
-  __REACT_HOT_LOADER__.register(TableStore, 'TableStore', 'src/table/TableStore.jsx');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/table/TableStore.jsx');
-}();
+  reactHotLoader.register(tableIDSeed, 'tableIDSeed', 'src/table/TableStore.jsx');
+  reactHotLoader.register(filterData, 'filterData', 'src/table/TableStore.jsx');
+  reactHotLoader.register(TableStore, 'TableStore', 'src/table/TableStore.jsx');
+  reactHotLoader.register(_default, 'default', 'src/table/TableStore.jsx');
+})();
 
 ;
+
+(function () {
+  var leaveModule = (typeof reactHotLoaderGlobal !== 'undefined' ? reactHotLoaderGlobal : require('react-hot-loader')).leaveModule;
+  leaveModule && leaveModule(module);
+})();
