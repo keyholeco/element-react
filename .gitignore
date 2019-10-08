@@ -11,4 +11,3 @@ node_modules
 .vscode
 Makefile
 yarn.lock
-package-lock.json
