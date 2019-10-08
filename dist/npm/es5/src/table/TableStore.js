@@ -46,11 +46,11 @@ var _TableLayout = require('./TableLayout');
 
 var _TableLayout2 = _interopRequireDefault(_TableLayout);
 
-var _utils = require('./utils');
-
 var _normalizeColumns = require('./normalizeColumns');
 
 var _normalizeColumns2 = _interopRequireDefault(_normalizeColumns);
+
+var _utils = require('./utils');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -93,7 +93,7 @@ var TableStore = function (_Component) {
     key: 'getChildContext',
     value: function getChildContext() {
       return {
-        store: this
+        tableStore: this
       };
     }
   }]);
@@ -143,7 +143,7 @@ var TableStore = function (_Component) {
       if ((0, _utils.getColumns)(this.props) !== nextColumns) {
         this.updateColumns(nextColumns);
       }
-      if ((0, _utils.deepCompare)(data, nextProps.data)) {
+      if (data !== nextProps.data) {
         this.updateData(nextProps);
       }
     }
@@ -539,7 +539,7 @@ var TableStore = function (_Component) {
       }) || {}).expandPannel;
       return React.createElement(_TableLayout2.default, (0, _extends3.default)({}, this.props, {
         renderExpanded: renderExpanded,
-        store: this.state
+        tableStoreState: this.state
       }));
     }
   }, {
@@ -619,7 +619,7 @@ TableStore.defaultProps = {
   sumText: _locale2.default.t('el.table.sumText')
 };
 TableStore.childContextTypes = {
-  store: _libs.PropTypes.any
+  tableStore: _libs.PropTypes.any
 };
 var _default = TableStore;
 exports.default = _default;

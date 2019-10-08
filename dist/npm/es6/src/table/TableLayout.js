@@ -103,10 +103,10 @@ var TableLayout = function (_Component) {
 
   TableLayout.prototype.caculateWidth = function caculateWidth() {
     var _props = this.props,
-        _props$store = _props.store,
-        columns = _props$store.columns,
-        fixedColumns = _props$store.fixedColumns,
-        rightFixedColumns = _props$store.rightFixedColumns,
+        _props$tableStoreStat = _props.tableStoreState,
+        columns = _props$tableStoreStat.columns,
+        fixedColumns = _props$tableStoreStat.fixedColumns,
+        rightFixedColumns = _props$tableStoreStat.rightFixedColumns,
         fit = _props.fit;
     var gutterWidth = this.state.gutterWidth;
 

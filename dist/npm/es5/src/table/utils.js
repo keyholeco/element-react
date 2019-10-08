@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isArray = exports.isObject = exports.deepCompare = undefined;
+exports.checkType = exports.deepCompare = exports.cleanScrollBar = undefined;
 
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
@@ -32,6 +32,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _document = document;
 
 var scrollBarWidth = void 0;
+
+var cleanScrollBar = exports.cleanScrollBar = function cleanScrollBar() {
+  document.querySelectorAll('.el-table__body-wrapper').forEach(function (el) {
+    setTimeout(function () {
+      el.style.overflow = 'hidden';
+      setTimeout(function () {
+        return el.style.overflow = 'auto';
+      });
+    });
+  });
+};
 
 function getScrollBarWidth() {
   if (scrollBarWidth !== undefined) return scrollBarWidth;
@@ -153,33 +164,33 @@ function convertToRows(columns) {
   return rows;
 }
 
-var isObject = function isObject(obj) {
-  return Object.prototype.toString.call(obj) === '[object Object]';
+var checkType = function checkType(data) {
+  return Object.prototype.toString.call(data).toLowerCase().slice(8, -1);
 };
-var isArray = function isArray(arr) {
-  return Object.prototype.toString.call(arr) === '[object Array]';
-};
+
 var deepCompare = function deepCompare(obj1, obj2) {
-  if (obj1 && obj2 && obj1.length !== obj2.length) {
-    return true;
-  } else if (isArray(obj1) && isArray(obj2)) {
-    return obj1.some(function (value, key) {
+  var obj1Type = checkType(obj1);
+  var obj2Type = checkType(obj2);
+  if (obj1Type !== obj2Type) return false;
+
+  if (obj1Type === 'array' && obj1.length === obj2.length) {
+    return obj1.every(function (value, key) {
       return deepCompare(value, obj2[key]);
     });
-  } else if (isObject(obj1) && isObject(obj2)) {
+  }
+
+  if (obj1Type === 'object') {
     for (var key in obj1) {
-      if (deepCompare(obj1[key], obj2[key])) {
-        return true;
-      }
+      if (!Object.keys(obj2).includes(key)) return false;
+      return deepCompare(obj1[key], obj2[key]);
     }
     return false;
   }
-  return obj1 !== obj2;
+  return Object.is(obj1, obj2);
 };
 
 exports.deepCompare = deepCompare;
-exports.isObject = isObject;
-exports.isArray = isArray;
+exports.checkType = checkType;
 ;
 
 (function () {
@@ -191,6 +202,7 @@ exports.isArray = isArray;
 
   reactHotLoader.register(_document, '_document', 'src/table/utils.js');
   reactHotLoader.register(scrollBarWidth, 'scrollBarWidth', 'src/table/utils.js');
+  reactHotLoader.register(cleanScrollBar, 'cleanScrollBar', 'src/table/utils.js');
   reactHotLoader.register(getScrollBarWidth, 'getScrollBarWidth', 'src/table/utils.js');
   reactHotLoader.register(getValueByPath, 'getValueByPath', 'src/table/utils.js');
   reactHotLoader.register(getRowIdentity, 'getRowIdentity', 'src/table/utils.js');
@@ -198,8 +210,7 @@ exports.isArray = isArray;
   reactHotLoader.register(convertChildrenToColumns, 'convertChildrenToColumns', 'src/table/utils.js');
   reactHotLoader.register(getColumns, 'getColumns', 'src/table/utils.js');
   reactHotLoader.register(convertToRows, 'convertToRows', 'src/table/utils.js');
-  reactHotLoader.register(isObject, 'isObject', 'src/table/utils.js');
-  reactHotLoader.register(isArray, 'isArray', 'src/table/utils.js');
+  reactHotLoader.register(checkType, 'checkType', 'src/table/utils.js');
   reactHotLoader.register(deepCompare, 'deepCompare', 'src/table/utils.js');
 })();
 

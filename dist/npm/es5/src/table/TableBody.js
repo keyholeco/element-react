@@ -67,12 +67,12 @@ var TableBody = function (_Component) {
   (0, _createClass3.default)(TableBody, [{
     key: 'handleMouseEnter',
     value: function handleMouseEnter(index) {
-      this.context.store.setHoverRow(index);
+      this.context.tableStore.setHoverRow(index);
     }
   }, {
     key: 'handleMouseLeave',
     value: function handleMouseLeave() {
-      this.context.store.setHoverRow(null);
+      this.context.tableStore.setHoverRow(null);
     }
   }, {
     key: 'handleCellMouseEnter',
@@ -116,9 +116,9 @@ var TableBody = function (_Component) {
     key: 'isColumnHidden',
     value: function isColumnHidden(index) {
       var _props = this.props,
-          store = _props.store,
+          tableStoreState = _props.tableStoreState,
           layout = _props.layout,
-          props = (0, _objectWithoutProperties3.default)(_props, ['store', 'layout']);
+          props = (0, _objectWithoutProperties3.default)(_props, ['tableStoreState', 'layout']);
 
       if (props.fixed === true || props.fixed === 'left') {
         return index >= this.leftFixedCount;
@@ -159,12 +159,12 @@ var TableBody = function (_Component) {
   }, {
     key: 'handleExpandClick',
     value: function handleExpandClick(row, rowKey) {
-      this.context.store.toggleRowExpanded(row, rowKey);
+      this.context.tableStore.toggleRowExpanded(row, rowKey);
     }
   }, {
     key: 'handleClick',
     value: function handleClick(row) {
-      this.context.store.setCurrentRow(row);
+      this.context.tableStore.setCurrentRow(row);
     }
   }, {
     key: 'renderCell',
@@ -179,7 +179,7 @@ var TableBody = function (_Component) {
           'div',
           {
             className: this.classNames('el-table__expand-icon ', {
-              'el-table__expand-icon--expanded': this.context.store.isRowExpanding(row, rowKey)
+              'el-table__expand-icon--expanded': this.context.tableStore.isRowExpanding(row, rowKey)
             }),
             onClick: this.handleExpandClick.bind(this, row, rowKey)
           },
@@ -196,12 +196,12 @@ var TableBody = function (_Component) {
       }
 
       if (type === 'selection') {
-        var isSelected = this.context.store.isRowSelected(row, rowKey);
+        var isSelected = this.context.tableStore.isRowSelected(row, rowKey);
         return React.createElement(_checkbox2.default, {
           checked: isSelected,
           disabled: selectable && !selectable(row, index),
           onChange: function onChange() {
-            _this2.context.store.toggleRowSelection(row, !isSelected);
+            _this2.context.tableStore.toggleRowSelection(row, !isSelected);
           }
         });
       }
@@ -214,11 +214,11 @@ var TableBody = function (_Component) {
       var _this3 = this;
 
       var _props2 = this.props,
-          store = _props2.store,
+          tableStoreState = _props2.tableStoreState,
           layout = _props2.layout,
-          props = (0, _objectWithoutProperties3.default)(_props2, ['store', 'layout']);
+          props = (0, _objectWithoutProperties3.default)(_props2, ['tableStoreState', 'layout']);
 
-      var columnsHidden = store.columns.map(function (column, index) {
+      var columnsHidden = tableStoreState.columns.map(function (column, index) {
         return _this3.isColumnHidden(index);
       });
       return React.createElement(
@@ -235,14 +235,14 @@ var TableBody = function (_Component) {
         React.createElement(
           'colgroup',
           null,
-          store.columns.map(function (column, index) {
+          tableStoreState.columns.map(function (column, index) {
             return React.createElement('col', { width: column.realWidth, style: { width: column.realWidth }, key: index });
           })
         ),
         React.createElement(
           'tbody',
           null,
-          store.data.map(function (row, rowIndex) {
+          tableStoreState.data.map(function (row, rowIndex) {
             var rowKey = _this3.getKeyOfRow(row, rowIndex);
             return [React.createElement(
               'tr',
@@ -251,15 +251,15 @@ var TableBody = function (_Component) {
                 style: _this3.getRowStyle(row, rowIndex),
                 className: _this3.className('el-table__row', {
                   'el-table__row--striped': props.stripe && rowIndex % 2 === 1,
-                  'hover-row': store.hoverRow === rowIndex,
-                  'current-row': props.highlightCurrentRow && (props.currentRowKey === rowKey || store.currentRow === row)
+                  'hover-row': tableStoreState.hoverRow === rowIndex,
+                  'current-row': props.highlightCurrentRow && (props.currentRowKey === rowKey || tableStoreState.currentRow === row)
                 }, typeof props.rowClassName === 'string' ? props.rowClassName : typeof props.rowClassName === 'function' && props.rowClassName(row, rowIndex)),
                 onMouseEnter: _this3.handleMouseEnter.bind(_this3, rowIndex),
                 onMouseLeave: _this3.handleMouseLeave,
                 onClick: _this3.handleClick.bind(_this3, row),
                 onContextMenu: _this3.handleRowContextMenu.bind(_this3, row)
               },
-              store.columns.map(function (column, cellIndex) {
+              tableStoreState.columns.map(function (column, cellIndex) {
                 return React.createElement(
                   'td',
                   {
@@ -280,13 +280,13 @@ var TableBody = function (_Component) {
                 );
               }),
               !props.fixed && layout.scrollY && !!layout.gutterWidth && React.createElement('td', { className: 'gutter' })
-            ), _this3.context.store.isRowExpanding(row, rowKey) && React.createElement(
+            ), _this3.context.tableStore.isRowExpanding(row, rowKey) && React.createElement(
               'tr',
               { key: rowKey + 'Expanded' },
               React.createElement(
                 'td',
                 {
-                  colSpan: store.columns.length,
+                  colSpan: tableStoreState.columns.length,
                   className: 'el-table__expanded-cell'
                 },
                 typeof props.renderExpanded === 'function' && props.renderExpanded(row, rowIndex)
@@ -306,24 +306,24 @@ var TableBody = function (_Component) {
   }, {
     key: 'columnsCount',
     get: function get() {
-      return this.props.store.columns.length;
+      return this.props.tableStoreState.columns.length;
     }
   }, {
     key: 'leftFixedCount',
     get: function get() {
-      return this.props.store.fixedColumns.length;
+      return this.props.tableStoreState.fixedColumns.length;
     }
   }, {
     key: 'rightFixedCount',
     get: function get() {
-      return this.props.store.rightFixedColumns.length;
+      return this.props.tableStoreState.rightFixedColumns.length;
     }
   }]);
   return TableBody;
 }(_libs.Component);
 
 TableBody.contextTypes = {
-  store: _libs.PropTypes.any,
+  tableStore: _libs.PropTypes.any,
   layout: _libs.PropTypes.any
 };
 var _default = TableBody;

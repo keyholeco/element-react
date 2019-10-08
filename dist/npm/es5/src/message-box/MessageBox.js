@@ -26,6 +26,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _libs = require('../../libs');
 
+var _utils = require('../table/utils');
+
 var _button = require('../button');
 
 var _button2 = _interopRequireDefault(_button);
@@ -70,9 +72,8 @@ var MessageBox = function (_Component) {
   (0, _createClass3.default)(MessageBox, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.setState({
-        visible: true
-      });
+      (0, _utils.cleanScrollBar)();
+      this.setState({ visible: true });
       document.activeElement && document.activeElement.blur();
     }
   }, {
@@ -227,7 +228,8 @@ var MessageBox = function (_Component) {
                     ),
                     showClose && _react2.default.createElement(
                       'button',
-                      { type: 'button', className: 'el-message-box__headerbtn', 'aria-label': 'Close', onClick: this.handleAction.bind(this, 'cancel') },
+                      { type: 'button', className: 'el-message-box__headerbtn', 'aria-label': 'Close',
+                        onClick: this.handleAction.bind(this, 'cancel') },
                       _react2.default.createElement('i', { className: 'el-message-box__close el-icon-close' })
                     )
                   ),
@@ -237,7 +239,8 @@ var MessageBox = function (_Component) {
                     _react2.default.createElement('div', { className: this.classNames('el-message-box__status', this.typeClass()) }),
                     _react2.default.createElement(
                       'div',
-                      { className: 'el-message-box__message', style: { marginLeft: this.typeClass() ? '50px' : '0' } },
+                      { className: 'el-message-box__message',
+                        style: { marginLeft: this.typeClass() ? '50px' : '0' } },
                       _react2.default.createElement(
                         'div',
                         null,
@@ -277,7 +280,8 @@ var MessageBox = function (_Component) {
                       { show: showCancelButton },
                       _react2.default.createElement(
                         _button2.default,
-                        { className: cancelButtonClass, onClick: this.handleAction.bind(this, 'cancel') },
+                        { className: cancelButtonClass,
+                          onClick: this.handleAction.bind(this, 'cancel') },
                         this.cancelButtonText()
                       )
                     ),
@@ -286,7 +290,8 @@ var MessageBox = function (_Component) {
                       { show: showConfirmButton },
                       _react2.default.createElement(
                         _button2.default,
-                        { className: this.classNames('el-button--primary', confirmButtonClass), onClick: this.handleAction.bind(this, 'confirm') },
+                        { className: this.classNames('el-button--primary', confirmButtonClass),
+                          onClick: this.handleAction.bind(this, 'confirm') },
                         this.confirmButtonText()
                       )
                     )

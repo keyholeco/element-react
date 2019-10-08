@@ -101,39 +101,53 @@ var SliderButton = function (_Component) {
   }, {
     key: 'onDragging',
     value: function onDragging(event) {
-      if (this.state.dragging) {
-        this.state.currentX = event.clientX;
-        this.state.currentY = event.clientY;
+      var _this2 = this;
 
-        var diff = void 0;
+      var _state = this.state,
+          dragging = _state.dragging,
+          startY = _state.startY,
+          currentY = _state.currentY,
+          currentX = _state.currentX,
+          startX = _state.startX,
+          startPosition = _state.startPosition,
+          newPosition = _state.newPosition;
+      var vertical = this.props.vertical;
 
-        if (this.props.vertical) {
-          diff = (this.state.startY - this.state.currentY) / this.parent().sliderSize() * 100;
-        } else {
-          diff = (this.state.currentX - this.state.startX) / this.parent().sliderSize() * 100;
-        }
-
-        this.state.newPosition = this.state.startPosition + diff;
-
-        this.setPosition(this.state.newPosition);
-        this.forceUpdate();
+      if (dragging) {
+        this.setState({
+          currentX: event.clientX,
+          currentY: event.clientY
+        }, function () {
+          var diff = void 0;
+          if (vertical) {
+            diff = (startY - currentY) / _this2.parent().sliderSize() * 100;
+          } else {
+            diff = (currentX - startX) / _this2.parent().sliderSize() * 100;
+          }
+          _this2.state.newPosition = startPosition + diff;
+          _this2.setPosition(newPosition);
+        });
       }
     }
   }, {
     key: 'onDragEnd',
     value: function onDragEnd() {
-      var _this2 = this;
+      var _this3 = this;
 
-      if (this.state.dragging) {
+      var _state2 = this.state,
+          dragging = _state2.dragging,
+          newPosition = _state2.newPosition;
+
+      if (dragging) {
         /*
          * 防止在 mouseup 后立即触发 click，导致滑块有几率产生一小段位移
          * 不使用 preventDefault 是因为 mouseup 和 click 没有注册在同一个 DOM 上
          */
         setTimeout(function () {
-          _this2.setState({
+          _this3.setState({
             dragging: false
           }, function () {
-            _this2.setPosition(_this2.state.newPosition);
+            _this3.setPosition(newPosition);
           });
         }, 0);
 
@@ -210,15 +224,14 @@ var SliderButton = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _state = this.state,
-          hovering = _state.hovering,
-          dragging = _state.dragging;
+      var _state3 = this.state,
+          hovering = _state3.hovering,
+          dragging = _state3.dragging;
 
 
       return _react2.default.createElement(
         'div',
         {
-          ref: 'button',
           className: this.classNames('el-slider__button-wrapper', {
             'hover': hovering,
             'dragging': dragging
@@ -229,16 +242,21 @@ var SliderButton = function (_Component) {
           onMouseDown: this.onButtonDown.bind(this) },
         _react2.default.createElement(
           _tooltip2.default,
-          { ref: 'tooltip', placement: 'top', content: _react2.default.createElement(
+          {
+            placement: 'top',
+            content: _react2.default.createElement(
               'span',
               null,
               this.formatValue()
             ),
-            disabled: !this.parent().props.showTooltip },
-          _react2.default.createElement('div', { className: this.classNames('el-slider__button', {
-              'hover': this.state.hovering,
-              'dragging': this.state.dragging
-            }) })
+            disabled: !this.parent().props.showTooltip
+          },
+          _react2.default.createElement('div', {
+            className: this.classNames('el-slider__button', {
+              'hover': hovering,
+              'dragging': dragging
+            })
+          })
         )
       );
     }

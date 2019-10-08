@@ -119,9 +119,9 @@ var Table = function (_Component) {
     key: 'render',
     value: function render() {
       var _props = this.props,
-          store = _props.store,
+          tableStoreState = _props.tableStoreState,
           layout = _props.layout,
-          props = (0, _objectWithoutProperties3.default)(_props, ['store', 'layout']);
+          props = (0, _objectWithoutProperties3.default)(_props, ['tableStoreState', 'layout']);
       var isHidden = this.state.isHidden;
 
 
@@ -138,8 +138,8 @@ var Table = function (_Component) {
             'el-table--border': props.border,
             'el-table--hidden': isHidden,
             'el-table--fluid-height': props.maxHeight,
-            'el-table--enable-row-hover': !store.isComplex,
-            'el-table--enable-row-transition': (store.data || []).length && (store.data || []).length < 100
+            'el-table--enable-row-hover': !tableStoreState.isComplex,
+            'el-table--enable-row-transition': (tableStoreState.data || []).length && (tableStoreState.data || []).length < 100
           }),
           ref: this.bindRef('el')
         },
@@ -185,7 +185,7 @@ var Table = function (_Component) {
             style: { width: this.bodyWidth || '' }
           }))
         ),
-        !!store.fixedColumns.length && React.createElement(
+        !!tableStoreState.fixedColumns.length && React.createElement(
           'div',
           {
             style: Object.assign({}, this.fixedHeight, {
@@ -228,7 +228,7 @@ var Table = function (_Component) {
             }))
           )
         ),
-        !!store.rightFixedColumns.length && React.createElement(
+        !!tableStoreState.rightFixedColumns.length && React.createElement(
           'div',
           {
             className: 'el-table__fixed-right',
@@ -276,7 +276,7 @@ var Table = function (_Component) {
             }))
           )
         ),
-        !!store.rightFixedColumns.length && React.createElement('div', {
+        !!tableStoreState.rightFixedColumns.length && React.createElement('div', {
           className: 'el-table__fixed-right-patch',
           style: { width: layout.scrollY ? layout.gutterWidth : '0', height: layout.headerHeight }
         }),
@@ -354,7 +354,7 @@ var Table = function (_Component) {
 }(_libs.Component);
 
 Table.contextTypes = {
-  store: _libs.PropTypes.any,
+  tableStore: _libs.PropTypes.any,
   layout: _libs.PropTypes.any
 };
 Table.childContextTypes = {

@@ -144,9 +144,9 @@ var TableHeader = function (_Component) {
     if (givenOrder) {
       order = givenOrder;
     } else {
-      var _props$store = this.props.store,
-          sortColumn = _props$store.sortColumn,
-          sortOrder = _props$store.sortOrder;
+      var _props$tableStoreStat = this.props.tableStoreState,
+          sortColumn = _props$tableStoreStat.sortColumn,
+          sortOrder = _props$tableStoreStat.sortOrder;
 
       if (column === sortColumn) {
         if (!sortOrder) {
@@ -158,7 +158,7 @@ var TableHeader = function (_Component) {
         order = 'ascending';
       }
     }
-    this.context.store.changeSortCondition(column, order);
+    this.context.tableStore.changeSortCondition(column, order);
 
     this.dispatchEvent('onHeaderClick', column, event);
   };
@@ -169,7 +169,7 @@ var TableHeader = function (_Component) {
       event.nativeEvent.stopImmediatePropagation();
     }
 
-    this.context.store.toggleFilterOpened(column);
+    this.context.tableStore.toggleFilterOpened(column);
 
     event && this.dispatchEvent('onHeaderClick', column, event);
   };
@@ -185,7 +185,7 @@ var TableHeader = function (_Component) {
   };
 
   TableHeader.prototype.changeFilteredValue = function changeFilteredValue(column, value) {
-    this.context.store.changeFilteredValue(column, value);
+    this.context.tableStore.changeFilteredValue(column, value);
   };
 
   TableHeader.prototype.isCellHidden = function isCellHidden(index, columns) {
@@ -217,8 +217,8 @@ var TableHeader = function (_Component) {
 
     if (type === 'selection') {
       return React.createElement(Checkbox, {
-        checked: this.context.store.isAllSelected,
-        onChange: this.context.store.toggleAllSelection
+        checked: this.context.tableStore.isAllSelected,
+        onChange: this.context.tableStore.toggleAllSelection
       });
     }
 
@@ -229,7 +229,7 @@ var TableHeader = function (_Component) {
     var _this3 = this;
 
     var _props = this.props,
-        store = _props.store,
+        tableStoreState = _props.tableStoreState,
         layout = _props.layout,
         fixed = _props.fixed;
 
@@ -248,7 +248,7 @@ var TableHeader = function (_Component) {
       React.createElement(
         'colgroup',
         null,
-        store.columns.map(function (column, index) {
+        tableStoreState.columns.map(function (column, index) {
           return React.createElement('col', { width: column.realWidth, style: { width: column.realWidth }, key: index });
         }),
         !fixed && React.createElement('col', { width: layout.scrollY ? layout.gutterWidth : 0, style: { width: layout.scrollY ? layout.gutterWidth : 0 } })
@@ -256,7 +256,7 @@ var TableHeader = function (_Component) {
       React.createElement(
         'thead',
         null,
-        store.columnRows.map(function (columns, rowIndex) {
+        tableStoreState.columnRows.map(function (columns, rowIndex) {
           return React.createElement(
             'tr',
             { key: rowIndex },
@@ -266,7 +266,7 @@ var TableHeader = function (_Component) {
                 {
                   colSpan: column.colSpan,
                   rowSpan: column.rowSpan,
-                  className: _this3.className(store.sortColumn === column && store.sortOrder, column.headerAlign, column.className, column.labelClassName, column.columnKey, {
+                  className: _this3.className(tableStoreState.sortColumn === column && tableStoreState.sortOrder, column.headerAlign, column.className, column.labelClassName, column.columnKey, {
                     'is-hidden': rowIndex === 0 && _this3.isCellHidden(cellIndex, columns),
                     'is-leaf': !column.subColumns,
                     'is-sortable': column.sortable
@@ -332,17 +332,17 @@ var TableHeader = function (_Component) {
   _createClass(TableHeader, [{
     key: 'columnsCount',
     get: function get() {
-      return this.props.store.columns.length;
+      return this.props.tableStoreState.columns.length;
     }
   }, {
     key: 'leftFixedCount',
     get: function get() {
-      return this.props.store.fixedColumns.length;
+      return this.props.tableStoreState.fixedColumns.length;
     }
   }, {
     key: 'rightFixedCount',
     get: function get() {
-      return this.props.store.rightFixedColumns.length;
+      return this.props.tableStoreState.rightFixedColumns.length;
     }
   }]);
 
@@ -350,7 +350,7 @@ var TableHeader = function (_Component) {
 }(Component);
 
 TableHeader.contextTypes = {
-  store: PropTypes.any,
+  tableStore: PropTypes.any,
   layout: PropTypes.any,
   table: PropTypes.any
 };

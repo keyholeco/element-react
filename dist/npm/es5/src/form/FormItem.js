@@ -207,7 +207,14 @@ var FormItem = function (_Component) {
       var rules = this.getRules();
 
       return rules.filter(function (rule) {
-        return !rule.trigger || rule.trigger.indexOf(trigger) !== -1;
+        if (!rule.trigger || trigger === '') return true;
+        if (Array.isArray(rule.trigger)) {
+          return rule.trigger.indexOf(trigger) > -1;
+        } else {
+          return rule.trigger === trigger;
+        }
+      }).map(function (rule) {
+        return Object.assign({}, rule);
       });
     }
   }, {

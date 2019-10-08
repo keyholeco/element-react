@@ -45,8 +45,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   enterModule && enterModule(module);
 })();
 
-// import {toDate} from "../date-picker/utils/index";
-
 var TableFooter = function (_Component) {
   (0, _inherits3.default)(TableFooter, _Component);
 
@@ -78,17 +76,17 @@ var TableFooter = function (_Component) {
       var _this2 = this;
 
       var _props = this.props,
-          store = _props.store,
+          tableStoreState = _props.tableStoreState,
           layout = _props.layout,
           fixed = _props.fixed,
           summaryMethod = _props.summaryMethod,
           sumText = _props.sumText;
 
-      var sums = summaryMethod ? summaryMethod(store.columns, store.data) : store.columns.map(function (column, index) {
+      var sums = summaryMethod ? summaryMethod(tableStoreState.columns, tableStoreState.data) : tableStoreState.columns.map(function (column, index) {
         if (index === 0) {
           return sumText;
         }
-        var result = store.data.reduce(function (pre, data) {
+        var result = tableStoreState.data.reduce(function (pre, data) {
           return pre + parseFloat((0, _utils.getValueByPath)(data, column.property));
         }, 0);
         return isNaN(result) ? '' : result;
@@ -108,7 +106,7 @@ var TableFooter = function (_Component) {
         React.createElement(
           'colgroup',
           null,
-          store.columns.map(function (column, index) {
+          tableStoreState.columns.map(function (column, index) {
             return React.createElement('col', { width: column.realWidth, style: { width: column.realWidth }, key: index });
           }),
           !fixed && React.createElement('col', { width: layout.scrollY ? layout.gutterWidth : 0, style: { width: layout.scrollY ? layout.gutterWidth : 0 } })
@@ -119,7 +117,7 @@ var TableFooter = function (_Component) {
           React.createElement(
             'tr',
             null,
-            store.columns.map(function (column, index) {
+            tableStoreState.columns.map(function (column, index) {
               return React.createElement(
                 'td',
                 {
@@ -127,7 +125,7 @@ var TableFooter = function (_Component) {
                   colSpan: column.colSpan,
                   rowSpan: column.rowSpan,
                   className: _this2.className(column.headerAlign, column.className, column.labelClassName, column.columnKey, {
-                    'is-hidden': _this2.isCellHidden(index, store.columns),
+                    'is-hidden': _this2.isCellHidden(index, tableStoreState.columns),
                     'is-leaf': !column.subColumns
                   })
                 },
@@ -156,17 +154,17 @@ var TableFooter = function (_Component) {
   }, {
     key: 'columnsCount',
     get: function get() {
-      return this.props.store.columns.length;
+      return this.props.tableStoreState.columns.length;
     }
   }, {
     key: 'leftFixedCount',
     get: function get() {
-      return this.props.store.fixedColumns.length;
+      return this.props.tableStoreState.fixedColumns.length;
     }
   }, {
     key: 'rightFixedCount',
     get: function get() {
-      return this.props.store.rightFixedColumns.length;
+      return this.props.tableStoreState.rightFixedColumns.length;
     }
   }]);
   return TableFooter;

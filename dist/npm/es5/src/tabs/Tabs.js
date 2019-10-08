@@ -100,7 +100,8 @@ var Tabs = function (_Component) {
         this.setState({
           children: _react2.default.Children.toArray(nextProps.children)
         }, function () {
-          return _this2.update();
+          _this2.update();
+          _this2.calcBarStyle();
         });
       }
     }

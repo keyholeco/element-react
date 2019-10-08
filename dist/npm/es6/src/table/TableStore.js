@@ -9,7 +9,6 @@ import local from '../locale';
 
 import TableLayout from './TableLayout';
 
-import { deepCompare } from './utils';
 
 import normalizeColumns from './normalizeColumns';
 import { getLeafColumns, getValueByPath, getColumns, convertToRows, getRowIdentity } from "./utils";
@@ -45,7 +44,7 @@ var TableStore = function (_Component) {
 
   TableStore.prototype.getChildContext = function getChildContext() {
     return {
-      store: this
+      tableStore: this
     };
   };
 
@@ -91,7 +90,7 @@ var TableStore = function (_Component) {
     if (getColumns(this.props) !== nextColumns) {
       this.updateColumns(nextColumns);
     }
-    if (deepCompare(data, nextProps.data)) {
+    if (data !== nextProps.data) {
       this.updateData(nextProps);
     }
   };
@@ -470,7 +469,7 @@ var TableStore = function (_Component) {
     }) || {}).expandPannel;
     return React.createElement(TableLayout, _extends({}, this.props, {
       renderExpanded: renderExpanded,
-      store: this.state
+      tableStoreState: this.state
     }));
   };
 
@@ -545,6 +544,6 @@ TableStore.defaultProps = {
   sumText: local.t('el.table.sumText')
 };
 TableStore.childContextTypes = {
-  store: PropTypes.any
+  tableStore: PropTypes.any
 };
 export default TableStore;

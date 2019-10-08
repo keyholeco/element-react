@@ -26,6 +26,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _libs = require('../../libs');
 
+var _utils = require('../table/utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (function () {
@@ -41,6 +43,7 @@ var Dialog = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Dialog.__proto__ || Object.getPrototypeOf(Dialog)).call(this, props));
 
+    _this.wrap = _react2.default.createRef();
     _this.state = {
       bodyOverflow: ''
     };
@@ -50,10 +53,15 @@ var Dialog = function (_Component) {
   (0, _createClass3.default)(Dialog, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
+      var bodyOverflow = this.state.bodyOverflow;
+      var _props = this.props,
+          lockScroll = _props.lockScroll,
+          modal = _props.modal;
 
       if (this.willOpen(this.props, nextProps)) {
-        if (this.props.lockScroll && document.body && document.body.style) {
-          if (!this.state.bodyOverflow) {
+        (0, _utils.cleanScrollBar)();
+        if (lockScroll && document.body && document.body.style) {
+          if (!bodyOverflow) {
             this.setState({
               bodyOverflow: document.body.style.overflow
             });
@@ -62,9 +70,9 @@ var Dialog = function (_Component) {
         }
       }
 
-      if (this.willClose(this.props, nextProps) && this.props.lockScroll) {
-        if (this.props.modal && this.state.bodyOverflow !== 'hidden' && document.body && document.body.style) {
-          document.body.style.overflow = this.state.bodyOverflow;
+      if (this.willClose(this.props, nextProps) && lockScroll) {
+        if (modal && bodyOverflow !== 'hidden' && document.body && document.body.style) {
+          document.body.style.overflow = bodyOverflow;
         }
       }
     }
@@ -72,28 +80,34 @@ var Dialog = function (_Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps) {
       if (this.willOpen(prevProps, this.props)) {
-        this.refs.wrap.focus();
+        this.wrap.current.focus();
       }
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      if (this.props.lockScroll && document.body && document.body.style) {
+      var lockScroll = this.props.lockScroll;
+
+      if (lockScroll && document.body && document.body.style) {
         document.body.style.removeProperty('overflow');
       }
     }
   }, {
     key: 'onKeyDown',
     value: function onKeyDown(e) {
-      if (this.props.closeOnPressEscape && e.keyCode === 27) {
+      var closeOnPressEscape = this.props.closeOnPressEscape;
+
+      if (closeOnPressEscape && e.keyCode === 27) {
         this.close(e);
       }
     }
   }, {
     key: 'handleWrapperClick',
     value: function handleWrapperClick(e) {
+      var closeOnClickModal = this.props.closeOnClickModal;
+
       if (e.target instanceof HTMLDivElement) {
-        if (this.props.closeOnClickModal && e.target === e.currentTarget) {
+        if (closeOnClickModal && e.target === e.currentTarget) {
           this.close(e);
         }
       }
@@ -118,14 +132,15 @@ var Dialog = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props,
-          visible = _props.visible,
-          title = _props.title,
-          size = _props.size,
-          top = _props.top,
-          modal = _props.modal,
-          customClass = _props.customClass,
-          showClose = _props.showClose;
+      var _props2 = this.props,
+          visible = _props2.visible,
+          title = _props2.title,
+          size = _props2.size,
+          top = _props2.top,
+          modal = _props2.modal,
+          customClass = _props2.customClass,
+          showClose = _props2.showClose,
+          children = _props2.children;
 
 
       return _react2.default.createElement(
@@ -140,7 +155,7 @@ var Dialog = function (_Component) {
             _react2.default.createElement(
               'div',
               {
-                ref: 'wrap',
+                ref: this.wrap,
                 style: { zIndex: 1013 },
                 className: this.classNames('el-dialog__wrapper'),
                 onClick: function onClick(e) {
@@ -173,7 +188,7 @@ var Dialog = function (_Component) {
                     _react2.default.createElement('i', { className: 'el-dialog__close el-icon el-icon-close' })
                   )
                 ),
-                this.props.children
+                children
               )
             )
           )
