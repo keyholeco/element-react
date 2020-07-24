@@ -8,19 +8,19 @@ import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { PropTypes, Component } from '../../libs';
+import { PropTypes, PureComponent } from '../../libs';
 import { addResizeListener, removeResizeListener } from '../../libs/utils/resize-event';
 
 import { getScrollBarWidth } from './scrollbar-width';
 import { Bar } from './Bar';
 
-export var Scrollbar = function (_Component) {
-  _inherits(Scrollbar, _Component);
+export var Scrollbar = function (_PureComponent) {
+  _inherits(Scrollbar, _PureComponent);
 
   function Scrollbar(props) {
     _classCallCheck(this, Scrollbar);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+    var _this = _possibleConstructorReturn(this, _PureComponent.call(this, props));
 
     _this.state = {
       sizeWidth: '0',
@@ -70,7 +70,9 @@ export var Scrollbar = function (_Component) {
   Scrollbar.prototype._update = function _update() {
     var heightPercentage = void 0,
         widthPercentage = void 0;
-    var wrap = this.wrap;
+    var wrap = this.wrap,
+        state = this.state;
+
     if (!wrap) return;
 
     heightPercentage = wrap.clientHeight * 100 / wrap.scrollHeight;
@@ -79,7 +81,9 @@ export var Scrollbar = function (_Component) {
     var sizeHeight = heightPercentage < 100 ? heightPercentage + '%' : '';
     var sizeWidth = widthPercentage < 100 ? widthPercentage + '%' : '';
 
-    this.setState({ sizeHeight: sizeHeight, sizeWidth: sizeWidth });
+    if (state.sizeHeight !== sizeHeight || state.sizeWidth !== sizeWidth) {
+      this.setState({ sizeHeight: sizeHeight, sizeWidth: sizeWidth });
+    }
   };
 
   Scrollbar.prototype.render = function render() {
@@ -163,7 +167,7 @@ export var Scrollbar = function (_Component) {
   }]);
 
   return Scrollbar;
-}(Component);
+}(PureComponent);
 
 Scrollbar.propTypes = {
   native: PropTypes.bool,

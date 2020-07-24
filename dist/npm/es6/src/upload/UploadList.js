@@ -3,7 +3,7 @@ import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructo
 import _inherits from 'babel-runtime/helpers/inherits';
 import React from 'react';
 import { Component, PropTypes, Transition, View } from '../../libs';
-import { Progress } from '../../src';
+import Progress from '../progress/Progress';
 
 var UploadList = function (_Component) {
   _inherits(UploadList, _Component);

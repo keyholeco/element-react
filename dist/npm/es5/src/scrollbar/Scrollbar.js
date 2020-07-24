@@ -56,8 +56,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   enterModule && enterModule(module);
 })();
 
-var Scrollbar = exports.Scrollbar = function (_Component) {
-  (0, _inherits3.default)(Scrollbar, _Component);
+var Scrollbar = exports.Scrollbar = function (_PureComponent) {
+  (0, _inherits3.default)(Scrollbar, _PureComponent);
 
   function Scrollbar(props) {
     (0, _classCallCheck3.default)(this, Scrollbar);
@@ -118,7 +118,9 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
     value: function _update() {
       var heightPercentage = void 0,
           widthPercentage = void 0;
-      var wrap = this.wrap;
+      var wrap = this.wrap,
+          state = this.state;
+
       if (!wrap) return;
 
       heightPercentage = wrap.clientHeight * 100 / wrap.scrollHeight;
@@ -127,7 +129,9 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
       var sizeHeight = heightPercentage < 100 ? heightPercentage + '%' : '';
       var sizeWidth = widthPercentage < 100 ? widthPercentage + '%' : '';
 
-      this.setState({ sizeHeight: sizeHeight, sizeWidth: sizeWidth });
+      if (state.sizeHeight !== sizeHeight || state.sizeWidth !== sizeWidth) {
+        this.setState({ sizeHeight: sizeHeight, sizeWidth: sizeWidth });
+      }
     }
   }, {
     key: 'render',
@@ -216,7 +220,7 @@ var Scrollbar = exports.Scrollbar = function (_Component) {
     }
   }]);
   return Scrollbar;
-}(_libs.Component);
+}(_libs.PureComponent);
 
 Scrollbar.propTypes = {
   native: _libs.PropTypes.bool,

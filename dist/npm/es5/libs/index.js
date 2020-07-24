@@ -31,6 +31,15 @@ Object.defineProperty(exports, 'Component', {
   }
 });
 
+var _pureComponent = require('./pureComponent');
+
+Object.defineProperty(exports, 'PureComponent', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_pureComponent).default;
+  }
+});
+
 var _props = require('./props');
 
 Object.defineProperty(exports, 'PropTypes', {

@@ -26,7 +26,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactTransitionGroup = require('react-transition-group');
 
-var _ = require('../');
+var _view = require('../view');
+
+var _view2 = _interopRequireDefault(_view);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -99,7 +101,7 @@ var Transition = function (_Component) {
         },
         function (state) {
           return _react2.default.createElement(
-            _.View,
+            _view2.default,
             {
               className: transitionClass[state]
             },

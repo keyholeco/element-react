@@ -3,7 +3,7 @@ import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructo
 import _inherits from 'babel-runtime/helpers/inherits';
 import React, { Component } from 'react';
 import { Transition as ReactTransition } from 'react-transition-group';
-import { View } from '../';
+import View from '../view';
 
 var noneFun = function noneFun() {
   return undefined;

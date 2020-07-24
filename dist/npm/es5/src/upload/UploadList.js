@@ -30,7 +30,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _libs = require('../../libs');
 
-var _src = require('../../src');
+var _Progress = require('../progress/Progress');
+
+var _Progress2 = _interopRequireDefault(_Progress);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -142,7 +144,7 @@ var UploadList = function (_Component) {
                 )
               )
             ),
-            file.status === 'uploading' && _react2.default.createElement(_src.Progress, {
+            file.status === 'uploading' && _react2.default.createElement(_Progress2.default, {
               strokeWidth: listType === 'picture-card' ? 6 : 2,
               type: listType === 'picture-card' ? 'circle' : 'line',
               percentage: parseInt(file.percentage, 10),
